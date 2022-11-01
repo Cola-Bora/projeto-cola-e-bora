@@ -90,7 +90,6 @@ Caso tudo dê certo, a resposta será assim:
        "isAdm": true
        "isActive": true
       },
-      ...
   ]
 }
 ~~~
@@ -145,7 +144,7 @@ Nesta rota, o usuário precisa estar logado com o token no cabeçalho da requisi
 
 > DELETE /users/:id - FORMATO DA REQUISIÇÃO
 
-~~~JSON 
+~~~
 Não é necessário um corpo da requisição.
 ~~~
 Caso tudo dê certo, a resposta será assim:
@@ -493,6 +492,8 @@ Se tudo der certo a resposta deverá ser:
 
 Nesta rota o Usuário precisa estar logado, mas não precisa de autorização de admnistrador.
 
+O campo <b>balance</b> não retorna na tela.
+
 Esta rota retorna todas as ONGs que estão cadastradas e ativas dentro da aplicação, podemos acessar a rota da seguinte forma:
 
 > GET /ongs - FORMATO DE RESPOSTA - STATUS 200
@@ -509,7 +510,6 @@ Esta rota retorna todas as ONGs que estão cadastradas e ativas dentro da aplica
             "cnpj": "25746767000195"
             "createdAt": "2020-11-27T00:01:13.789Z",
             "updatedAt": "2020-12-05T13:59:22.632Z",
-            "balance": 2090.80,
             "userAdm": {
                 "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
                 "name": "Maria",
@@ -525,7 +525,6 @@ Esta rota retorna todas as ONGs que estão cadastradas e ativas dentro da aplica
                 "name": "Acolhimento Institucional"
             }
         } ,
-        ...
     ]
 }
 ~~~
@@ -557,7 +556,6 @@ Caso seja um usuário comum autenticado deverá retornar:
                 }
             }
         },
-        ...
     ]
 ```
 
@@ -583,7 +581,6 @@ Caso seja um usuário com permissão de Admin para aquela ong, a resposta espera
                 }
             }
         },
-        ...
     ]
 ```
 
@@ -617,7 +614,6 @@ Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administra
                "isAdm": false
                "isActive": true
               },
-          ...
         }
     }
 ~~~
