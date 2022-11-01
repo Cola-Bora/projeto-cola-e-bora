@@ -245,9 +245,7 @@ Usuário tentou enviar um campo vazio:
 
 >DELETE /users/payments - FORMATO DA REQUISIÇÃO`
 
-~~~JSON
 Não é necessário um corpo da requisição.
-~~~
 
 Caso tudo dê certo, a resposta será assim:
 
@@ -340,7 +338,6 @@ Nesta rota o Usuário precisa estar logado, mas não precisa de autorização de
 Esta rota retorna todas as categorias que estão cadastradas e ativas dentro da aplicação, podemos acessar a rota da seguinte forma:
 
 Caso tudo dê certo, a resposta será assim:
-
 
 > GET /categories - FORMATO DA RESPOSTA - STATUS 200
 
@@ -472,9 +469,7 @@ Para acessar essa rota o usuário deve estar logado e ter permissão de admin na
 
 >DELETE /ongs/:ongId - FORMATO DA REQUISIÇÃO`
 
-~~~JSON
 Não é necessário um corpo da requisição.
-~~~
 
 Se tudo der certo a resposta deverá ser:
 
@@ -699,9 +694,8 @@ Esta rota é acessada apenas pelo administrador da ONG em questão.
 
 >DELETE ongs/events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~JSON
 Não é necessário um corpo da requisição.
-~~~
+
 
 >DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 204
 
@@ -742,9 +736,7 @@ Esta rota só pode ser acessada pelo próprio usuário ou pelo administrador da 
 
 >DELETE /events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~JSON
 Não é necessário um corpo da requisição.
-~~~
 
 >DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 204
 
@@ -789,9 +781,8 @@ Esta rota não precisa de autenticação.
 Nesta rota o Usuário precisa estar logado com o token no cabeçalho da requisição. 
 
 > GET /events/:userId - FORMATO DA REQUISIÇÃO
-~~~JSON 
+
 Não é necessário um corpo da requisição.
-~~~
 
 > GET /events/:userId - FORMATO DA RESPOSTA - STATUS 200
 
@@ -826,9 +817,9 @@ Não é necessário um corpo da requisição.
 Esta rota não precisa de autenticação.
 
 >GET /events/:ongId - FORMATO DA REQUISIÇÃO
-~~~JSON 
+
 Não é necessário um corpo da requisição.
-~~~
+
 
 >GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 200
 
@@ -862,9 +853,7 @@ Não é necessário um corpo da requisição.
 Esta rota não precisa de autenticação.
 
 >GET /events/:id - FORMATO DA REQUISIÇÃO
-~~~JSON 
 Não é necessário um corpo da requisição.
-~~~
 
 >GET /events/:id - FORMATO DA RESPOSTA - STATUS 200
 
