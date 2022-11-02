@@ -376,7 +376,8 @@ Para criação de uma ong o usuário deve estar cadastrado e logado.
 	"email": "ong@email.com",
 	"tel": "9955996366",
 	"description": "breve descrição da ong",
-	"cnpj": "00000000000000"
+	"cnpj": "00000000000000",
+	"categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 ~~~
 
