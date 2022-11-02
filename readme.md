@@ -500,7 +500,7 @@ A resposta não conterá nenhuma mensagem.
 
 ### ▪️ Listar todas as ONGS
 
-Nesta rota o Usuário precisa estar logado, mas não precisa de autorização de admnistrador. A rota retorna todas as ONGs que estão cadastradas e **ativas** dentro da aplicação. Podemos acessar a rota da seguinte forma:
+Essa rota não precisa de autenticação. A rota retorna todas as ONGs que estão cadastradas na da aplicação. Podemos acessar a rota da seguinte forma:
 
 > GET /ongs - FORMATO DE RESPOSTA - STATUS 200
 
@@ -795,14 +795,14 @@ Não é necessário um corpo da requisição.
 
 O id do evento não for encontrado: 
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+>DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
 ~~~JSON
 {
   "message": "Event not found"
 }
 ~~~
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+>DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido: 
 ~~~JSON
@@ -834,14 +834,14 @@ Não é necessário um corpo da requisição.
 
 O id do evento não for encontrado: 
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+>DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
 ~~~JSON
 {
   "message": "Event not found"
 }
 ~~~
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+>DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido: 
 ~~~JSON
@@ -881,62 +881,6 @@ Esta rota não precisa de autenticação.
   ]
 }
 ~~~
-
-### ▪️ Listar Eventos de um Usuário
-Nesta rota o Usuário precisa estar logado com o token no cabeçalho da requisição. 
-
-> GET /events/:userId - FORMATO DA REQUISIÇÃO
-~~~
-Não é necessário um corpo da requisição.
-~~~
-
-> GET /events/:userId - FORMATO DA RESPOSTA - STATUS 200
-
-~~~JSON
-{
-  "data":
-  [
- {
-  "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
-  "name": "Ação de Natal",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
-  "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
-  "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
-  "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
-},
-
-{
-  "id": "dd720fc5-3cc9-410e-8e58-976c82f209c0",
-  "name": "Ação de Ano Novo",
-  "date": "Sat Dez 31 2022 14:00:00 GMT-0400",
-  "description": "Entrega de alimentos a famílias necessitadas na véspera do Ano-Novo",
-  "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
-  "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
-},
-  ]
-}
-~~~
-
-### ⚠️ Possíveis Erros
-
-O id do user não for encontrado: 
-
-> GET /events/:userId  - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
-{
-  "message": "User not found"
-~~~
-
-> GET /events/:userId  - FORMATO DA RESPOSTA - STATUS 400
-
-O id fornecido não é um UUID válido: 
-~~~JSON
-{
-  "message": "Id must have a valid UUID format"
-}
-~~~
-
-
 
 ### ▪️ Listar todos os Eventos de uma ONG específica
 
