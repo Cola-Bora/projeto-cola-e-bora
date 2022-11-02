@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/user";
-import { AppError } from "../../erros";
+import { AppError } from "../../errors";
 
 export default async function softDeleteUserServices(id: string) {
   const userExists = AppDataSource.getRepository(User);

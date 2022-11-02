@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { Request } from "express";
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/user";
-import { AppError } from "../../erros";
+import { AppError } from "../../errors";
 import { IUserUpdate } from "../../interfaces/user";
 
 export default async function updateUserServices(

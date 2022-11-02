@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { AppError } from "../erros";
+import { AppError } from "../errors";
 
 export default function checkAuthUserMiddlewares(
   req: Request,
