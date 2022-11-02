@@ -376,8 +376,8 @@ Para criação de uma ong o usuário deve estar cadastrado e logado.
 	"email": "ong@email.com",
 	"tel": "9955996366",
 	"description": "breve descrição da ong",
-	"cnpj": "00000000000000",
-	"categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
+	"cnpj": "11222333344445",
+        "categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 ~~~
 
@@ -386,20 +386,23 @@ Caso tudo dê certo a resposta deverá ser assim:
 > POST /ongs - FORMATO DA RESPOSTA - STATUS 201
 
 ~~~JSON
-  {
-    "data": {
-        "id": "dd720fc5-3cc9-410e-8e58-976c82f209c0",
-        "name": "nome da ong",
-        "email": "ong@email.com",
-        "tel": "9955996366",
-        "description": "breve descrição da ong",
-        "cnpj": "11222333444455",
-        "createdAt": "Sat Dez 24 2022 14:00:00 GMT-0400",
-        "updatedAt": "Sat Dez 24 2022 14:00:00 GMT-0400",
-        "userAdmId": "dd720fc5-3cc9-410e-8e58-976c82f209c0",
-        "categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
-        }
-  }
+{
+	"data": {
+		"name": "nome da ong",
+		"email": "ong1@email.com",
+		"tel": "9955996366",
+		"description": "breve descrição da ong",
+		"cpnj": "11222333344445",
+		"category": {
+			"id": "9f0ab13c-4d48-4f18-9be2-cab551d1e18b",
+			"name": "Meio Ambiente"
+		},
+		"id": "d0c392b7-4bb9-4dbc-9c0d-2297c75bd986",
+		"balance": "0.00",
+		"createdAt": "2022-11-02T22:36:41.214Z",
+		"updatedAt": "2022-11-02T22:36:41.214Z"
+	}
+}
 
 ~~~
 
@@ -415,6 +418,24 @@ Requisição enviada com campo obrigatório faltando:
 }
 ~~~
 
+
+> POST /ongs - FORMATO DA RESPOSTA - STATUS 400
+
+Requisição enviada por usuário que já possui uma ONG: 
+```JSON
+{
+  "message": "User is alerady linked to a ONG"
+}
+```
+
+> POST /ongs - FORMATO DA RESPOSTA - STATUS 404
+
+Requisição enviada com id de categoria inexistente: 
+```JSON
+{
+  "message": "Category does not exists in database"
+}
+```
 
 ### ▪️ Editar Ong
 
