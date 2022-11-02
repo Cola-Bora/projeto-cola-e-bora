@@ -9,7 +9,7 @@
     "test": "cross-env NODE_ENV=test SECRET_KEY=1234 jest"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.14",
     "@types/jest": "^29.2.0",
     "@types/jsonwebtoken": "^8.5.9",
@@ -23,10 +23,10 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.8.4"
   },
-  "author": "Hyaguinhogp <hyago.v.a.m@gmail.com>",
+  "author": "Cola&Bora",
   "dependencies": {
-    "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
@@ -34,7 +34,6 @@
     "node-version": "^2.0.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.10",
-    "uuid": "^9.0.0"
+    "typeorm": "^0.3.10"
   }
 }
