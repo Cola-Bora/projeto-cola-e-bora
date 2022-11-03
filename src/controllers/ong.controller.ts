@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import createOngService from '../services/ong/createOng.services';
 import { AppError } from '../errors';
 import updateOngService from '../services/ong/updateOng.services';
+import deleteOngService from '../services/ong/deleteOng.services';
 
 
 async function createOngController(req: Request, res: Response){
@@ -24,4 +25,11 @@ async function updateOngController(req: Request, res: Response){
     return res.status(200).json({data: updatedOng})
 }
 
-export {createOngController, updateOngController}
+async function deleteOngController(req: Request, res: Response){
+    const ongId = req.params.ongId
+
+    deleteOngService(ongId, req.user.id)
+
+    return res.status(204).send()
+}
+export {createOngController, updateOngController, deleteOngController}
