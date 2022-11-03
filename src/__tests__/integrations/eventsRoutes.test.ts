@@ -18,5 +18,6 @@ describe("/events", () => {
   });
 
   test("POST /events/:eventId -> register user in an event", async () => {
+    
   });
 });
