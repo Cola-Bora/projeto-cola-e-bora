@@ -8,6 +8,7 @@ import {
   JoinColumn,
   OneToOne,
 } from "typeorm";
+import { Exclude } from "class-transformer";
 import { Categories } from "./ongCategory";
 import { User } from "./user";
 
@@ -31,7 +32,8 @@ export class Ongs {
   @Column({ length: 14, unique: true })
   cpnj: string;
 
-  @Column({ type: "decimal", precision: 10, scale: 2, default: 0.00 })
+  @Column({ type: "decimal", precision: 10, scale: 2, default: 0.0 })
+  @Exclude()
   balance: number;
 
   @CreateDateColumn()
