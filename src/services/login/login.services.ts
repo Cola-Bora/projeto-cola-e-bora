@@ -7,6 +7,14 @@ import { User } from "../../entities/user";
 import { AppError } from "../../errors";
 
 export default async function loginServices(user: IUserLogin) {
+  let checkKeys = Object.keys(user).map(
+    item => item.includes("email") || item.includes("password")
+  );
+
+  if (checkKeys.includes(false)) {
+    throw new AppError("Invalid Key");
+  }
+
   const dataUser = AppDataSource.getRepository(User);
 
   const userExists = await dataUser.findOneBy({

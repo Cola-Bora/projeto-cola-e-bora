@@ -23,6 +23,7 @@ export default function checkAuthUserMiddlewares(
 
     req.user = {
       isAdm: decoded.isAdm,
+      isActive: decoded.isActive,
       id: decoded.sub,
     };
 
