@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 
 const registerUserEventController = async (req: Request, resp: Response) => {
+    const { eventId } = req.params
+    const { id } = req.user
+
 
 };
 
