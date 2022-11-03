@@ -1,5 +1,5 @@
 Arguments: 
-  /home/usuario/.nvm/versions/node/v16.16.0/bin/node /home/usuario/.nvm/versions/node/v16.16.0/bin/yarn dev
+  C:\Program Files\nodejs\node.exe C:\Users\CLIENTE\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js dev
 
 PATH: 
   /home/usuario/.nvm/versions/node/v16.16.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin:/usr/lib/jvm/jdk-17//bin:/usr/lib/jvm/java-11-openjdk-amd64:/usr/lib/jvm/java-11-openjdk-amd64
@@ -14,12 +14,12 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /home/usuario/exercicios_kenzie/M4/S7/projeto-cola-e-bora/package.json: Unexpected token < in JSON at position 737
+  SyntaxError: C:\Users\CLIENTE\Documents\M4-KENZIE\projeto-cola-e-bora\package.json: Unexpected token < in JSON at position 737
       at JSON.parse (<anonymous>)
-      at /home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:1629:59
+      at C:\Users\CLIENTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1629:59
       at Generator.next (<anonymous>)
-      at step (/home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:310:30)
-      at /home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:321:13
+      at step (C:\Users\CLIENTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\CLIENTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
@@ -49,10 +49,7 @@ npm manifest:
     },
     "author": "Cola&Bora",
     "dependencies": {
-  <<<<<<< HEAD
       "@types/uuid": "^8.3.4",
-  =======
-  >>>>>>> 109786eddf2a7a3d7de2b9572d91d132d398da79
       "bcryptjs": "^2.4.3",
       "class-transformer": "^0.5.1",
       "dotenv": "^16.0.3",
