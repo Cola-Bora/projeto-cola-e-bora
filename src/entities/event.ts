@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { Addresses } from "./adress";
 import { Ongs } from "./ong";
+import { UsersEvents } from "./userEvent";
 
 @Entity("events")
 export class Events {
@@ -21,4 +22,8 @@ export class Events {
 
   @ManyToOne(() => Ongs)
   ong: Ongs;
+
+  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user)
+  userEvents: UsersEvents[]
+
 }

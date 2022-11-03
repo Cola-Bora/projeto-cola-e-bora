@@ -31,11 +31,8 @@ export class Ongs {
   @Column({ length: 14, unique: true })
   cpnj: string;
 
-  @Column({ type: "decimal", precision: 10, scale: 2 })
+  @Column({ type: "decimal", precision: 10, scale: 2, default: 0.00 })
   balance: number;
-
-  @Column({ type: "int" })
-  age: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -44,7 +41,7 @@ export class Ongs {
   updatedAt: Date;
 
   @ManyToOne(() => Categories)
-  category: Categories[];
+  category: Categories;
 
   @OneToOne(() => User)
   @JoinColumn()
