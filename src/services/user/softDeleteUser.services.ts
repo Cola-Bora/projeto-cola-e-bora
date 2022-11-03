@@ -13,10 +13,6 @@ export default async function softDeleteUserServices(id: string) {
     throw new AppError("User not found", 404);
   }
 
-  if (findUser.isActive === false) {
-    throw new AppError("User inative");
-  }
-
   await userExists.update(id, {
     isActive: false,
   });
