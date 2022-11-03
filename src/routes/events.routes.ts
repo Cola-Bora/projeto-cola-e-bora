@@ -1,10 +1,16 @@
-import { Router } from "express";
-import { deleteUserEventController, listEventsController, registerUserEventController } from "../controllers/events.controller";
+import { Router } from 'express';
+import {
+  deleteUserEventController,
+  listEventByIdController,
+  listEventsbyOngController,
+  registerUserEventController,
+} from '../controllers/events.controller';
 
-const eventsRoutes = Router()
+const eventsRoutes = Router();
 
-eventsRoutes.post("/eventId", registerUserEventController)
-eventsRoutes.delete("/eventId", deleteUserEventController)
-eventsRoutes.get("", listEventsController)
+eventsRoutes.post('/:eventId', registerUserEventController);
+eventsRoutes.delete('/:eventId', deleteUserEventController);
+eventsRoutes.get('/:eventId', listEventByIdController);
+eventsRoutes.get('/:ongId', listEventsbyOngController);
 
-export default eventsRoutes
+export default eventsRoutes;
