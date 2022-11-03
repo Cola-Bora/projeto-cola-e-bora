@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -34,10 +35,8 @@ export class Ongs {
   cpnj: string;
 
   @Column({ type: "decimal", precision: 10, scale: 2, default: 0.00 })
+  @Exclude()
   balance: number;
-
-  @Column({ type: 'int' })
-  age: number;
   
   @CreateDateColumn()
   createdAt: Date;
