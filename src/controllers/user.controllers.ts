@@ -4,7 +4,6 @@ import createUserServices from "../services/user/createUser.services";
 import updateUserServices from "../services/user/updateUser.services";
 import { IUserLogin, IUserRequest } from "../interfaces/user";
 import loginServices from "../services/login/login.services";
-import listUsersServices from "../services/user/listUsers.services";
 import softDeleteUserServices from "../services/user/softDeleteUser.services";
 
 async function createUserControllers(req: Request, res: Response) {
@@ -19,11 +18,6 @@ async function loginControllers(req: Request, res: Response) {
   return res.status(200).json({ token: token });
 }
 
-async function listUsersControllers(req: Request, res: Response) {
-  const users = await listUsersServices();
-  return res.status(200).json({ data: instanceToPlain(users) });
-}
-
 async function updateUserController(req: Request, res: Response) {
   const dataUser = req.body;
   const id = req.params.id;
@@ -35,13 +29,12 @@ async function updateUserController(req: Request, res: Response) {
 async function softDeleteUserController(req: Request, res: Response) {
   const id = req.params.id;
   const deleteUser = await softDeleteUserServices(id);
-  return res.status(200).json({ message: deleteUser });
+  return res.status(204).json({ message: deleteUser });
 }
 
 export {
   createUserControllers,
   loginControllers,
-  listUsersControllers,
   updateUserController,
   softDeleteUserController,
 };
