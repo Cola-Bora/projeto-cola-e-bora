@@ -1,25 +1,25 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add -D @types/node
+  /home/usuario/.nvm/versions/node/v16.16.0/bin/node /home/usuario/.nvm/versions/node/v16.16.0/bin/yarn dev
 
 PATH: 
-  /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin:/home/usuario/.yarn-global/bin:/home/usuario/.yarn-global/bin
+  /home/usuario/.nvm/versions/node/v16.16.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin:/usr/lib/jvm/jdk-17//bin:/usr/lib/jvm/java-11-openjdk-amd64:/usr/lib/jvm/java-11-openjdk-amd64
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  16.17.1
+  16.16.0
 
 Platform: 
   linux x64
 
 Trace: 
-  SyntaxError: /home/usuario/Documentos/Kenzie M4/COLA E BORA PROJETO FINAL/projeto-cola-e-bora/package.json: Unexpected token < in JSON at position 737
+  SyntaxError: /home/usuario/exercicios_kenzie/M4/S7/projeto-cola-e-bora/package.json: Unexpected token < in JSON at position 737
       at JSON.parse (<anonymous>)
-      at /usr/share/yarn/lib/cli.js:1629:59
+      at /home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:1629:59
       at Generator.next (<anonymous>)
-      at step (/usr/share/yarn/lib/cli.js:310:30)
-      at /usr/share/yarn/lib/cli.js:321:13
+      at step (/home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /home/usuario/.nvm/versions/node/v16.16.0/lib/node_modules/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
