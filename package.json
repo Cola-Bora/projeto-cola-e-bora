@@ -25,6 +25,7 @@
   },
   "author": "Cola&Bora",
   "dependencies": {
+    "@types/uuid": "^8.3.4",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "dotenv": "^16.0.3",

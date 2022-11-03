@@ -6,9 +6,7 @@ const listEventsByOngService = async (ongId: string): Promise<Ongs> => {
   const ongsRepository = AppDataSource.getRepository(Ongs);
 
   const events = await ongsRepository.findOne({
-    where: {
-      id: ongId,
-    },
+    where: { id: ongId },
     relations: {
       events: true,
     },

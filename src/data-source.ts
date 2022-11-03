@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm";
 import "dotenv/config";
-import { truncate } from "fs";
 
 const AppDataSource = new DataSource(
   process.env.NODE_ENV === "test"
