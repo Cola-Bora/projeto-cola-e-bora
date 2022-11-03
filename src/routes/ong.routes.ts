@@ -1,11 +1,14 @@
 import { Router } from "express";
+
 import {
   createOngController,
   listAllOngsController,
   listOngByIdController,
   listUsersEventOngController,
   updateOngController,
+  deleteOngController,
 } from "../controllers/ong.controller";
+
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
 import checkIfUserIsOngAdmMiddleware from "../middlewares/checkIfUserIsOngAdm.middleware";
 import checkIsAdmOngMiddleware from "../middlewares/checkIsAdmOng.middleware";
@@ -19,6 +22,13 @@ ongsRoutes.patch(
   checkIfUserIsOngAdmMiddleware,
   updateOngController
 );
+ongsRoutes.delete(
+  "/:ongId",
+  checkAuthUserMiddlewares,
+  checkIfUserIsOngAdmMiddleware,
+  deleteOngController
+);
+
 ongsRoutes.get("", listAllOngsController);
 
 ongsRoutes.get(

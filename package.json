@@ -13,7 +13,7 @@
     "@types/express": "^4.17.14",
     "@types/jest": "^29.2.0",
     "@types/jsonwebtoken": "^8.5.9",
-    "@types/node": "^18.11.7",
+    "@types/node": "^18.11.9",
     "@types/supertest": "^2.0.12",
     "cross-env": "^7.0.3",
     "jest": "^29.2.2",
@@ -25,6 +25,10 @@
   },
   "author": "Cola&Bora",
   "dependencies": {
+<<<<<<< HEAD
+    "@types/uuid": "^8.3.4",
+=======
+>>>>>>> 109786eddf2a7a3d7de2b9572d91d132d398da79
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "dotenv": "^16.0.3",
