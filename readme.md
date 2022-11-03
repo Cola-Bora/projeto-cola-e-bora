@@ -614,7 +614,7 @@ Caso seja um usuário com permissão de Admin para aquela ong, a resposta espera
 
 Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administrador da ONG em questão.
 
-> GET /ongs/:eventId/users - FORMATO DE RESPOSTA - STATUS 200
+> GET /ongs/:ongId/:eventId/users - FORMATO DE RESPOSTA - STATUS 200
 
 ```JSON
     {
@@ -647,7 +647,7 @@ Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administra
 
 O id do evento não for encontrado:
 
-> GET /ongs/:eventId/users - FORMATO DA RESPOSTA - STATUS 404
+> GET /ongs/:ongId/:eventId/users - FORMATO DA RESPOSTA - STATUS 404
 
 ```JSON
 {
@@ -655,7 +655,7 @@ O id do evento não for encontrado:
 }
 ```
 
-> GET /ongs/:eventId/users - FORMATO DA RESPOSTA - STATUS 400
+> GET /ongs/:ongId/:eventId/users - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido:
 
@@ -664,6 +664,9 @@ O id fornecido não é um UUID válido:
   "message": "Id must have a valid UUID format"
 }
 ```
+---
+
+## 🔹 **Rotas de Eventos**
 
 ### ▪️ Criação de Evento
 
@@ -791,10 +794,6 @@ O id fornecido não é um UUID válido:
   "message": "Id must have a valid UUID format"
 }
 ```
-
----
-
-## 🔹 **Rotas de Eventos**
 
 ### ▪️ Cadastrar usuário em um Evento
 
