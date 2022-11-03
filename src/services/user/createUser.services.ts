@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import { IUserRequest } from "../../interfaces/user";
-import { AppError } from "../../erros";
+import { AppError } from "../../errors";
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/user";
 

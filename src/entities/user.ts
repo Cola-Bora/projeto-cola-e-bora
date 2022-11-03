@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  OneToOne,
 } from "typeorm";
 import { Exclude } from "class-transformer";
+import { UsersEvents } from "./userEvent";
 
 @Entity("users")
 export class User {
@@ -36,4 +39,7 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user)
+  userEvents: UsersEvents[]
 }

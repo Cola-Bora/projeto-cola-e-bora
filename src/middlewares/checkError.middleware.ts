@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../erros";
+import { AppError } from "../errors";
 
 async function checkErrorMiddleware(
   error: Error,
