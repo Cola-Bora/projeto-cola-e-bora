@@ -6,6 +6,7 @@ import updateOngService from "../services/ong/updateOng.services";
 import { instanceToPlain } from "class-transformer";
 import listAllOngsService from "../services/ong/listAllOngs.service";
 import listOngByIdService from "../services/ong/listOngById.service";
+import listUsersEventOngService from "../services/ong/listUsersEventOng.service";
 
 async function createOngController(req: Request, res: Response) {
   if (req.user.isAdm) {
@@ -27,6 +28,7 @@ async function updateOngController(req: Request, res: Response) {
 
 async function listAllOngsController(req: Request, res: Response) {
   const allOngs = await listAllOngsService();
+
   return res.status(200).json(instanceToPlain({ data: allOngs }));
 }
 
@@ -41,9 +43,17 @@ async function listOngByIdController(req: Request, res: Response) {
   return res.status(200).json({ data: OngById });
 }
 
+async function listUsersEventOngController(req: Request, res: Response) {
+  const eventId = req.params.eventId;
+  const usersEvent = await listUsersEventOngService(eventId);
+
+  return res.status(200).json({ data: usersEvent });
+}
+
 export {
   createOngController,
   updateOngController,
   listAllOngsController,
   listOngByIdController,
+  listUsersEventOngController,
 };

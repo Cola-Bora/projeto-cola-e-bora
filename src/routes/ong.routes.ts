@@ -3,6 +3,7 @@ import {
   createOngController,
   listAllOngsController,
   listOngByIdController,
+  listUsersEventOngController,
   updateOngController,
 } from "../controllers/ong.controller";
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
@@ -19,11 +20,19 @@ ongsRoutes.patch(
   updateOngController
 );
 ongsRoutes.get("", listAllOngsController);
+
 ongsRoutes.get(
   "/:id",
   checkAuthUserMiddlewares,
   checkIsAdmOngMiddleware,
   listOngByIdController
+);
+
+ongsRoutes.get(
+  "/:eventId",
+  checkAuthUserMiddlewares,
+  checkIfUserIsOngAdmMiddleware,
+  listUsersEventOngController
 );
 
 export default ongsRoutes;
