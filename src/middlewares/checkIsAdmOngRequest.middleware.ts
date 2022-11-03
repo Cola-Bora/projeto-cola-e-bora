@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import AppDataSource from "../data-source";
 import { User } from "../entities/user";
 
-export default async function checkIsAdmOngMiddleware(
+export default async function checkIsAdmOngRequestMiddleware(
   req: Request,
   res: Response,
   next: NextFunction

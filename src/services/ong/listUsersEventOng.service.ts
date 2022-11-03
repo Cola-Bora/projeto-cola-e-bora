@@ -1,10 +1,10 @@
 import AppDataSource from "../../data-source";
-import { Ongs } from "../../entities/ong";
 import { Events } from "../../entities/event";
 import { AppError } from "../../errors";
+import { UsersEvents } from "../../entities/userEvent";
 
 export default async function listUsersEventOngService(idEvent: string) {
-  const ongRepository = AppDataSource.getRepository(Ongs);
+  const userEventsRepository = AppDataSource.getRepository(UsersEvents);
   const eventRepository = AppDataSource.getRepository(Events);
 
   const eventFound = eventRepository.findOneBy({
@@ -19,7 +19,15 @@ export default async function listUsersEventOngService(idEvent: string) {
     throw new AppError("Id must have a valid UUID format");
   }
 
-  const ongFound = ongRepository.findOne({
-    where: {},
+  const users = userEventsRepository.find({
+    where: {
+      event: {
+        id: idEvent,
+      },
+    },
+    relations: {
+      user: true,
+    },
   });
+  return users;
 }

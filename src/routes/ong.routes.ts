@@ -11,7 +11,7 @@ import {
 
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
 import checkIfUserIsOngAdmMiddleware from "../middlewares/checkIfUserIsOngAdm.middleware";
-import checkIsAdmOngMiddleware from "../middlewares/checkIsAdmOng.middleware";
+import checkIsAdmOngRequestMiddleware from "../middlewares/checkIsAdmOngRequest.middleware";
 
 const ongsRoutes = Router();
 
@@ -34,12 +34,12 @@ ongsRoutes.get("", listAllOngsController);
 ongsRoutes.get(
   "/:id",
   checkAuthUserMiddlewares,
-  checkIsAdmOngMiddleware,
+  checkIsAdmOngRequestMiddleware,
   listOngByIdController
 );
 
 ongsRoutes.get(
-  "/:eventId",
+  "/:ongId/:eventId/users",
   checkAuthUserMiddlewares,
   checkIfUserIsOngAdmMiddleware,
   listUsersEventOngController
