@@ -2,34 +2,36 @@
 
 #### Cola&Bora é um projeto criado com o intuito de conectar pessoas a ONGs e ações sociais, permitindo que usuários se inscrevam, participem de eventos e façam doações a ONGs com as quais se identifiquem!
 
-
 ### Endpoints:
+
 <b>URL base da API: http://teste.com</b>
 
 ---
 
 ## 🔹 **Rotas de Usuário**
+
 ### ▪️ Criação de Usuário
+
 Para a rota de criação de usuário, não é preciso estar logado na aplicação.
 
 > POST /users - FORMATO DA REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
     "name": "Maria",
     "email": "maria@gmail.com",
     "birthDate": "1990/10/10",
     "password": "123456",
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 201
 
-~~~JSON
+```JSON
 {
-  "data": 
+  "data":
   {
    "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
    "name": "Maria",
@@ -41,56 +43,54 @@ Caso tudo dê certo, a resposta será assim:
    "isActive": true
   }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 400
 
-Caso você esqueça de enviar algum campo, a resposta de erro será assim: 
+Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
-~~~JSON
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
+```
 
 Email já cadastrado:
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 400
 
-~~~JSON
+```JSON
 {
   "message": "This email is already registered"
 }
-~~~
-
-
-
+```
 
 ### ▪️ Editar Usuário
+
 Nesta rota, o usuário precisa estar logado com o token no cabeçalho da requisição. Além disso, o usuário só poderá editar os seus próprios dados.
 
 Nesse endpoint podemos atualizar dados do usuário, porém não deverá permitir que se atualize os campos **id, isAdm e isActive.**
 
 > PATCH /users/:id - FORMATO DA REQUISIÇÃO
 
-~~~JSON 
+```JSON
 {
     "name": "Maria",
     "email": "maria@gmail.com",
     "birthDate": "1990/10/10",
     "password": "123456",
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON 
+```JSON
 {
-    "data": 
+    "data":
  {
     "name": "Maria Costa",
     "email": "maria@gmail.com",
@@ -98,159 +98,166 @@ Caso tudo dê certo, a resposta será assim:
     "password": "123456",
  }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 404
 
-O usuário não foi encontrado: 
-~~~JSON
+O usuário não foi encontrado:
+
+```JSON
 {
   "message": "User not found"
 }
-~~~
+```
 
 > PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "User Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ### ▪️ Deletar Usuário (Soft Delete)
+
 Na api Cola&Bora a rota de deleção aplica um soft delete no usuário em questão.Essa rota apenas altera o campo <b>isActive</b> para <b>false</b>.
 
 Nesta rota, o usuário precisa estar logado com o token no cabeçalho da requisição. Além disso, o usuário só poderá deletar a si mesmo.
 
-
 > DELETE /users/:userId - FORMATO DA REQUISIÇÃO
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 204
 
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 404
 
-O usuário não foi encontrado: 
-~~~JSON
+O usuário não foi encontrado:
+
+```JSON
 {
   "message": "User not found"
 }
-~~~
+```
 
 > DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "User Id must have a valid UUID format"
 }
-~~~
+```
 
 ### ▪️ Cadastro de método de pagamento
 
 > POST /users/payments - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
   "number": "5593889718264334"
   "securityCode": "407"
   "dueDate": "2024-08-01"
 }
-~~~
+```
+
 Caso tudo dê certo, a resposta será assim:
 
 > POST /users/payments - FORMATO DE RESPOSTS - STATUS 201
 
-~~~JSON
+```JSON
 {
   "message" : "Credit card successfully created"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /users/payments - FORMATO DA RESPOSTA - STATUS 404
 
-O usuário já tem um cartão de crédito cadastrado: 
-~~~JSON
+O usuário já tem um cartão de crédito cadastrado:
+
+```JSON
 {
   "message": "User already has a credit card registered"
 }
-~~~
+```
 
 Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
-~~~JSON
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
-
+```
 
 ### ▪️ Editar método de pagamento
 
 > PATCH /users/payments - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
   "number": "5593889718264334"
   "securityCode": "407"
   "dueDate": "2024-08-01"
 }
-~~~
+```
+
 Caso tudo dê certo, a resposta será assim:
 
 > PATCH /users/payments - FORMATO DE RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
   "message" : "Payment method successfully edited"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
-Usuário tentou enviar um campo vazio: 
+
+Usuário tentou enviar um campo vazio:
 
 > PATCH /users/payments - FORMATO DE RESPOSTA - STATUS 400
 
-~~~JSON
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
+```
 
 ### ▪️ Deletar método de pagamento
 
->DELETE /users/payments - FORMATO DA REQUISIÇÃO`
+> DELETE /users/payments - FORMATO DA REQUISIÇÃO`
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
->DELETE /users/payments - FORMATO DA RESPOSTA - STATUS 204
+> DELETE /users/payments - FORMATO DA RESPOSTA - STATUS 204
 
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
+```
 
 ## 🔹 **Rota de Doação**
+
 ### ▪️ Realizar uma doação
 
 Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
@@ -259,83 +266,84 @@ Esta rota é capaz de ralizar uma doação para uma ong específica.
 
 > POST /donations/:ongId - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
  "value" : 200.00
 }
-~~~
+```
 
 > POST /donations/:ongId - FORMATO DE RESPOSTA - 201
 
-~~~JSON
+```JSON
 {
  "message" : "successfully received donation"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /donations/:ongId - FORMATO DE RESPOSTA - STATUS 404
 
-O ONG não foi encontrada: 
-~~~JSON
+O ONG não foi encontrada:
+
+```JSON
 {
   "message": "ONG not found"
 }
-~~~
+```
 
->  POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+> POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ## 🔹 **Rota de Login**
 
 ### ▪️ Listar todas as categorias
+
 Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
 Independente de o usuário estar ativo ou não, essa rota automaticamente seta a chave **IsActive** para **true**.
 
 > POST /login - FORMATO DA REQUISIÇÃO
 
-~~~ JSON
+```JSON
 {
     "email": "maria@gmail.com",
     "password": "123456"
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
-
 > POST /login - FORMATO DA RESPOSTA - STATUS 200
 
-~~~ JSON
+```JSON
 {
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2NzMyMDI3MiwiaWF0IjoxNjY3MzIwMjcyfQ.0TENJ1RYnO8jZYYMzteFIixIPsJXYGH_02yVbnA4xDw"
 }
 
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /login - FORMATO DA RESPOSTA - STATUS 404
 
-O usuário não foi encontrado: 
-~~~JSON
+O usuário não foi encontrado:
+
+```JSON
 {
   "message": "Invalid Email or password"
 }
-~~~
-
-
+```
 
 ## 🔹 **Rotas de Categorias**
-### ▪️ Listar todas as categorias 
+
+### ▪️ Listar todas as categorias
 
 Nesta rota o Usuário precisa estar logado, mas não precisa de autorização de admnistrador.
 
@@ -343,10 +351,9 @@ Esta rota retorna todas as categorias que estão cadastradas e ativas dentro da 
 
 Caso tudo dê certo, a resposta será assim:
 
-
 > GET /categories - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
   "data": [
       {
@@ -359,18 +366,19 @@ Caso tudo dê certo, a resposta será assim:
       },
   ]
 }
-~~~
+```
 
 ---
 
 ## 🔹 **Rotas de Ongs**
+
 ### ▪️ Criação de Ong
 
 Para criação de uma ong o usuário deve estar cadastrado e logado.
 
->POST /ongs - FORMATO DA REQUISIÇÃO
+> POST /ongs - FORMATO DA REQUISIÇÃO
 
-~~~JSON
+```JSON
   {
 	"name": "nome da ong",
 	"email": "ong@email.com",
@@ -379,13 +387,13 @@ Para criação de uma ong o usuário deve estar cadastrado e logado.
 	"cnpj": "11222333344445",
         "categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
-~~~
+```
 
 Caso tudo dê certo a resposta deverá ser assim:
 
 > POST /ongs - FORMATO DA RESPOSTA - STATUS 201
 
-~~~JSON
+```JSON
 {
 	"data": {
 		"name": "nome da ong",
@@ -404,24 +412,24 @@ Caso tudo dê certo a resposta deverá ser assim:
 	}
 }
 
-~~~
-
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /ongs - FORMATO DA RESPOSTA - STATUS 400
 
-Requisição enviada com campo obrigatório faltando: 
-~~~JSON
+Requisição enviada com campo obrigatório faltando:
+
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
-
+```
 
 > POST /ongs - FORMATO DA RESPOSTA - STATUS 400
 
-Requisição enviada por usuário que já possui uma ONG: 
+Requisição enviada por usuário que já possui uma ONG:
+
 ```JSON
 {
   "message": "User is alerady linked to a ONG"
@@ -430,7 +438,8 @@ Requisição enviada por usuário que já possui uma ONG:
 
 > POST /ongs - FORMATO DA RESPOSTA - STATUS 404
 
-Requisição enviada com id de categoria inexistente: 
+Requisição enviada com id de categoria inexistente:
+
 ```JSON
 {
   "message": "Category does not exists in database"
@@ -441,9 +450,9 @@ Requisição enviada com id de categoria inexistente:
 
 Para editar uma ong o usuário deverá estar logado e ter permissão de adm para aquela ong.
 
->PATCH /ongs/:ongId - FORMATO DA REQUISIÇÃO
+> PATCH /ongs/:ongId - FORMATO DA REQUISIÇÃO
 
-~~~JSON
+```JSON
   {
 
     "name": "Amigos do Peito",
@@ -453,13 +462,13 @@ Para editar uma ong o usuário deverá estar logado e ter permissão de adm para
     "cnpj": "11222333444455"
   }
 
-~~~
+```
 
 Em caso de sucesso a resposta deverá ser assim
 
->PATCH /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 200
+> PATCH /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
   {
    "data": {
 	"name": "Amigos do Peito",
@@ -473,52 +482,49 @@ Em caso de sucesso a resposta deverá ser assim
 	"categoryId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 }
-~~~
-
+```
 
 ### ⚠️ Possíveis Erros
 
 > PATCH /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 404
 
-A ONG não foi encontrada: 
-~~~JSON
+A ONG não foi encontrada:
+
+```JSON
 {
   "message": "ONG not found"
 }
-~~~
+```
 
 > PATCH /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ### ▪️ Deleção de Ong (Soft Delete)
 
 Essa rota aplicará um soft delete na ONG em questão.
 Essa rota apenas altera a chave <b>isActive</b> para <b>false</b>.
-Para acessar essa rota o usuário deve estar logado e ter permissão de admin na ONG que irá ser "deletada". 
+Para acessar essa rota o usuário deve estar logado e ter permissão de admin na ONG que irá ser "deletada".
 
->DELETE /ongs/:ongId - FORMATO DA REQUISIÇÃO`
+> DELETE /ongs/:ongId - FORMATO DA REQUISIÇÃO`
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
 Se tudo der certo a resposta deverá ser:
 
->DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 204
+> DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 204
 
-
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
-
-
+```
 
 ### ▪️ Listar todas as ONGS
 
@@ -526,7 +532,7 @@ Essa rota não precisa de autenticação. A rota retorna todas as ONGs que estã
 
 > GET /ongs - FORMATO DE RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
     "data": [
         {
@@ -556,18 +562,16 @@ Essa rota não precisa de autenticação. A rota retorna todas as ONGs que estã
         } ,
     ]
 }
-~~~
+```
 
 ### ▪️ Listar Ong Específica
 
-
 > GET /ongs/:ongId - FORMATO DA REQUISIÇÃO
-
 
 Há dois tipos de respostas para essa requisição.
 Caso seja um usuário comum autenticado deverá retornar:
 
-~~~JSON
+```JSON
 {
     "data":    {
                 "id": "aefae9d9-3424-4bd4-b591-193f8f28916a",
@@ -583,12 +587,11 @@ Caso seja um usuário comum autenticado deverá retornar:
                     "name": "Acolhimento Institucional"
                 }
 }
-~~~
-
+```
 
 Caso seja um usuário com permissão de Admin para aquela ong, a resposta esperada deverá ser:
 
-~~~JSON
+```JSON
 {
     "data":    {
                 "id": "aefae9d9-3424-4bd4-b591-193f8f28916a",
@@ -605,9 +608,7 @@ Caso seja um usuário com permissão de Admin para aquela ong, a resposta espera
                     "name": "Acolhimento Institucional"
                 }
 }
-~~~
-
-
+```
 
 ### ▪️ Listar usuários cadastrados no evento de uma ONG específica
 
@@ -615,7 +616,7 @@ Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administra
 
 > GET /ongs/:eventId/users - FORMATO DE RESPOSTA - STATUS 200
 
-~~~ JSON
+```JSON
     {
         "data": {
             {
@@ -640,35 +641,37 @@ Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administra
               },
         }
     }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
 > GET /ongs/:eventId/users - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
 > GET /ongs/:eventId/users - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
-
-
+```
 
 ### ▪️ Criação de Evento
+
 Esta rota é acessada apenas pelo administrador da ONG em questão.
+
 > POST /ongs/events - FORMATO DA REQUISIÇÃO
-~~~JSON
+
+```JSON
 {
   "name": "Ação de Natal",
   "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
@@ -676,15 +679,15 @@ Esta rota é acessada apenas pelo administrador da ONG em questão.
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > POST /ongs/events - FORMATO DA RESPOSTA - STATUS 201
 
-~~~JSON
+```JSON
 {
- "data": 
+ "data":
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal",
@@ -694,16 +697,15 @@ Caso tudo dê certo, a resposta será assim:
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 }
-~~~
-
+```
 
 ### ▪️ Editar um Evento
 
 Esta rota é acessada apenas pelo administrador da ONG em questão.
 
->PATCH ongs/events/:eventId - FORMATO DA REQUISIÇÃO
+> PATCH ongs/events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal - 2022",
@@ -712,13 +714,13 @@ Esta rota é acessada apenas pelo administrador da ONG em questão.
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
 }
-~~~
+```
 
->PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 200
+> PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
- "data": 
+ "data":
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal - 2022",
@@ -728,68 +730,67 @@ Esta rota é acessada apenas pelo administrador da ONG em questão.
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
->PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
->PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+> PATCH ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ### ▪️ Deletar um Evento
 
 Esta rota é acessada apenas pelo administrador da ONG em questão.
 
->DELETE ongs/events/:eventId - FORMATO DA REQUISIÇÃO
+> DELETE ongs/events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 204
+> DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 204
 
-
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
-
-
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
->DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+> DELETE ongs/events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ---
 
@@ -799,90 +800,91 @@ O id fornecido não é um UUID válido:
 
 Esta rota precisa de autenticação.
 
->POST /events/:eventId - FORMATO DA REQUISIÇÃO
+> POST /events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
->POST /events/:eventId - FORMATO DA RESPOSTA - STATUS 201
+> POST /events/:eventId - FORMATO DA RESPOSTA - STATUS 201
 
-~~~JSON
+```JSON
 {
  "message": "User successfully registered on event."
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+> DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ### ▪️ Excluir a participação de usuário em um Evento
 
 Esta rota só pode ser acessada pelo próprio usuário.
 
->DELETE /events/:eventId - FORMATO DA REQUISIÇÃO
+> DELETE /events/:eventId - FORMATO DA REQUISIÇÃO
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 204
+> DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 204
 
-~~~JSON
+```JSON
 {
  "message": "User successfully deleted from event."
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+> DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
-
+```
 
 ### ▪️ Listar todos os Eventos
 
 Esta rota não precisa de autenticação.
 
->GET /events - FORMATO DA RESPOSTA - STATUS 200
+> GET /events - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
- "data": 
+ "data":
  [
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
@@ -902,23 +904,24 @@ Esta rota não precisa de autenticação.
   },
   ]
 }
-~~~
+```
 
 ### ▪️ Listar todos os Eventos de uma ONG específica
 
 Esta rota não precisa de autenticação.
 
->GET /events/:ongId - FORMATO DA REQUISIÇÃO
-~~~
+> GET /events/:ongId - FORMATO DA REQUISIÇÃO
+
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
->GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 200
+> GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON
-    
+```JSON
+
 {
- "data": 
+ "data":
  [
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
@@ -938,42 +941,43 @@ Não é necessário um corpo da requisição.
   },
   ]
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id da ONG não for encontrado: 
+O id da ONG não for encontrado:
 
->GET /events/:ongId  - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "ONG not found"
 }
-~~~
+```
 
->GET /events/:ongId  - FORMATO DA RESPOSTA - STATUS 400
+> GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
+```
 
 ### ▪️ Listar um Evento específico
 
 Esta rota não precisa de autenticação.
 
->GET /events/:eventId - FORMATO DA REQUISIÇÃO
+> GET /events/:eventId - FORMATO DA REQUISIÇÃO
 
 Não é necessário um corpo da requisição.
 
+> GET /events/:eventId - FORMATO DA RESPOSTA - STATUS 200
 
->GET /events/:eventId - FORMATO DA RESPOSTA - STATUS 200
-
-~~~JSON
+```JSON
 {
- "data": 
+ "data":
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal",
@@ -983,27 +987,28 @@ Não é necessário um corpo da requisição.
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
   }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-O id do evento não for encontrado: 
+O id do evento não for encontrado:
 
->GET /events/:eventId  - FORMATO DA RESPOSTA - STATUS 404
-~~~JSON
+> GET /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+
+```JSON
 {
   "message": "Event not found"
 }
-~~~
+```
 
->GET /events/:eventId  - FORMATO DA RESPOSTA - STATUS 400
+> GET /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+O id fornecido não é um UUID válido:
+
+```JSON
 {
   "message": "Id must have a valid UUID format"
 }
-~~~
-
+```
 
 ---

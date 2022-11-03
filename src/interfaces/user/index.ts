@@ -1,9 +1,9 @@
 export interface IUserRequest {
   name: string;
   email: string;
-  age: number;
+  birthDate: string;
   password: string;
-  isAdm: boolean;
+  isAdm?: boolean;
 }
 
 export interface IUser {
@@ -25,6 +25,6 @@ export interface IUserLogin {
 export interface IUserUpdate {
   name?: string;
   email?: string;
-  age?: number;
+  birthDate?: string;
   password?: string;
 }

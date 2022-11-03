@@ -21,8 +21,8 @@ export class User {
   @Column({ length: 50, unique: true })
   email: string;
 
-  @Column({ type: "int" })
-  age: number;
+  @Column({ type: "date" })
+  birthDate: string;
 
   @Column({ length: 120 })
   @Exclude()
@@ -34,7 +34,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column()
+  @Column({ default: false })
   isAdm: boolean;
 
   @Column({ default: true })

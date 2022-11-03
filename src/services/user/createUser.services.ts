@@ -5,8 +5,20 @@ import AppDataSource from "../../data-source";
 import { User } from "../../entities/user";
 
 export default async function createUserServices(user: IUserRequest) {
-  if (Object.keys(user).length !== 5) {
+  if (Object.keys(user).length !== 4) {
     throw new AppError("Required field is missing");
+  }
+
+  let checkKeys = Object.keys(user).map(
+    item =>
+      item.includes("name") ||
+      item.includes("email") ||
+      item.includes("password") ||
+      item.includes("birthDate")
+  );
+
+  if (checkKeys.includes(false)) {
+    throw new AppError("Invalid Key");
   }
 
   const userData = AppDataSource.getRepository(User);
@@ -21,11 +33,18 @@ export default async function createUserServices(user: IUserRequest) {
 
   const hashPassword = await hash(user.password, 10);
 
+  const newDate = new Date(
+    Date.UTC(
+      parseInt(user.birthDate.split("/")[0]),
+      parseInt(user.birthDate.split("/")[1]) - 1,
+      parseInt(user.birthDate.split("/")[2])
+    )
+  );
+
   const newUser = userData.create({
     name: user.name,
     email: user.email,
-    age: user.age,
-    isAdm: user.isAdm,
+    birthDate: newDate.toISOString(),
     password: hashPassword,
   });
 
