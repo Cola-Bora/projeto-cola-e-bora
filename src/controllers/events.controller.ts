@@ -52,13 +52,13 @@ const listEventsController = async (req: Request, resp: Response) => {
 };
 
 const listEventsbyOngController = async (req: Request, resp: Response) => {
-  const ongId = req.params.id;
+  const ongId = req.params.ongId;
   const events = await listEventsByOngService(ongId);
   return resp.status(200).json(events).send();
 };
 
 const listEventByIdController = async (req: Request, resp: Response) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
   const event = await listEventByIdService(eventId);
   return resp.status(200).json(event).send();
 };
