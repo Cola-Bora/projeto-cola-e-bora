@@ -3,6 +3,10 @@ import { AppError } from '../../errors';
 import { Events } from '../../entities/event';
 
 const listEventByIdService = async (eventId: string): Promise<Events> => {
+  if (eventId.length !== 36) {
+    throw new AppError('Invalid Id', 400);
+  }
+
   const eventsRepository = AppDataSource.getRepository(Events);
   const event = await eventsRepository.findOneBy({ id: eventId });
 

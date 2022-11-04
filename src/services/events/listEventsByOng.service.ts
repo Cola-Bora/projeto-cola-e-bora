@@ -3,6 +3,10 @@ import { Ongs } from '../../entities/ong';
 import { AppError } from '../../errors';
 
 const listEventsByOngService = async (ongId: string): Promise<Ongs> => {
+  if (ongId.length !== 36) {
+    throw new AppError('Invalid Id', 400);
+  }
+
   const ongsRepository = AppDataSource.getRepository(Ongs);
 
   const events = await ongsRepository.findOne({
