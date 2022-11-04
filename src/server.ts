@@ -10,7 +10,7 @@ import createBaseCategoriesService from "./services/categories/createBaseCategor
 
   await createBaseCategoriesService();
 
-  app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT || 3000, () => {
     console.log("Servidor executando");
   });
 })();
