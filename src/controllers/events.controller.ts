@@ -1,13 +1,13 @@
 import { instanceToPlain } from "class-transformer";
 import { Request, Response } from 'express';
-import createEventService from "../services/event/createEvent.service";
+import createEventService from "../services/events/createEvent.service";
 import listEventsService from '../services/events/listEvents.service';
 import listEventByIdService from '../services/events/listEventById.service';
 import listEventsByOngService from '../services/events/listEventsByOng.service';
 import deleteUserEventService from '../services/events/deleteUserEvent.service';
 import registerUserEventService from '../services/events/registerUserEvent.service';
-import updateEventService from "../services/event/updateEvent.service";
-import deleteEventService from "../services/event/deleteEvent.service";
+import updateEventService from "../services/events/updateEvent.service";
+import deleteEventService from "../services/events/deleteEvent.service";
 
 const createEventController = async (req: Request, res: Response) => {
     const event = await createEventService(req.body);
