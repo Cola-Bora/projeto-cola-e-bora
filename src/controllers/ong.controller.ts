@@ -48,7 +48,7 @@ async function listUsersEventOngController(req: Request, res: Response) {
   const eventId = req.params.eventId;
   const usersEvent = await listUsersEventOngService(eventId);
 
-  return res.status(200).json({ data: usersEvent });
+  return res.status(200).json(instanceToPlain({ data: usersEvent }));
 }
 
 async function deleteOngController(req: Request, res: Response) {
