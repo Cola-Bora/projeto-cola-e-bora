@@ -1,12 +1,10 @@
-import { DataSource } from "typeorm";
-import AppDataSource from "../../data-source";
-import app from "../../app"
-import { Categories } from "../../entities/ongCategory";
-import { Ongs } from "../../entities/ong";
-import { Addresses } from "../../entities/adress";
-import { Events } from "../../entities/event";
-import { mockedAddress, mockedEvent, mockedOng, mockedOngCategory } from "../mocks/mock";
 import request from 'supertest';
+import { DataSource } from "typeorm";
+import app from "../../app";
+import AppDataSource from "../../data-source";
+import { Categories } from "../../entities/ongCategory";
+import createBaseCategoriesService from "../../services/category/createBaseCategories.service";
+import { mockedEvent, mockedOng, mockedUser, mockedUserAdim, mockedUserAdimLogin } from "../mocks/mock";
 
 describe("/events", () => {
   let connection: DataSource;
@@ -17,6 +15,9 @@ describe("/events", () => {
       .catch((err) =>
         console.log("Error during Data Source initialization", err)
       );
+
+      await request(app).post('/users').send(mockedUser);
+      await request(app).post('/users').send(mockedUserAdim);
   });
 
   afterAll(async () => {
@@ -24,17 +25,15 @@ describe("/events", () => {
   });
 
   test("POST /events -> create event", async () => {
+    const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
+    console.log(adminLoginResponse.body);
+    await createBaseCategoriesService();
+    const newCategories = await AppDataSource.getRepository(Categories).find();
+    const newOng = await request(app).post('/ongs').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedOng(newCategories[0].id));
+    const response = await request(app).post('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedEvent(newOng.body.id));
 
-    const categoryRepository = AppDataSource.getRepository(Categories);
-    const ongRepository = AppDataSource.getRepository(Ongs);
-    const addressRepository = AppDataSource.getRepository(Addresses);
-    const eventRepository = AppDataSource.getRepository(Events);
-
-    await categoryRepository.save(mockedOngCategory);
-    await ongRepository.save(mockedOng);
-    await addressRepository.save(mockedAddress);
-
-    const response = await request(app).post('/events').set('Authorization', `Bearer`)
+    expect(response.body).toHaveProperty('data');
+    expect(response.status).toBe(201);
   });
 
   test("POST /events/:eventId -> register user in an event", async () => {
