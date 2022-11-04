@@ -7,13 +7,16 @@ const deleteUserEventService = async (eventId: string, id: string): Promise<void
   const eventRepository = AppDataSource.getRepository(Events);
   const userEventRepository = AppDataSource.getRepository(UsersEvents);
 
-  if (eventId.length !== 36) throw new AppError("Invalid Id");
+  if (eventId.length !== 36) throw new AppError("Id must have a valid UUID format");
 
   const event: Events | null = await eventRepository.findOneBy({
     id: eventId,
   });
 
+  console.log(event)
+
   if (!event) throw new AppError("Event not found", 404);
+  console.log("passou")
 
   await userEventRepository.delete({
     event: event,
