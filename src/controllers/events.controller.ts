@@ -45,6 +45,9 @@ const listEventByIdController = async (req: Request, resp: Response) => {
 };
 
 export {
+  createEventController,
+  updateEventController,
+  deleteEventController,
   registerUserEventController,
   deleteUserEventController,
   listEventByIdController,
