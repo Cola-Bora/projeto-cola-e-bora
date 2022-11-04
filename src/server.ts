@@ -1,7 +1,7 @@
 import app from "./app";
 import AppDataSource from "./data-source";
 import "dotenv/config";
-import createBaseCategoriesService from "./services/category/createBaseCategories.service";
+import createBaseCategoriesService from "./services/categories/createBaseCategories.service";
 
 (async () => {
   await AppDataSource.initialize().catch((err) => {
