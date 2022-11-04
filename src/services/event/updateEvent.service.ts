@@ -16,7 +16,14 @@ const updateEventService = async (eventId: string, { name, date, description, ad
     }
 
     const address = await addressRepository.findOneBy({ id: addressId });
+    if(!address) {
+        throw new AppError('Address not found', 404);
+    }
+
     const ong = await ongRepository.findOneBy({ id: ongId });
+    if(!ong) {
+        throw new AppError('Ong not found', 404);
+    }
 
     await eventRepository.update(
     eventId,    

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createEventController,
+  deleteEventController,
   deleteUserEventController,
   listEventByIdController,
   listEventsbyOngController,
@@ -15,6 +16,7 @@ const eventsRoutes = Router();
 
 eventsRoutes.post("/", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, createEventController);
 eventsRoutes.patch("/:eventId", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, updateEventController);
+eventsRoutes.delete('/:eventId', checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, deleteEventController);
 eventsRoutes.post("/:eventId",checkAuthUserMiddlewares, registerUserEventController)
 eventsRoutes.delete("/:eventId", checkAuthUserMiddlewares, deleteUserEventController)
 eventsRoutes.get("", listEventsController)
