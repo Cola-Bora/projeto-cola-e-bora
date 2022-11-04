@@ -6,6 +6,23 @@ import listEventByIdService from '../services/events/listEventById.service';
 import listEventsByOngService from '../services/events/listEventsByOng.service';
 import deleteUserEventService from '../services/events/deleteUserEvent.service';
 import registerUserEventService from '../services/events/registerUserEvent.service';
+import updateEventService from "../services/event/updateEvent.service";
+import deleteEventService from "../services/event/deleteEvent.service";
+
+const createEventController = async (req: Request, res: Response) => {
+    const event = await createEventService(req.body);
+    return res.status(201).json({ data: instanceToPlain(event) });
+};
+
+const updateEventController = async (req: Request, res: Response) => {
+    const event = await updateEventService(req.params.eventId ,req.body);
+    return res.status(201).json({ data: instanceToPlain(event) });
+};
+
+const deleteEventController = async (req: Request, res: Response) => {
+    const event = await deleteEventService(req.params.eventId);
+    return res.status(204).send();
+};
 
 const createEventController = async (req: Request, res: Response) => {
     const event = await createEventService(req.body);
@@ -53,6 +70,8 @@ const listEventByIdController = async (req: Request, resp: Response) => {
 
 export {
   createEventController,
+  updateEventController,
+  deleteEventController,
   registerUserEventController,
   deleteUserEventController,
   listEventByIdController,
