@@ -4,7 +4,6 @@ import { Ongs } from '../../entities/ong';
 import { IOngRequest } from '../../interfaces/ong/index';
 import { Categories } from '../../entities/ongCategory';
 import { AppError } from '../../errors';
-import { instanceToPlain } from "class-transformer"
 
 
 export default async function createOngService(ong: IOngRequest, userId: string){
