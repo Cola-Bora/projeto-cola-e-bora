@@ -16,7 +16,7 @@ const createBaseCategoriesService = async () => {
         }
     });
 
-    console.log(categories);
+    return await categoryRepository.find();
 }
 
 export default createBaseCategoriesService;
