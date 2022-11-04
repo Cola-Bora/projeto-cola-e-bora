@@ -46,17 +46,14 @@ export const mockedEvent : (ongId: string) => IEventRequest = (ongId: string) =>
     }
 }
 
-export const mockedUpdateEvent = (ongId: string) => {
-    return {
-        name: 'Event - updated',
-        description: 'Description - updated',
-        date: '2022/11/25',
-        address: {
-            street: 'rua - updated',
-            number: '980',
-            cep: '69400707',
-            extra: 'Igreja'
-        },
-        ongId
+export const mockedUpdateEvent = {
+    name: 'Event - updated',
+    description: 'Description - updated',
+    date: '2022/11/25',
+    address: {
+        street: 'rua - updated',
+        number: '980',
+        cep: '69400707',
+        extra: 'Igreja'
     }
 }

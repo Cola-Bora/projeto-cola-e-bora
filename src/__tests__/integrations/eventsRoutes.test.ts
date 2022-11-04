@@ -3,8 +3,8 @@ import { DataSource } from "typeorm";
 import app from "../../app";
 import AppDataSource from "../../data-source";
 import { Categories } from "../../entities/ongCategory";
-import createBaseCategoriesService from "../../services/category/createBaseCategories.service";
-import { mockedEvent, mockedOng, mockedUser, mockedUserAdim, mockedUserAdimLogin } from "../mocks/mock";
+import createBaseCategoriesService from "../../services/categories/createBaseCategories.service";
+import { mockedEvent, mockedOng, mockedUpdateEvent, mockedUser, mockedUserAdim, mockedUserAdimLogin } from "../mocks/mock";
 
 describe("/events", () => {
   let connection: DataSource;
@@ -26,16 +26,45 @@ describe("/events", () => {
 
   test("POST /events -> create event", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
-    console.log(adminLoginResponse.body);
     await createBaseCategoriesService();
-    const newCategories = await AppDataSource.getRepository(Categories).find();
-    const newOng = await request(app).post('/ongs').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedOng(newCategories[0].id));
+    const categories = await request(app).get('/categories').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    const newOng = await request(app).post('/ongs').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedOng(categories.body[0].id));
     const response = await request(app).post('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedEvent(newOng.body.id));
 
     expect(response.body).toHaveProperty('data');
     expect(response.status).toBe(201);
   });
 
-  test("POST /events/:eventId -> register user in an event", async () => {
+  test("PATCH /events/:eventId -> update event", async () => {
+    const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
+    const events = await request(app).get('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    await request(app).patch(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+
+    const updatedEvent = await request(app).get(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    expect(updatedEvent.body.name).toBe('Event - updated');
+  });
+
+  test("DELETE /events/:eventId -> delete event", async () => {
+    const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
+    const events = await request(app).get('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    await request(app).delete(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+
+    const deletedEvent = await request(app).get(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    console.log(deletedEvent.body);
+    expect(deletedEvent.body.message).toBe('Event not found');
+    expect(deletedEvent.status).toBe(404);
+  });
+
+  test('GET /events/:eventId -> should be able to list all the information of an event', async () => {
+    const event = await request(app).get('/events');
+    const response = await request(app).get(`/events/${event.body[0].id}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('name');
+    expect(response.body).toHaveProperty('date');
+    expect(response.body).toHaveProperty('description');
+    expect(response.body).toHaveProperty('address');
+    expect(response.body).toHaveProperty('ong');
+    expect(response.body).toHaveProperty('userEvents');
   });
 });

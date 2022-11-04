@@ -169,7 +169,7 @@ O id fornecido não é um UUID válido:
 {
   "number": "5593889718264334"
   "securityCode": "407"
-  "dueDate": "2024-08-01"
+  "dueDate": "2024/08/01"
 }
 ~~~
 Caso tudo dê certo, a resposta será assim:
@@ -210,7 +210,7 @@ Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 {
   "number": "5593889718264334"
   "securityCode": "407"
-  "dueDate": "2024-08-01"
+  "dueDate": "2024/08/01"
 }
 ~~~
 Caso tudo dê certo, a resposta será assim:
@@ -253,9 +253,9 @@ A resposta não conterá nenhuma mensagem.
 ## 🔹 **Rota de Doação**
 ### ▪️ Realizar uma doação
 
-Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
+Nesta rota o Usuário precisa estar logado, e não precisa de autorização de admnistrador.
 
-Esta rota é capaz de ralizar uma doação para uma ong específica.
+Esta rota é capaz de realizar uma doação para uma ong específica.
 
 > POST /donations/:ongId - FORMATO DE REQUISIÇÃO
 
@@ -695,11 +695,14 @@ O id fornecido não é um UUID válido:
 
 ### ▪️ Criação de Evento
 Esta rota é acessada apenas pelo administrador da ONG em questão.
+O horário do evento deverá subir em horário local, e entrará no banco de dados automaticamente em horário UTC(Padrão Global GMT+0)
+
+
 > POST /ongs/events - FORMATO DA REQUISIÇÃO
 ~~~JSON
 {
   "name": "Ação de Natal",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
+  "date": "December 24, 2022 14:00:00",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "address": {
@@ -717,15 +720,29 @@ Caso tudo dê certo, a resposta será assim:
 
 ~~~JSON
 {
- "data": 
-  {
-  "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
-  "name": "Ação de Natal",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
-  "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
-  "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
-  "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
-  }
+	"data": {
+		"name": "Ação de Natal",
+		"description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
+		"date": "2022-12-24T18:00:00.000Z",
+		"ong": {
+			"id": "5d186775-fb9e-4612-9149-4d8e7aa6fc2c",
+			"name": "Amigos da Natureza Pt.2",
+			"email": "ong@email.com",
+			"tel": "9955996366",
+			"description": "breve descrição da ong",
+			"cpnj": "11222333344445",
+			"createdAt": "2022-11-04T13:39:28.962Z",
+			"updatedAt": "2022-11-04T13:40:51.025Z"
+		},
+		"address": {
+			"street": "Rua Carolia Fernandes",
+			"number": "980",
+			"cep": "69400797",
+			"extra": "casa",
+			"id": "8f647ab0-6b99-4a1c-b837-e9a7c95959a5"
+		},
+		"id": "3bf04ab3-7d2b-498b-a989-1f83c9c778b0"
+	}
 }
 ~~~
 
@@ -733,16 +750,15 @@ Caso tudo dê certo, a resposta será assim:
 ### ▪️ Editar um Evento
 
 Esta rota é acessada apenas pelo administrador da ONG em questão.
+O horário do evento deverá subir em horário local, e entrará no banco de dados automaticamente em horário UTC(Padrão Global GMT+0)
 
 >PATCH ongs/events/:eventId - FORMATO DA REQUISIÇÃO
 
 ~~~JSON
 {
-  "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal - 2022",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
+  "date": "December 24, 2022 14:00:00",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
-  "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "address": {
     "street": "Rua Carolia Fernandes",
     "number": "720",
@@ -760,7 +776,7 @@ Esta rota é acessada apenas pelo administrador da ONG em questão.
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal - 2022",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
+  "date": "2022-12-24T18:00:00.000Z",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
@@ -957,7 +973,7 @@ Não é necessário um corpo da requisição.
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
+  "date": "2022-12-24T18:00:00.000Z",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
@@ -965,7 +981,7 @@ Não é necessário um corpo da requisição.
     {
   "id": "dd720fc5-3cc9-410e-8e58-976c82f209c0",
   "name": "Ação de Ano Novo",
-  "date": "Sat Dez 31 2022 14:00:00 GMT-0400",
+  "date": "2022-12-31T18:00:00.000Z",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Ano-Novo",
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
@@ -1011,7 +1027,7 @@ Não é necessário um corpo da requisição.
   {
   "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal",
-  "date": "Sat Dez 24 2022 14:00:00 GMT-0400",
+  "date": "2022-12-24T18:00:00.000Z",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
   "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "addressId": "dd720fc5-3cc9-410e-8e58-976c82f209c0"
