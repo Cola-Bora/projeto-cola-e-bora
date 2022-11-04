@@ -51,6 +51,6 @@ export class Ongs {
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Events, (events) => events.ong)
+  @OneToMany(() => Events, (events) => events.ong, {cascade: true})
   events: Events[];
 }
