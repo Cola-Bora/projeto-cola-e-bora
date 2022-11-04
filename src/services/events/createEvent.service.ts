@@ -5,15 +5,17 @@ import { Ongs } from "../../entities/ong";
 import { AppError } from "../../errors";
 import { IEventRequest } from "../../interfaces/event";
 
-const createEventService = async ({ name, date, description, addressId, ongId }: IEventRequest) => {
+const createEventService = async ({ name, date, description, address, ongId }: IEventRequest) => {
     const eventRepository = AppDataSource.getRepository(Events);
     const addressRepository = AppDataSource.getRepository(Addresses);
     const ongRepository = AppDataSource.getRepository(Ongs);
 
-    const address = await addressRepository.findOneBy({ id: addressId });
-    if(!address) {
-        throw new AppError('Address not found', 404);
-    }
+    const newAddress = await addressRepository.save({
+        street: address.street,
+        number: address.number,
+        cep: address.cep,
+        extra: address.extra
+    });
 
     const ong = await ongRepository.findOneBy({ id: ongId });
     if(!ong) {
@@ -26,7 +28,7 @@ const createEventService = async ({ name, date, description, addressId, ongId }:
         description,
         date: newDate,
         ong: ong!,
-        address: address!
+        address: newAddress!
     });
 
     return event;

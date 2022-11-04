@@ -1,13 +1,13 @@
 import { instanceToPlain } from "class-transformer";
 import { Request, Response } from 'express';
-import createEventService from "../services/event/createEvent.service";
+import createEventService from "../services/events/createEvent.service";
 import listEventsService from '../services/events/listEvents.service';
 import listEventByIdService from '../services/events/listEventById.service';
 import listEventsByOngService from '../services/events/listEventsByOng.service';
 import deleteUserEventService from '../services/events/deleteUserEvent.service';
 import registerUserEventService from '../services/events/registerUserEvent.service';
-import updateEventService from "../services/event/updateEvent.service";
-import deleteEventService from "../services/event/deleteEvent.service";
+import updateEventService from "../services/events/updateEvent.service";
+import deleteEventService from "../services/events/deleteEvent.service";
 
 const createEventController = async (req: Request, res: Response) => {
     const event = await createEventService(req.body);
@@ -22,11 +22,6 @@ const updateEventController = async (req: Request, res: Response) => {
 const deleteEventController = async (req: Request, res: Response) => {
     const event = await deleteEventService(req.params.eventId);
     return res.status(204).send();
-};
-
-const createEventController = async (req: Request, res: Response) => {
-    const event = await createEventService(req.body);
-    return res.status(201).json({ data: instanceToPlain(event) });
 };
 
 const registerUserEventController = async (req: Request, resp: Response) => {
