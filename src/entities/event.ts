@@ -23,7 +23,7 @@ export class Events {
   @ManyToOne(() => Ongs)
   ong: Ongs;
 
-  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user)
+  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user, {cascade: true})
   userEvents: UsersEvents[]
 
 }
