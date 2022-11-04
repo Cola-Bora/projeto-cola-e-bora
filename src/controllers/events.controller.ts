@@ -1,19 +1,12 @@
+import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
+import createEventService from "../services/event/createEvent.service";
 
-const registerUserEventController = async (req: Request, resp: Response) => {
-
-};
-
-const deleteUserEventController = async (req: Request, resp: Response) => {
-
-};
-
-const listEventsController = (req: Request, resp: Response) => {
-
+const createEventController = async (req: Request, res: Response) => {
+    const event = await createEventService(req.body);
+    return res.status(201).json({ data: instanceToPlain(event) });
 };
 
 export { 
-    registerUserEventController,
-    deleteUserEventController,
-    listEventsController,
+    createEventController
 };

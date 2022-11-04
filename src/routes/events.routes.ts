@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { deleteUserEventController, listEventsController, registerUserEventController } from "../controllers/events.controller";
+import { createEventController } from "../controllers/events.controller";
+import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
+import checkIfUserIsOngAdmMiddleware from "../middlewares/checkIfUserIsOngAdm.middleware";
 
 const eventsRoutes = Router()
 
-eventsRoutes.post("/eventId", registerUserEventController)
-eventsRoutes.delete("/eventId", deleteUserEventController)
-eventsRoutes.get("", listEventsController)
+eventsRoutes.post("/", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, createEventController);
 
 export default eventsRoutes
