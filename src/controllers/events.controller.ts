@@ -24,6 +24,11 @@ const deleteEventController = async (req: Request, res: Response) => {
     return res.status(204).send();
 };
 
+const createEventController = async (req: Request, res: Response) => {
+    const event = await createEventService(req.body);
+    return res.status(201).json({ data: instanceToPlain(event) });
+};
+
 const registerUserEventController = async (req: Request, resp: Response) => {
   const { eventId } = req.params;
   const { id } = req.user;
