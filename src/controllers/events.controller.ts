@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import listEventsService from '../services/events/listEvents.service';
-import listEventByIdService from '../services/events/listEventById.service';
-import listEventsByOngService from '../services/events/listEventsByOng.service';
-import deleteUserEventService from '../services/events/deleteUserEvent.service';
-import registerUserEventService from '../services/events/registerUserEvent.service';
+import { Request, Response } from "express";
+import listEventsService from "../services/events/listEvents.service";
+import listEventByIdService from "../services/events/listEventById.service";
+import listEventsByOngService from "../services/events/listEventsByOng.service";
+import deleteUserEventService from "../services/events/deleteUserEvent.service";
+import registerUserEventService from "../services/events/registerUserEvent.service";
 
 const registerUserEventController = async (req: Request, resp: Response) => {
   const { eventId } = req.params;
