@@ -1,5 +1,5 @@
 import { IEventRequest } from "../../interfaces/event";
-import { IUserRequest } from "../../interfaces/user";
+import { IUserLogin, IUserRequest } from "../../interfaces/user";
 
 export const mockedUser : IUserRequest = {
     name: "Mario",
@@ -11,6 +11,11 @@ export const mockedUser : IUserRequest = {
 export const mockedUserAdim : IUserRequest = {
     name: "Mario",
     birthDate: "1998/10/12",
+    email: "mario@mail.com",
+    password: "12345678"
+}
+
+export const mockedUserLogin : IUserLogin = {
     email: "mario@mail.com",
     password: "12345678"
 }

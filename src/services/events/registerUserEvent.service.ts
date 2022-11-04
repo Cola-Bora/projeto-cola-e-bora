@@ -11,7 +11,7 @@ const registerUserEventService = async (
   const eventRepository = AppDataSource.getRepository(Events);
   const userEventRepository = AppDataSource.getRepository(UsersEvents);
 
-  if (eventId.length !== 36) throw new AppError('Invalid Id', 400);
+  if (eventId.length !== 36) throw new AppError('Id must have a valid UUID format', 400);
 
   const event: Events | null = await eventRepository.findOneBy({
     id: eventId,

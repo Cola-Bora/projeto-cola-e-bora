@@ -14,9 +14,9 @@ import checkIfUserIsOngAdmMiddleware from "../middlewares/checkIfUserIsOngAdm.mi
 
 const eventsRoutes = Router();
 
-eventsRoutes.post("/", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, createEventController);
-eventsRoutes.patch("/:eventId", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, updateEventController);
-eventsRoutes.delete('/:eventId', checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, deleteEventController);
+eventsRoutes.post("/ongs", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, createEventController);
+eventsRoutes.patch("/ongs/:eventId", checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, updateEventController);
+eventsRoutes.delete('/ongs/:eventId', checkAuthUserMiddlewares, checkIfUserIsOngAdmMiddleware, deleteEventController);
 eventsRoutes.post("/:eventId",checkAuthUserMiddlewares, registerUserEventController)
 eventsRoutes.delete("/:eventId", checkAuthUserMiddlewares, deleteUserEventController)
 eventsRoutes.get("", listEventsController)
