@@ -8,8 +8,8 @@ export class UsersEvents {
   id: string;
 
   @ManyToOne(() => User)
-  user: User[];
+  user: User;
 
   @ManyToOne(() => Events)
-  event: Events[];
+  event: Events;
 }
