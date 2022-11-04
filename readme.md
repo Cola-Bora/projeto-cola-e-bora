@@ -756,11 +756,9 @@ O horário do evento deverá subir em horário local, e entrará no banco de dad
 
 ~~~JSON
 {
-  "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
   "name": "Ação de Natal - 2022",
   "date": "December 24, 2022 14:00:00",
   "description": "Entrega de alimentos a famílias necessitadas na véspera do Natal",
-  "ongId": "1940084e-163a-4594-99f5-239fdac540e5",
   "address": {
     "street": "Rua Carolia Fernandes",
     "number": "720",
