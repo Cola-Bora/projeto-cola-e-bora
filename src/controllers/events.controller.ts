@@ -1,9 +1,16 @@
+import { instanceToPlain } from "class-transformer";
 import { Request, Response } from 'express';
+import createEventService from "../services/event/createEvent.service";
 import listEventsService from '../services/events/listEvents.service';
 import listEventByIdService from '../services/events/listEventById.service';
 import listEventsByOngService from '../services/events/listEventsByOng.service';
 import deleteUserEventService from '../services/events/deleteUserEvent.service';
 import registerUserEventService from '../services/events/registerUserEvent.service';
+
+const createEventController = async (req: Request, res: Response) => {
+    const event = await createEventService(req.body);
+    return res.status(201).json({ data: instanceToPlain(event) });
+};
 
 const registerUserEventController = async (req: Request, resp: Response) => {
   const { eventId } = req.params;
@@ -45,6 +52,7 @@ const listEventByIdController = async (req: Request, resp: Response) => {
 };
 
 export {
+  createEventController,
   registerUserEventController,
   deleteUserEventController,
   listEventByIdController,
