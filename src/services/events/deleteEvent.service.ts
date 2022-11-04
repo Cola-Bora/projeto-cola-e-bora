@@ -10,7 +10,14 @@ const deleteEventService = async (eventId: string) => {
         throw new AppError('Event not found', 404);
     }
 
-    await eventRepository.delete({ id: eventId });
+    const res = await AppDataSource
+                        .createQueryBuilder()
+                        .delete()
+                        .from(Events)
+                        .where('id = :id', { id: eventId })
+                        .execute();
+                        
+    return res;
 }
 
 export default deleteEventService;  

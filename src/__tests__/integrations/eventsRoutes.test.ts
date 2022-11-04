@@ -40,10 +40,10 @@ describe("/events", () => {
 
   test("PATCH /events/:eventId -> update event", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
-    const events = await request(app).get('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
-    await request(app).patch(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    const events = await request(app).get('/events');
+    await request(app).patch(`/events/ongs/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
 
-    const updatedEvent = await request(app).get(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    const updatedEvent = await request(app).get(`/events/${events.body.data[0].id}`);
     expect(updatedEvent.body.name).toBe('Event - updated');
   });
 
@@ -146,7 +146,6 @@ describe("/events", () => {
   test("DELETE /events/:eventId -> The user can only be deleted for an existing event", async () => {
     const loginResponse = await request(app).post('/login').send(mockedUserLogin)
     const { token } = loginResponse.body
-    console.log("aqui")
     const wrongId = "bbe3df3f-6ba0-45e4-910c-0a2e8bfa2e7e"
 
     const response = await request(app).delete(`/events/${wrongId}`).set('Authorization', `Bearer ${token}`);
@@ -169,12 +168,12 @@ describe("/events", () => {
 
   test("DELETE /events/:eventId -> delete event", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
-    const events = await request(app).get('/events').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
-    await request(app).delete(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    const events = await request(app).get('/events');
+    const res = await request(app).delete(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    console.log(res.body);
 
     const deletedEvent = await request(app).get(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
-    console.log(deletedEvent.body);
     expect(deletedEvent.body.message).toBe('Event not found');
-    expect(deletedEvent.status).toBe(404);
+    expect(deletedEvent.status).toBe(204);
   });
 });
