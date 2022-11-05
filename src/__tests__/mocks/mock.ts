@@ -1,1 +1,0 @@
-// Mock da aplicação aqui
