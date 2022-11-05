@@ -1,7 +1,7 @@
 import { User } from '../../entities/user';
 import AppDataSource from '../../data-source';
 import { Ongs } from '../../entities/ong';
-import { IOng, IOngRequest } from '../../interfaces/ong/index';
+import { IOngRequest } from '../../interfaces/ong/index';
 import { Categories } from '../../entities/ongCategory';
 import { AppError } from '../../errors';
 
@@ -19,7 +19,7 @@ export default async function createOngService(ong: IOngRequest, userId: string)
     const user = await userRepository.findOneBy({id: userId})
     
     if(!category){
-        throw new AppError("Category not found", 404)
+        throw new AppError("Category does not exist in database", 404)
     }
 
     const ongAlreadyExists = await ongRepository.find({
@@ -30,7 +30,7 @@ export default async function createOngService(ong: IOngRequest, userId: string)
     })
 
     if(ongAlreadyExists.length > 0){
-        throw new AppError("Email/Cnpj is already being used", 400)
+        throw new AppError("Email/Cnpj is already being used")
     }
 
     const newOng = ongRepository.create({
@@ -47,7 +47,9 @@ export default async function createOngService(ong: IOngRequest, userId: string)
 
     await userRepository.update(userId, {isAdm: true})
 
-    return newOng
+    const updatedNewOng = await ongRepository.findOneBy({id: newOng.id})
+
+    return updatedNewOng
 }
 
 

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -7,13 +8,15 @@ import {
   ManyToOne,
   JoinColumn,
   OneToOne,
-} from "typeorm";
-import { Categories } from "./ongCategory";
-import { User } from "./user";
+  OneToMany,
+} from 'typeorm';
+import { Events } from './event';
+import { Categories } from './ongCategory';
+import { User } from './user';
 
-@Entity("ongs")
+@Entity('ongs')
 export class Ongs {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 50 })
@@ -32,8 +35,9 @@ export class Ongs {
   cpnj: string;
 
   @Column({ type: "decimal", precision: 10, scale: 2, default: 0.00 })
+  @Exclude()
   balance: number;
-
+  
   @CreateDateColumn()
   createdAt: Date;
 
@@ -46,4 +50,7 @@ export class Ongs {
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Events, (events) => events.ong, {cascade: true})
+  events: Events[];
 }
