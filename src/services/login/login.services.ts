@@ -12,7 +12,7 @@ export default async function loginServices(user: IUserLogin) {
   );
 
   if (checkKeys.includes(false)) {
-    throw new AppError("Invalid Key");
+    throw new AppError("Invalid key");
   }
 
   const dataUser = AppDataSource.getRepository(User);
