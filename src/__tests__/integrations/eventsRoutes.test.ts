@@ -148,7 +148,7 @@ describe("/events", () => {
 
     const response = await request(app).delete(`/events/${eventId}`).set('Authorization', `Bearer ${token}`);
 
-    expect(response.status).toBe(404)
+    expect(response.status).toBe(204)
     expect(response.body).toBeNull
   })
 

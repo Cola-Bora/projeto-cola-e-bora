@@ -10,6 +10,10 @@ export default async function checkIfUserIsOngAdmMiddleware(req: Request, res: R
     const ongRepository = AppDataSource.getRepository(Ongs)
     const userRepository = AppDataSource.getRepository(User)
 
+    if(ongId.length !== 36){
+        throw new AppError("Id must have a valid uuid format", 400)
+    }
+
     const user = await userRepository.findOneBy({id: req.user.id})
 
     const ong = await ongRepository.findOne({

@@ -16,7 +16,7 @@ const deleteUserEventService = async (eventId: string, id: string): Promise<void
   console.log(event)
 
   if (!event) throw new AppError("Event not found", 404);
-
+  console.log("passou")
 
   await userEventRepository.delete({
     event: event,
