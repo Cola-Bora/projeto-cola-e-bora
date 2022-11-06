@@ -15,7 +15,7 @@ export default async function ActiveUserMiddlewares(
   });
 
   if (!findUser) {
-    throw new AppError("User not found", 404);
+    throw new AppError("Invalid user or password", 403);
   }
 
   if (findUser?.isActive === false) {

@@ -1,30 +1,37 @@
 import { Router } from "express";
 import {
-  createUserControllers,
-  listUsersControllers,
-  softDeleteUserController,
-  updateUserController,
-} from "../controllers/user.controllers";
+  createPaymentControllers,
+  deletePaymentControllers,
+  updatePaymentControllers,
+} from "../controllers/payment.controllers";
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
 import checkIsActiveUserMiddlewares from "../middlewares/checkIsActiveUser.middlewares";
 import checkUserIdMiddlewares from "../middlewares/checkUserId.middlewares";
 
-const userRoutes = Router();
+const paymentsRoutes = Router();
 
-userRoutes.post("", createUserControllers);
-userRoutes.patch(
+paymentsRoutes.post(
   "/:id",
   checkAuthUserMiddlewares,
   checkIsActiveUserMiddlewares,
   checkUserIdMiddlewares,
-  updateUserController
+  createPaymentControllers
 );
-userRoutes.delete(
+
+paymentsRoutes.patch(
   "/:id",
   checkAuthUserMiddlewares,
   checkIsActiveUserMiddlewares,
   checkUserIdMiddlewares,
-  softDeleteUserController
+  updatePaymentControllers
 );
-userRoutes.get("", checkAuthUserMiddlewares, listUsersControllers);
-export default userRoutes;
+
+paymentsRoutes.delete(
+  "/:id",
+  checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
+  checkUserIdMiddlewares,
+  deletePaymentControllers
+);
+
+export default paymentsRoutes;
