@@ -57,7 +57,7 @@ async function listUsersEventOngController(req: Request, res: Response) {
 async function deleteOngController(req: Request, res: Response) {
   const ongId = req.params.ongId;
 
-  deleteOngService(ongId, req.user.id);
+  await deleteOngService(ongId, req.user.id);
 
   return res.status(204).send();
 }

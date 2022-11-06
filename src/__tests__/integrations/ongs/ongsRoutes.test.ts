@@ -12,7 +12,8 @@ describe("/ongs", () => {
     let connection: DataSource
 
     beforeAll(async() => {
-        await AppDataSource.initialize().then((res) => {
+        await AppDataSource.initialize()
+        .then((res) => {
             connection = res
         }).catch((err) => {
             console.error("Error during Data Source initialization", err)
@@ -39,7 +40,7 @@ describe("/ongs", () => {
         expect(response.status).toBe(400)
     })
 
-    test("POST /ongs - Category does not exists in database",async () => {
+    test("POST /ongs - Should not be able to create a ONG without a valid category id",async () => {
         const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
         await createBaseCategoriesService()
  
@@ -79,7 +80,7 @@ describe("/ongs", () => {
         expect(response.status).toBe(400)
     })
 
-    test("POST /ongs - User is already linked to a ong",async () => {
+    test("POST /ongs - Should not be able to create a ONG if alread owns a ONG",async () => {
         const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
         await createBaseCategoriesService()
         const ongCategory = await request(app).get('/categories').set("Authorization", `Bearer ${userLoginResponse.body.token}`)
@@ -107,7 +108,7 @@ describe("/ongs", () => {
         expect(response.status).toBe(404)
     })
 
-    test("PATCH /ongs/:ongId - Unauthorized",async () => {
+    test("PATCH /ongs/:ongId - Should not be able to update a ONG if it is not it's admin",async () => {
         const testLoginResponse = await request(app).post("/login").send(mockedUserLogin);
         await createBaseCategoriesService()
         const testOngCategory = await request(app).get('/categories').set("Authorization", `Bearer ${testLoginResponse.body.token}`)
@@ -139,18 +140,49 @@ describe("/ongs", () => {
         expect(response.status).toBe(200)
     })
 
+    test("DELETE /ongs/:ongId - Should not be able to delete a ONG with a invalid uuid", async () => {
+        const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
+        const falseUuid = '3e13confirma3bb-9423-75b1___3'
 
-    // test("DELETE /ongs/:ongId - Should be able to delete a ong",async () => {
-    //     const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
-
-    //     const ongToBeDeletedRequest = await request(app).get('/ongs').set("Authorization", `Bearer ${userLoginResponse.body.token}`)
-    //     console.log(ongToBeDeletedRequest.body)
-    //     const ongToBeDeletedId = ongToBeDeletedRequest.body.data[0].id
-    //     const response = await request(app).delete(`/ongs/${ongToBeDeletedId}`).set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+        const response = await request(app).delete(`/ongs/${falseUuid}`).set("Authorization", `Bearer ${userLoginResponse.body.token}`)
         
-    //     expect(response.body).toBeNull
-    //     expect(response.status).toBe(204)
-    // })
+        expect(response.body.message).toBe("Id must have a valid uuid format")
+        expect(response.status).toBe(400)
+    })
+
+    test("DELETE /ongs/:ongId - Should not be able to delete a ONG if user is not Ong admin", async () => {
+        const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
+        const ongToBeDeletedRequest = await request(app).get('/ongs') 
+        const ongToBeDeletedId = ongToBeDeletedRequest.body.data[1].id
+       
+        const response = await request(app).delete(`/ongs/${ongToBeDeletedId}`).set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+        
+        expect(response.body.message).toBe("Unauthorized")
+        expect(response.status).toBe(401)
+    })
+
+    test("DELETE /ongs/:ongId - Should not be able to delete a ONG without it's uuid", async () => {
+        const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
+        const falseOngUuid = '3ec70938-f10a-4fbb-9423-75b1e7af3d60'
+        const response = await request(app).delete(`/ongs/${falseOngUuid}`).set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+        
+        expect(response.body.message).toBe("ONG not found")
+        expect(response.status).toBe(404)
+    })
+
+    test("DELETE /ongs/:ongId - Should be able to delete a ong",async () => {
+        const userLoginResponse = await request(app).post("/login").send(mockedUserAdimLogin);
+
+        const ongToBeDeletedRequest = await request(app).get('/ongs')
+
+        const ongToBeDeletedId = ongToBeDeletedRequest.body.data[0].id
+
+        const response = await request(app).delete(`/ongs/${ongToBeDeletedId}`).set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+        
+        expect(response.body).toBeNull
+        expect(response.status).toBe(204)
+    })
+
 
 
 })

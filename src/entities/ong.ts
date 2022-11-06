@@ -44,7 +44,7 @@ export class Ongs {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Categories)
+  @ManyToOne(() => Categories, {eager: true})
   category: Categories;
 
   @OneToOne(() => User)
