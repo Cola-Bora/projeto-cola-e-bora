@@ -30,10 +30,16 @@ describe("/events", () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
     await createBaseCategoriesService();
     const categories = await request(app).get('/categories').set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
-    const newOng = await request(app).post('/ongs').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedOng(categories.body[0].id));
-    const response = await request(app).post('/events/ongs').set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedEvent(newOng.body.id));
+    const newOng = await request(app)
+      .post('/ongs')
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedOng(categories.body[0].id));
 
-    eventId = response.body.data.id
+    const response = await request(app)
+      .post('/ongs/events')
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedEvent(newOng.body.data.id));
+
     expect(response.body).toHaveProperty('data');
     expect(response.status).toBe(201);
   });
@@ -41,7 +47,10 @@ describe("/events", () => {
   test("PATCH /events/:eventId -> should be able to update event", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
     const events = await request(app).get('/events');
-    await request(app).patch(`/events/ongs/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    await request(app)
+      .patch(`/ongs/events/${events.body.data[0].id}`)
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedUpdateEvent);
 
     const updatedEvent = await request(app).get(`/events/${events.body.data[0].id}`);
     expect(updatedEvent.body.name).toBe('Event - updated');
@@ -50,7 +59,10 @@ describe("/events", () => {
   test("PATCH /events/:eventId -> should not be able to update event when not found event id", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
     const notExistingEventId = 'a908d8d1-344d-49b0-bff8-5e713cdd9af2';
-    const response = await request(app).patch(`/events/ongs/${notExistingEventId}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    const response = await request(app)
+      .patch(`/ongs/events/${notExistingEventId}`)
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedUpdateEvent);
 
     expect(response.body.message).toBe('Event not found');
     expect(response.statusCode).toBe(404);
@@ -112,7 +124,9 @@ describe("/events", () => {
     const loginResponse = await request(app).post('/login').send(mockedUserLogin)
     const { token } = loginResponse.body
 
-    const response = await request(app).post(`/events/${eventId}`).set('Authorization', `Bearer ${token}`);
+    const response = await request(app)
+      .post(`/events/${eventId}`)
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(201)
     expect(response.body).toMatchObject({message: 'User successfully registered on event.'})
@@ -175,20 +189,29 @@ describe("/events", () => {
     expect(response.body).toMatchObject({message: 'Id must have a valid UUID format'})
   })
 
-  test("DELETE /events/ongs/:eventId -> should be able to delete event", async () => {
+  test("DELETE /ongs/events/:eventId -> should be able to delete event", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
     const events = await request(app).get('/events');
-    const response = await request(app).delete(`/events/ongs/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
-    const deletedEvent = await request(app).get(`/events/${events.body.data[0].id}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
+    const response = await request(app)
+      .delete(`/ongs/events/${events.body.data[0].id}`)
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedUpdateEvent);
+
+    const deletedEvent = await request(app)
+      .get(`/events/${events.body.data[0].id}`)
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`);
 
     expect(response.status).toBe(204);
     expect(deletedEvent.body.message).toBe('Event not found');
   });
 
-  test("DELETE /events/ongs/:eventId -> should not be able to delete event when not found event id", async () => {
+  test("DELETE /ongs/events/:eventId -> should not be able to delete event when not found event id", async () => {
     const adminLoginResponse = await request(app).post('/login').send(mockedUserAdimLogin);
     const notExistingEventId = 'a908d8d1-344d-49b0-bff8-5e713cdd9af2';
-    const response = await request(app).delete(`/events/ongs/${notExistingEventId}`).set('Authorization', `Bearer ${adminLoginResponse.body.token}`).send(mockedUpdateEvent);
+    const response = await request(app)
+      .delete(`/ongs/events/${notExistingEventId}`)
+      .set('Authorization', `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedUpdateEvent);
 
     expect(response.body.message).toBe('Event not found');
     expect(response.statusCode).toBe(404);
