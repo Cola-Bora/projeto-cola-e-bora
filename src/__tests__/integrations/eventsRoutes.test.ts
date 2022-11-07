@@ -96,6 +96,8 @@ describe('/events', () => {
     expect(response.body).toHaveProperty('description');
     expect(response.body).toHaveProperty('address');
     expect(response.body).toHaveProperty('ong');
+
+    //ignorar essa linha
   });
 
   test('GET /events/:eventId - Should not be able to list properties of a event with invalid id', async () => {
