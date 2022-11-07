@@ -8,7 +8,14 @@ const listEventByIdService = async (eventId: string): Promise<Events> => {
   }
 
   const eventsRepository = AppDataSource.getRepository(Events);
-  const event = await eventsRepository.findOneBy({ id: eventId });
+  const event = await eventsRepository.findOne({
+    where: { id: eventId },
+
+    relations: {
+      address: true,
+      ong: true,
+    },
+  });
 
   if (!event) {
     throw new AppError('Event not found', 404);
