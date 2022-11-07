@@ -96,8 +96,6 @@ describe('/events', () => {
     expect(response.body).toHaveProperty('description');
     expect(response.body).toHaveProperty('address');
     expect(response.body).toHaveProperty('ong');
-
-    //ignorar essa linha
   });
 
   test('GET /events/:eventId - Should not be able to list properties of a event with invalid id', async () => {
@@ -117,8 +115,16 @@ describe('/events', () => {
   test('GET /events/:ongId -> should be able to list all the events of an ONG', async () => {
     const ong = await request(app).get('/ongs');
     const response = await request(app).get(`/events/${ong.body.data[0].id}`);
+    const eventos = await request(app).get('/events');
+    console.log(eventos.body);
+    console.log(ong.body);
+    console.log(response.body);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('events');
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('name');
+    expect(response.body).toHaveProperty('date');
+    expect(response.body).toHaveProperty('description');
+    expect(response.body).toHaveProperty('address');
   });
 
   test('GET /events/:ongId - Should not be able to list properties of a event with invalid id', async () => {
