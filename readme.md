@@ -981,17 +981,16 @@ Esta rota não precisa de autenticação.
   ]
 }
 ~~~
-
 ### ▪️ Listar todos os Eventos de uma ONG específica
 
 Esta rota não precisa de autenticação.
 
->GET /events/:ongId - FORMATO DA REQUISIÇÃO
+>GET /events/ong/:ongId - FORMATO DA REQUISIÇÃO
 ~~~
 Não é necessário um corpo da requisição.
 ~~~
 
->GET /events/:ongId - FORMATO DA RESPOSTA - STATUS 200
+>GET /events/ong/:ongId - FORMATO DA RESPOSTA - STATUS 200
 
 ~~~JSON
     
@@ -1022,14 +1021,14 @@ Não é necessário um corpo da requisição.
 
 O id da ONG não for encontrado: 
 
->GET /events/:ongId  - FORMATO DA RESPOSTA - STATUS 404
+>GET /events/ong/:ongId  - FORMATO DA RESPOSTA - STATUS 404
 ~~~JSON
 {
   "message": "ONG not found"
 }
 ~~~
 
->GET /events/:ongId  - FORMATO DA RESPOSTA - STATUS 400
+>GET /events/ong/:ongId  - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido: 
 ~~~JSON
