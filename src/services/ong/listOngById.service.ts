@@ -15,7 +15,8 @@ export default async function listOngByIdService(ongId: string) {
   });
 
   if (!ongFound) {
-    throw new AppError("Ong not found");
+    throw new AppError("Ong not found", 404);
   }
+
   return ongFound;
 }

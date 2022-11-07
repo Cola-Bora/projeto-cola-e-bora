@@ -39,7 +39,7 @@ ongsRoutes.delete(
 ongsRoutes.get("", listAllOngsController);
 
 ongsRoutes.get(
-  "/:id",
+  "/:ongId",
   checkAuthUserMiddlewares,
   checkIsAdmOngRequestMiddleware,
   listOngByIdController
@@ -53,23 +53,23 @@ ongsRoutes.get(
 );
 
 ongsRoutes.post(
-  "/events", 
+  "/events",
   checkAuthUserMiddlewares,
   checkIsOngAdmByBodyMiddleware,
   createEventController
 );
 
 ongsRoutes.patch(
-  "/events/:eventId", 
-  checkAuthUserMiddlewares, 
-  checkIsEventAdmMiddleware, 
+  "/events/:eventId",
+  checkAuthUserMiddlewares,
+  checkIsEventAdmMiddleware,
   updateEventController
 );
 
 ongsRoutes.delete(
-  "/events/:eventId", 
-  checkAuthUserMiddlewares, 
-  checkIsEventAdmMiddleware, 
+  "/events/:eventId",
+  checkAuthUserMiddlewares,
+  checkIsEventAdmMiddleware,
   deleteEventController
 );
 
