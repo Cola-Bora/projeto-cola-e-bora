@@ -255,7 +255,7 @@ describe("/ongs", () => {
     expect(response.status).toBe(404);
   });
 
-  test("DELETE /ongs/:ongId - Should be able to delete a ong", async () => {
+  test("DELETE /ongs/:ongId - Should be able to delete a ONG", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
@@ -272,19 +272,29 @@ describe("/ongs", () => {
     expect(response.status).toBe(204);
   });
 
-  test("GET - /ongs - Should be able to list all ongs", async () => {
+  test("GET - /ongs - Should be able to list all ONG's", async () => {
     const response = await request(app).get("/ongs");
 
     expect(response.body.data).toHaveLength(1);
+    expect(response.body.data[0]).toHaveProperty("id");
+    expect(response.body.data[0]).toHaveProperty("name");
+    expect(response.body.data[0]).toHaveProperty("email");
+    expect(response.body.data[0]).toHaveProperty("description");
+    expect(response.body.data[0]).toHaveProperty("cpnj");
+    expect(response.body.data[0]).toHaveProperty("createdAt");
+    expect(response.body.data[0]).toHaveProperty("updatedAt");
+    expect(response.body.data[0]).not.toHaveProperty("balance");
+    expect(response.body.data[0].category).toHaveProperty("id");
+    expect(response.body.data[0].category).toHaveProperty("name");
     expect(response.status).toBe(200);
   });
 
-  test("GET - /ongs/:ongId - Ong not found not being admin", async () => {
+  test("GET - /ongs/:ongId - ONG not found not being admin", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserNotAdimLogin);
 
-    await request(app).get("/ongs");
+    await request(app).get("/ongs").send();
     const response = await request(app)
       .get("/ongs/0bd5e233-aa03-4e4a-8cfe-390ed1511713")
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
@@ -293,12 +303,12 @@ describe("/ongs", () => {
     expect(response.status).toBe(404);
   });
 
-  test("GET - /ongs/:ongId - Must be able to list a ong not being admin", async () => {
+  test("GET - /ongs/:ongId - Must be able to list a ONG not being admin", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserNotAdimLogin);
 
-    const ongToList = await request(app).get("/ongs");
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
     const response = await request(app)
@@ -319,12 +329,12 @@ describe("/ongs", () => {
     expect(response.status).toBe(200);
   });
 
-  test("GET - /ongs/:ongId - Ong not found being admin", async () => {
+  test("GET - /ongs/:ongId - ONG not found being admin", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
 
-    await request(app).get("/ongs");
+    await request(app).get("/ongs").send();
     const response = await request(app)
       .get("/ongs/0bd5e233-aa03-4e4a-8cfe-390ed1511713")
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
@@ -333,12 +343,12 @@ describe("/ongs", () => {
     expect(response.status).toBe(404);
   });
 
-  test("GET - /ongs/:ongId - Must be able to list a ong being admin", async () => {
+  test("GET - /ongs/:ongId - Must be able to list a ONG being admin", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
 
-    const ongToList = await request(app).get("/ongs");
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
     const response = await request(app)
@@ -363,7 +373,7 @@ describe("/ongs", () => {
       .post("/login")
       .send(mockedUserLogin);
 
-    const ongToList = await request(app).get("/ongs");
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
     const response = await request(app)
@@ -379,7 +389,7 @@ describe("/ongs", () => {
       .post("/login")
       .send(mockedUserLogin);
 
-    const ongToList = await request(app).get("/ongs");
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
     const response = await request(app)
@@ -396,7 +406,7 @@ describe("/ongs", () => {
       .post("/login")
       .send(mockedUserAdimLogin);
 
-    const ongToList = await request(app).get("/ongs");
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
     const response = await request(app)
@@ -407,22 +417,37 @@ describe("/ongs", () => {
     expect(response.status).toBe(401);
   });
 
-  test("GET /ongs/:ongId/:eventId/users - Should be able to list users of an event of an ong", async () => {
+  test("GET /ongs/:ongId/:eventId/users - Should be able to list users of an event of an ONG", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserLogin);
 
-    const ongToList = await request(app).get("/ongs");
-    console.log(ongToList.body.data);
+    const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
 
-    const allEvents = await request(app).get("/events");
-    console.log(allEvents.body.data);
+    const newEvent = await request(app)
+      .post("/ongs/events")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+      .send(mockedEvent(ongIdToList));
 
-    const response = await request(app)
-      .get(`/ongs/${ongIdToList}/0bd5e233-aa03-4e4a-8cfe-390ed1511713/users`)
+    await request(app)
+      .post(`/events/${newEvent.body.data.id}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
 
-    console.log(response.body);
+    const response = await request(app)
+      .get(`/ongs/${ongIdToList}/${newEvent.body.data.id}/users`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.body.data[0]).toHaveProperty("id");
+    expect(response.body.data[0].user).toHaveProperty("id");
+    expect(response.body.data[0].user).toHaveProperty("name");
+    expect(response.body.data[0].user).toHaveProperty("email");
+    expect(response.body.data[0].user).toHaveProperty("birthDate");
+    expect(response.body.data[0].user).not.toHaveProperty("password");
+    expect(response.body.data[0].user).toHaveProperty("createdAt");
+    expect(response.body.data[0].user).toHaveProperty("updatedAt");
+    expect(response.body.data[0].user).toHaveProperty("isAdm");
+    expect(response.body.data[0].user).toHaveProperty("isActive");
+    expect(response.status).toBe(200);
   });
 });

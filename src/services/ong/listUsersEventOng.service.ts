@@ -19,15 +19,13 @@ export default async function listUsersEventOngService(idEvent: string) {
     throw new AppError("Event not found", 404);
   }
 
-  const users = userEventsRepository.find({
-    where: {
-      event: {
-        id: idEvent,
-      },
-    },
+  const users = await userEventsRepository.find({
+    where: { event: eventFound },
+
     relations: {
       user: true,
     },
   });
+
   return users;
 }
