@@ -19,7 +19,7 @@ export default async function updateUserServices(
   );
 
   if (checkKeys.includes(false)) {
-    throw new AppError("Invalid Key");
+    throw new AppError("Invalid key");
   }
 
   const userExists = AppDataSource.getRepository(User);

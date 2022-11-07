@@ -40,6 +40,6 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user)
-  userEvents: UsersEvents[]
+  @OneToMany(() => UsersEvents, userEvents => userEvents.user)
+  userEvents: UsersEvents[];
 }

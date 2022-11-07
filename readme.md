@@ -540,6 +540,34 @@ Se tudo der certo a resposta deverá ser:
 A resposta não conterá nenhuma mensagem.
 ~~~
 
+### ⚠️ Possíveis Erros
+
+> DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 404
+
+A ONG não foi encontrada: 
+~~~JSON
+{
+  "message": "ONG not found"
+}
+~~~
+
+> DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 400
+
+Chave UUID inválida: 
+~~~JSON
+{
+  "message": "Id must have a valid UUID format"
+}
+~~~
+
+> DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 401
+
+User não é o Admin da ONG: 
+~~~JSON
+{
+  "message": "Unauthorized"
+}
+~~~
 
 
 ### ▪️ Listar todas as ONGS

@@ -18,7 +18,7 @@ export default async function createUserServices(user: IUserRequest) {
   );
 
   if (checkKeys.includes(false)) {
-    throw new AppError("Invalid Key");
+    throw new AppError("Invalid key");
   }
 
   const userData = AppDataSource.getRepository(User);
@@ -28,7 +28,7 @@ export default async function createUserServices(user: IUserRequest) {
   const userExists = users.some(userTest => userTest.email === user.email);
 
   if (userExists) {
-    throw new AppError("This email is already registered", 400);
+    throw new AppError("This email is already registered");
   }
 
   const hashPassword = await hash(user.password, 10);

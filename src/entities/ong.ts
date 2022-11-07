@@ -44,13 +44,13 @@ export class Ongs {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Categories)
+  @ManyToOne(() => Categories, {eager: true})
   category: Categories;
 
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Events, (events) => events.ong)
+  @OneToMany(() => Events, (events) => events.ong, {cascade: true})
   events: Events[];
 }

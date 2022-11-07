@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createUserControllers,
+  listUsersControllers,
   softDeleteUserController,
   updateUserController,
 } from "../controllers/user.controllers";
@@ -25,4 +26,5 @@ userRoutes.delete(
   checkUserIdMiddlewares,
   softDeleteUserController
 );
+userRoutes.get("", checkAuthUserMiddlewares, listUsersControllers);
 export default userRoutes;

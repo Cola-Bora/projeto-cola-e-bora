@@ -1,28 +1,9 @@
-import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
-import createEventService from "../services/events/createEvent.service";
-import listEventsService from "../services/events/listEvents.service";
-import listEventByIdService from "../services/events/listEventById.service";
-import listEventsByOngService from "../services/events/listEventsByOng.service";
 import deleteUserEventService from "../services/events/deleteUserEvent.service";
+import listEventByIdService from "../services/events/listEventById.service";
+import listEventsService from "../services/events/listEvents.service";
+import listEventsByOngService from "../services/events/listEventsByOng.service";
 import registerUserEventService from "../services/events/registerUserEvent.service";
-import updateEventService from "../services/events/updateEvent.service";
-import deleteEventService from "../services/events/deleteEvent.service";
-
-const createEventController = async (req: Request, res: Response) => {
-  const event = await createEventService(req.body);
-  return res.status(201).json({ data: instanceToPlain(event) });
-};
-
-const updateEventController = async (req: Request, res: Response) => {
-  const event = await updateEventService(req.params.eventId, req.body);
-  return res.status(201).json({ data: instanceToPlain(event) });
-};
-
-const deleteEventController = async (req: Request, res: Response) => {
-  const event = await deleteEventService(req.params.eventId);
-  return res.status(204).send();
-};
 
 const registerUserEventController = async (req: Request, resp: Response) => {
   const { eventId } = req.params;
@@ -64,12 +45,10 @@ const listEventByIdController = async (req: Request, resp: Response) => {
 };
 
 export {
-  createEventController,
-  updateEventController,
-  deleteEventController,
   registerUserEventController,
   deleteUserEventController,
   listEventByIdController,
   listEventsbyOngController,
   listEventsController,
 };
+
