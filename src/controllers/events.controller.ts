@@ -1,3 +1,4 @@
+import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
 import deleteUserEventService from "../services/events/deleteUserEvent.service";
 import listEventByIdService from "../services/events/listEventById.service";
@@ -29,7 +30,7 @@ const deleteUserEventController = async (req: Request, resp: Response) => {
 const listEventsController = async (req: Request, resp: Response) => {
   const events = await listEventsService();
 
-  return resp.status(200).json({ data: events }).send();
+  return resp.status(200).json({ data: instanceToPlain(events) }).send();
 };
 
 const listEventsbyOngController = async (req: Request, resp: Response) => {
