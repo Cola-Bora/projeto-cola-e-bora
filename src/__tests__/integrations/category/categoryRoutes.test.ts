@@ -24,7 +24,6 @@ describe('/categories', () => {
 
   test('GET /categories -> should be able to list all the categories of an ong', async () => {
     const user = await request(app).post('/login').send(mockedUserLogin);
-    console.log(user.body);
     await createBaseCategoriesService();
     const response = await request(app)
       .get('/categories')
