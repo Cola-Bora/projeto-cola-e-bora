@@ -8,6 +8,13 @@ export const mockedUser: IUserRequest = {
   password: "12345678",
 };
 
+export const mockedUserNotAdim: IUserRequest = {
+  name: "Paulo",
+  birthDate: "1995/10/12",
+  email: "paulo@mail.com",
+  password: "12345678",
+};
+
 export const mockedUserAdim: IUserRequest = {
   name: "Mario",
   birthDate: "1998/10/12",
@@ -17,6 +24,11 @@ export const mockedUserAdim: IUserRequest = {
 
 export const mockedUserLogin: IUserLogin = {
   email: "joao@mail.com",
+  password: "12345678",
+};
+
+export const mockedUserNotAdimLogin: IUserLogin = {
+  email: "paulo@mail.com",
   password: "12345678",
 };
 
