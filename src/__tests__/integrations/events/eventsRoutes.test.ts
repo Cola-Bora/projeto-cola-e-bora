@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { DataSource } from 'typeorm';
-import app from '../../app';
-import AppDataSource from '../../data-source';
-import createBaseCategoriesService from '../../services/categories/createBaseCategories.service';
+import app from '../../../app';
+import AppDataSource from '../../../data-source';
+import createBaseCategoriesService from '../../../services/categories/createBaseCategories.service';
 import {
   mockedEvent,
   mockedOng,
@@ -11,7 +11,7 @@ import {
   mockedUserAdim,
   mockedUserAdimLogin,
   mockedUserLogin,
-} from '../mocks/mock';
+} from '../../mocks/mock';
 
 describe('/events', () => {
   let connection: DataSource;
