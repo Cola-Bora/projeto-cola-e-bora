@@ -32,8 +32,8 @@ describe('/events', () => {
     await connection.destroy();
   });
 
-  let eventId: string;
 
+  
   test('POST /events -> should be able to create event', async () => {
     const adminLoginResponse = await request(app)
       .post('/login')
@@ -141,14 +141,33 @@ describe('/events', () => {
     expect(response.status).toBe(404);
   });
 
+  test('GET /events -> Should be able to list all events', async ()=> {
+    const response = await request(app).get('/events').send()
+
+    expect(response.body.data).toHaveLength(1)
+    expect(response.body.data[0]).toHaveProperty('id')
+    expect(response.body.data[0]).toHaveProperty('name')
+    expect(response.body.data[0]).toHaveProperty('date')
+    expect(response.body.data[0]).toHaveProperty('description')
+    expect(response.body.data[0]).toHaveProperty('ong')
+    expect(response.body.data[0]).toHaveProperty('address')
+    expect(response.status).toBe(200)
+  })
+
+  test("POST /events/:eventId -> register user in an event", async () => {
+    const loginResponse = await request(app).post('/login').send(mockedUserLogin)
+    const { token } = loginResponse.body
   test('POST /events/:eventId -> register user in an event', async () => {
     const loginResponse = await request(app)
       .post('/login')
       .send(mockedUserLogin);
     const { token } = loginResponse.body;
 
+    const event = await request(app).get('/events').send()
+    const {id} = event.body.data[0]
+
     const response = await request(app)
-      .post(`/events/${eventId}`)
+      .post(`/events/${id}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(201);
@@ -197,9 +216,10 @@ describe('/events', () => {
       .send(mockedUserLogin);
     const { token } = loginResponse.body;
 
-    const response = await request(app)
-      .delete(`/events/${eventId}`)
-      .set('Authorization', `Bearer ${token}`);
+    const event = await request(app).get('/events').send()
+    const {id} = event.body.data[0]
+
+    const response = await request(app).delete(`/events/${id}`).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);
     expect(response.body).toBeNull;
@@ -269,4 +289,5 @@ describe('/events', () => {
     expect(response.body.message).toBe('Event not found');
     expect(response.statusCode).toBe(404);
   });
-});
+})
+})
