@@ -34,23 +34,23 @@ export class Ongs {
   @Column({ length: 14, unique: true })
   cpnj: string;
 
-  @Column({ type: "decimal", precision: 10, scale: 2, default: 0.00 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
   @Exclude()
   balance: number;
-  
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Categories, {eager: true})
+  @ManyToOne(() => Categories, { eager: true })
   category: Categories;
 
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Events, (events) => events.ong, {cascade: true})
+  @OneToMany(() => Events, (events) => events.ong, { cascade: true })
   events: Events[];
 }

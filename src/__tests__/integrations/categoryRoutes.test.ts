@@ -2,7 +2,8 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import app from '../../app';
 import AppDataSource from '../../data-source';
-import { mockedUser, mockedUserAdim } from '../mocks/mock';
+import { mockedUser, mockedUserAdim, mockedUserLogin } from '../mocks/mock';
+import createBaseCategoriesService from '../../services/categories/createBaseCategories.service';
 
 describe('/categories', () => {
   let connection: DataSource;
@@ -17,14 +18,18 @@ describe('/categories', () => {
     await request(app).post('/users').send(mockedUser);
     await request(app).post('/users').send(mockedUserAdim);
   });
-
   afterAll(async () => {
     await connection.destroy();
   });
 
   test('GET /categories -> should be able to list all the categories of an ong', async () => {
-    const response = await request(app).get('/categories');
-    expect(response.body).toHaveLength(1);
+    const user = await request(app).post('/login').send(mockedUserLogin);
+    console.log(user.body);
+    await createBaseCategoriesService();
+    const response = await request(app)
+      .get('/categories')
+      .set('Authorization', `Bearer ${user.body.token}`);
+    expect(response.body).toHaveLength(9);
     expect(response.status).toBe(200);
   });
 });
