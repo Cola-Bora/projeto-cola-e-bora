@@ -1,3 +1,5 @@
+import { UsersEvents } from './../../../entities/userEvent';
+import { mockedUserAdim } from './../../mocks/mock';
 import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
 import request from "supertest";
@@ -11,6 +13,8 @@ import {
   mockedUser,
   mockedUserLogin,
 } from "../../mocks/users/usersMocks";
+import { mockedEvent, mockedOngSecondary, mockedUserAdimLogin } from "../../mocks/mock";
+import createBaseCategoriesService from "../../../services/categories/createBaseCategories.service";
 
 describe("/users", () => {
   let connection: DataSource;
@@ -308,4 +312,65 @@ describe("/users", () => {
     expect(resActiveUser.body.data[0].isActive).toEqual(true);
     expect(resActiveUser.status).toBe(200);
   });
+
+
+  test("GET /users/:userId - Should be able to list user with the events he is registered", async () => {
+    await request(app).post("/users").send(mockedUserAdim);
+    const testLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdimLogin);
+
+      
+    await createBaseCategoriesService();
+    const testOngCategory = await request(app)
+      .get("/categories")
+      .set("Authorization", `Bearer ${testLoginResponse.body.token}`);
+    const testOngResponse = await request(app)
+      .post("/ongs")
+      .set("Authorization", `Bearer ${testLoginResponse.body.token}`)
+      .send(mockedOngSecondary(testOngCategory.body[0].id));
+    const testEventResponse = await request(app)
+      .post("/ongs/events")
+      .set("Authorization", `Bearer ${testLoginResponse.body.token}`)
+      .send(mockedEvent(testOngResponse.body.data.id));
+
+    
+      const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserLogin);
+      const userRegisterEvent = await request(app)
+      .post(`/events/${testEventResponse.body.data.id}`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+      const listUsers = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+
+      const res = await request(app)
+      .get(`/users/${listUsers.body.data[0].id}`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+
+      expect(res.status).toBe(200)
+      expect(res.body.data).toHaveProperty("id")
+      expect(res.body.data).toHaveProperty("name")
+      expect(res.body.data).not.toHaveProperty("password")
+      expect(res.body).toHaveProperty("data.userEvents[0].id")
+  })
+
+  test("GET /users/:userId - Should not be able to list info if it is not the authorized user", async () => {
+    const userLoginResponse = await request(app)
+    .post("/login")
+    .send(mockedUserLogin);
+
+    const listUsers = await request(app)
+    .get("/users")
+    .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+
+    const res = await request(app)
+    .get(`/users/${listUsers.body.data[1].id}`)
+    .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+
+    expect(res.status).toBe(401)
+    expect(res.body.message).toEqual("Unauthorized")
+  })
+
 });
