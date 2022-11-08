@@ -5,7 +5,7 @@ import AppDataSource from "../../../data-source";
 import { mockedUser, mockedUserAdim, mockedUserLogin } from "../../mocks/mock";
 import createBaseCategoriesService from "../../../services/categories/createBaseCategories.service";
 
-describe("/categories", () => {
+describe('/categories', () => {
   let connection: DataSource;
 
   beforeAll(async () => {
