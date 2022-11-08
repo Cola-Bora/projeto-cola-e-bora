@@ -174,7 +174,7 @@ Não é necessário um corpo da requisição.
 
 Caso tudo dê certo, a resposta será assim:
 
-> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 204
+> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 200
 
 ~~~JSON
 {
