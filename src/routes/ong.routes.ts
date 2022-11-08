@@ -14,6 +14,7 @@ import {
 
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
 import checkIfUserIsOngAdmMiddleware from "../middlewares/checkIfUserIsOngAdm.middleware";
+import checkIsActiveUserMiddlewares from "../middlewares/checkIsActiveUser.middlewares";
 import checkIsAdmOngRequestMiddleware from "../middlewares/checkIsAdmOngRequest.middleware";
 import checkIsEventAdmMiddleware from "../middlewares/checkIsEventAdm.middleware";
 import checkIsOngAdmByBodyMiddleware from "../middlewares/checkIsOngAdmByBody.middleware";
@@ -41,6 +42,7 @@ ongsRoutes.get("", listAllOngsController);
 ongsRoutes.get(
   "/:ongId",
   checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
   checkIsAdmOngRequestMiddleware,
   listOngByIdController
 );
@@ -48,6 +50,7 @@ ongsRoutes.get(
 ongsRoutes.get(
   "/:ongId/:eventId/users",
   checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
   checkIfUserIsOngAdmMiddleware,
   listUsersEventOngController
 );

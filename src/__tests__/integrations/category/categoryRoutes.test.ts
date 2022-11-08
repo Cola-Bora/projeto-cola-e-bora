@@ -10,9 +10,9 @@ describe("/categories", () => {
 
   beforeAll(async () => {
     await AppDataSource.initialize()
-      .then(res => (connection = res))
-      .catch(err =>
-        console.log("Error during Data Source initialization", err)
+      .then((res) => (connection = res))
+      .catch((err) =>
+      console.log("Error during Data Source initialization", err)
       );
 
     await request(app).post("/users").send(mockedUser);
