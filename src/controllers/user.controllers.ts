@@ -5,6 +5,8 @@ import updateUserServices from "../services/user/updateUser.services";
 import { IUserLogin, IUserRequest } from "../interfaces/user";
 import loginServices from "../services/login/login.services";
 import softDeleteUserServices from "../services/user/softDeleteUser.services";
+import listUsersServices from "../services/user/listUsers.services";
+import listOneUserWithEventsServices from "../services/user/listOneUserWithEvents.services";
 
 async function createUserControllers(req: Request, res: Response) {
   const user: IUserRequest = req.body;
@@ -32,9 +34,23 @@ async function softDeleteUserController(req: Request, res: Response) {
   return res.status(204).json({ message: deleteUser });
 }
 
+async function listUsersControllers(req: Request, res: Response) {
+  const users = await listUsersServices();
+  return res.status(200).json({ data: instanceToPlain(users) });
+}
+
+async function listOneUserWithEventsController(req: Request, res: Response){
+  const userId = req.params.id
+  const user = await listOneUserWithEventsServices(userId)
+
+  return res.status(200).json({data: user})
+}
+
 export {
   createUserControllers,
   loginControllers,
   updateUserController,
   softDeleteUserController,
+  listUsersControllers,
+  listOneUserWithEventsController
 };

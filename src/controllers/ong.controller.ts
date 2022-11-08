@@ -1,13 +1,17 @@
-import { IOngRequest, IOngUpdate } from "./../interfaces/ong/index";
-import { Request, Response } from "express";
-import createOngService from "../services/ong/createOng.services";
-import { AppError } from "../errors";
-import updateOngService from "../services/ong/updateOng.services";
 import { instanceToPlain } from "class-transformer";
+import { Request, Response } from "express";
+import { AppError } from "../errors";
+import createEventService from "../services/events/createEvent.service";
+import deleteEventService from "../services/events/deleteEvent.service";
+import updateEventService from "../services/events/updateEvent.service";
+import createOngService from "../services/ong/createOng.services";
+import deleteOngService from "../services/ong/deleteOng.services";
 import listAllOngsService from "../services/ong/listAllOngs.service";
 import listOngByIdService from "../services/ong/listOngById.service";
+import listUserInOngByIdService from "../services/ong/listUserInOngById.service";
 import listUsersEventOngService from "../services/ong/listUsersEventOng.service";
-import deleteOngService from "../services/ong/deleteOng.services";
+import updateOngService from "../services/ong/updateOng.services";
+import { IOngRequest } from "./../interfaces/ong/index";
 
 async function createOngController(req: Request, res: Response) {
   if (req.user.isAdm) {
@@ -54,10 +58,31 @@ async function listUsersEventOngController(req: Request, res: Response) {
 async function deleteOngController(req: Request, res: Response) {
   const ongId = req.params.ongId;
 
-  deleteOngService(ongId, req.user.id);
+  await deleteOngService(ongId, req.user.id);
 
   return res.status(204).send();
 }
+
+const createEventController = async (req: Request, res: Response) => {
+  const event = await createEventService(req.body);
+  return res.status(201).json({ data: instanceToPlain(event) });
+};
+
+const updateEventController = async (req: Request, res: Response) => {
+  const event = await updateEventService(req.params.eventId, req.body);
+  return res.status(201).json({ data: instanceToPlain(event) });
+};
+
+const deleteEventController = async (req: Request, res: Response) => {
+  const event = await deleteEventService(req.params.eventId);
+  return res.status(204).send();
+};
+
+const listUserInOngByIdController = async (req: Request, res: Response) => {
+  const response = await listUserInOngByIdService(req.user.id, req.params.userId);
+  return res.status(200).json({ data: instanceToPlain(response) });
+};
+
 export {
   createOngController,
   updateOngController,
@@ -65,4 +90,8 @@ export {
   listAllOngsController,
   listOngByIdController,
   listUsersEventOngController,
+  createEventController,
+  updateEventController,
+  deleteEventController,
+  listUserInOngByIdController
 };

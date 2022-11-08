@@ -1,11 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
-import { Addresses } from "./adress";
-import { Ongs } from "./ong";
-import { UsersEvents } from "./userEvent";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { Addresses } from './adress';
+import { Ongs } from './ong';
+import { UsersEvents } from './userEvent';
 
-@Entity("events")
+@Entity('events')
 export class Events {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 100 })
@@ -23,7 +29,8 @@ export class Events {
   @ManyToOne(() => Ongs)
   ong: Ongs;
 
-  @OneToMany(() =>  UsersEvents, userEvents => userEvents.user)
-  userEvents: UsersEvents[]
-
+  @OneToMany(() => UsersEvents, (userEvents) => userEvents.user, {
+    cascade: true,
+  })
+  userEvents: UsersEvents[];
 }

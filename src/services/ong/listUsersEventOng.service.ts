@@ -7,27 +7,25 @@ export default async function listUsersEventOngService(idEvent: string) {
   const userEventsRepository = AppDataSource.getRepository(UsersEvents);
   const eventRepository = AppDataSource.getRepository(Events);
 
-  const eventFound = eventRepository.findOneBy({
+  const eventFound = await eventRepository.findOneBy({
     id: idEvent,
   });
 
-  if (!eventFound) {
-    throw new AppError("Event not found");
-  }
-
-  if (idEvent.length < 36) {
+  if (idEvent.length !== 36) {
     throw new AppError("Id must have a valid UUID format");
   }
 
-  const users = userEventsRepository.find({
-    where: {
-      event: {
-        id: idEvent,
-      },
-    },
+  if (!eventFound) {
+    throw new AppError("Event not found", 404);
+  }
+
+  const users = await userEventsRepository.find({
+    where: { event: eventFound },
+
     relations: {
       user: true,
     },
   });
+
   return users;
 }
