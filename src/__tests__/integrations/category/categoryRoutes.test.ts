@@ -1,9 +1,10 @@
 import request from 'supertest';
 import { DataSource } from 'typeorm';
-import app from '../../app';
-import AppDataSource from '../../data-source';
-import { mockedUser, mockedUserAdim, mockedUserLogin } from '../mocks/mock';
-import createBaseCategoriesService from '../../services/categories/createBaseCategories.service';
+import app from '../../../app';
+import AppDataSource from '../../../data-source';
+import { mockedUser, mockedUserAdim } from '../../mocks/mock';
+import { mockedUserLogin } from '../../mocks/users/usersMocks';
+import createBaseCategoriesService from '../../../services/categories/createBaseCategories.service';
 
 describe('/categories', () => {
   let connection: DataSource;

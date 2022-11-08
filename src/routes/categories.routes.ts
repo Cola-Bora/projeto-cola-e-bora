@@ -6,6 +6,12 @@ import checkUserIdMiddlewares from '../middlewares/checkUserId.middlewares';
 
 const categoriesRoutes = Router();
 
-categoriesRoutes.get('', checkAuthUserMiddlewares,  checkIsActiveUserMiddlewares, checkUserIdMiddlewares, listCategoriesController);
-
+categoriesRoutes.get(
+  '',
+  checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
+  checkUserIdMiddlewares,
+  listCategoriesController
+);
+categoriesRoutes.get('', checkAuthUserMiddlewares, listCategoriesController);
 export default categoriesRoutes;
