@@ -135,6 +135,17 @@ describe('/events', () => {
     expect(response.status).toBe(404);
   });
 
+  test('GET /events/:eventId/users/:userId - Should be able to list an especific user in event', async () => {
+    const adminLoginResponse = await request(app)
+      .post('/login')
+      .send(mockedUserLogin);
+
+    const events = await request(app)
+      .get('/events')
+
+    console.log(events.body.data[0]);
+  });
+
   test('POST /events/:eventId -> register user in an event', async () => {
     const loginResponse = await request(app)
       .post('/login')

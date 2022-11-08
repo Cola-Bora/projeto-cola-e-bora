@@ -4,6 +4,7 @@ import {
   listEventByIdController,
   listEventsbyOngController,
   listEventsController,
+  listUserInEventByIdController,
   registerUserEventController
 } from '../controllers/events.controller';
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
@@ -15,5 +16,6 @@ eventsRoutes.delete("/:eventId", checkAuthUserMiddlewares, deleteUserEventContro
 eventsRoutes.get("", listEventsController)
 eventsRoutes.get('/:eventId', listEventByIdController);
 eventsRoutes.get('/:ongId', listEventsbyOngController);
+eventsRoutes.get('/:eventId/users/:userId', listUserInEventByIdController);
 
 export default eventsRoutes;
