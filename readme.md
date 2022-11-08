@@ -4,7 +4,7 @@
 
 
 ### Endpoints:
-<b>URL base da API: http://teste.com</b>
+<b>URL base da API: https://cola-e-bora.herokuapp.com</b>
 
 ---
 
@@ -174,7 +174,7 @@ Não é necessário um corpo da requisição.
 
 Caso tudo dê certo, a resposta será assim:
 
-> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 200
+> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 204
 
 ~~~JSON
 {
