@@ -59,6 +59,7 @@ ongsRoutes.get(
 ongsRoutes.get(
   "/events/:userId",
   checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
   listUserInOngByIdController
 );
 
