@@ -2,6 +2,7 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import app from '../../../app';
 import AppDataSource from '../../../data-source';
+import jwt from "jsonwebtoken";
 import createBaseCategoriesService from '../../../services/categories/createBaseCategories.service';
 import {
   mockedEvent,
@@ -12,6 +13,7 @@ import {
   mockedUserAdimLogin,
   mockedUserLogin,
 } from '../../mocks/mock';
+import { mockedUser2, mockedUser2Login } from '../../mocks/users/usersMocks';
 
 describe('/events', () => {
   let connection: DataSource;
@@ -202,6 +204,49 @@ describe('/events', () => {
     expect(response.body).toMatchObject({
       message: 'Id must have a valid UUID format',
     });
+  });
+
+  test('GET /ongs/events/:userId -> Shoud be able to list user in ong events', async () => {
+    const loginResponseUser2 = await request(app)
+      .post('/login')
+      .send(mockedUserLogin);
+    let { token } = loginResponseUser2.body;
+    const id = jwt.decode(token)?.sub;
+
+    const events = await request(app)
+      .get('/events');
+
+    await request(app)
+      .post(`/events/${events.body.data[0].id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    const loginResponse = await request(app)
+      .post('/login')
+      .send(mockedUserAdimLogin);
+    token = loginResponse.body.token;
+
+    const response = await request(app)
+      .get(`/ongs/events/${id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.body.data).toHaveProperty('user');
+    expect(response.body.data).toHaveProperty('eventsParticipate');
+  });
+
+  test('GET /ongs/events/:userId -> Shoud not be able to list user in ong events whith non admin', async () => {
+    const loginResponseUser2 = await request(app)
+      .post('/login')
+      .send(mockedUserLogin);
+    let { token } = loginResponseUser2.body;
+    const id = jwt.decode(token)?.sub;
+
+    const response = await request(app)
+      .get(`/ongs/events/${id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    console.log(response.body);
+
+    expect(response.body.message).toBe('You are not adm of this ong');
   });
 
   test('DELETE /events/:eventId -> Delete user from an event', async () => {

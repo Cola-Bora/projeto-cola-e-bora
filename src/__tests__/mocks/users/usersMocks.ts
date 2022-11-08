@@ -41,3 +41,15 @@ export const mockedUserLogin: any = {
   email: "ana@gmail.com",
   password: "1234",
 };
+
+export const mockedUser2: IUserRequest = {
+  name: "hgp",
+  email: "hgp@gmail.com",
+  birthDate: "1990/10/10",
+  password: "1234",
+};
+
+export const mockedUser2Login: any = {
+  email: "hgp@gmail.com",
+  password: "1234",
+};
