@@ -10,6 +10,7 @@ import {
   createEventController,
   updateEventController,
   deleteEventController,
+  listUserInOngByIdController,
 } from "../controllers/ong.controller";
 
 import checkAuthUserMiddlewares from "../middlewares/checkAuthUser.middlewares";
@@ -55,6 +56,13 @@ ongsRoutes.get(
   checkIsActiveUserMiddlewares,
   checkIfUserIsOngAdmMiddleware,
   listUsersEventOngController
+);
+
+ongsRoutes.get(
+  "/events/:userId",
+  checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
+  listUserInOngByIdController
 );
 
 ongsRoutes.post(
