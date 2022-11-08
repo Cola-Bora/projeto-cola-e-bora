@@ -1,9 +1,8 @@
 import request from 'supertest';
 import { DataSource } from 'typeorm';
-import app from '../../app';
-import AppDataSource from '../../data-source';
-import { Categories } from '../../entities/ongCategory';
-import createBaseCategoriesService from '../../services/categories/createBaseCategories.service';
+import app from '../../../app';
+import AppDataSource from '../../../data-source';
+import createBaseCategoriesService from '../../../services/categories/createBaseCategories.service';
 import {
   mockedEvent,
   mockedOng,
@@ -12,7 +11,7 @@ import {
   mockedUserAdim,
   mockedUserAdimLogin,
   mockedUserLogin,
-} from '../mocks/mock';
+} from '../../mocks/mock';
 
 describe('/events', () => {
   let connection: DataSource;
@@ -31,8 +30,6 @@ describe('/events', () => {
   afterAll(async () => {
     await connection.destroy();
   });
-
-  let eventId: string;
 
   test('POST /events -> should be able to create event', async () => {
     const adminLoginResponse = await request(app)
@@ -96,8 +93,6 @@ describe('/events', () => {
     expect(response.body).toHaveProperty('description');
     expect(response.body).toHaveProperty('address');
     expect(response.body).toHaveProperty('ong');
-
-    //ignorar essa linha
   });
 
   test('GET /events/:eventId - Should not be able to list properties of a event with invalid id', async () => {
@@ -114,36 +109,46 @@ describe('/events', () => {
     expect(response.status).toBe(404);
   });
 
-  test('GET /events/:ongId -> should be able to list all the events of an ONG', async () => {
+  test('GET /events/ongs/:ongId -> should be able to list all the events of an ONG', async () => {
     const ong = await request(app).get('/ongs');
-    const response = await request(app).get(`/events/${ong.body.data[0].id}`);
+    const response = await request(app).get(
+      `/events/ongs/${ong.body.data[0].id}`
+    );
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('events');
+    expect(response.body.data[0]).toHaveProperty('id');
+    expect(response.body.data[0]).toHaveProperty('name');
+    expect(response.body.data[0]).toHaveProperty('date');
+    expect(response.body.data[0]).toHaveProperty('description');
+    expect(response.body.data[0]).toHaveProperty('address');
   });
 
-  test('GET /events/:ongId - Should not be able to list properties of a event with invalid id', async () => {
-    const response = await request(app).get(`/events/xxxx_invalid-uuid_xxxx`);
+  test('GET /events/ongs/:ongId - Should not be able to list properties of a event with invalid id', async () => {
+    const response = await request(app).get(
+      `/events/ongs/xxxx_invalid-uuid_xxxx`
+    );
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
-  test('GET /events/:ongId - Should not be able to list properties of a not found ong', async () => {
+  test('GET /events/ongs/:ongId - Should not be able to list properties of a not found ong', async () => {
     const response = await request(app).get(
-      `/ongs/2ba81144-c78d-48f0-b8e9-9493d15ba9ad`
+      `/events/ongs/2ba81144-c78d-48f0-b8e9-9493d15ba9ad`
     );
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(404);
   });
 
-  test('GET /events/:eventId/users/:userId - Should be able to list an especific user in event', async () => {
-    const adminLoginResponse = await request(app)
-      .post('/login')
-      .send(mockedUserLogin);
+  test('GET /events -> Should be able to list all events', async () => {
+    const response = await request(app).get('/events').send();
 
-    const events = await request(app)
-      .get('/events')
-
-    console.log(events.body.data[0]);
+    expect(response.body.data).toHaveLength(1);
+    expect(response.body.data[0]).toHaveProperty('id');
+    expect(response.body.data[0]).toHaveProperty('name');
+    expect(response.body.data[0]).toHaveProperty('date');
+    expect(response.body.data[0]).toHaveProperty('description');
+    expect(response.body.data[0]).toHaveProperty('ong');
+    expect(response.body.data[0]).toHaveProperty('address');
+    expect(response.status).toBe(200);
   });
 
   test('POST /events/:eventId -> register user in an event', async () => {
@@ -152,8 +157,11 @@ describe('/events', () => {
       .send(mockedUserLogin);
     const { token } = loginResponse.body;
 
+    const event = await request(app).get('/events').send();
+    const { id } = event.body.data[0];
+
     const response = await request(app)
-      .post(`/events/${eventId}`)
+      .post(`/events/${id}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(201);
@@ -202,8 +210,11 @@ describe('/events', () => {
       .send(mockedUserLogin);
     const { token } = loginResponse.body;
 
+    const event = await request(app).get('/events').send();
+    const { id } = event.body.data[0];
+
     const response = await request(app)
-      .delete(`/events/${eventId}`)
+      .delete(`/events/${id}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(204);

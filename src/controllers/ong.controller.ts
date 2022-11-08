@@ -8,6 +8,7 @@ import createOngService from "../services/ong/createOng.services";
 import deleteOngService from "../services/ong/deleteOng.services";
 import listAllOngsService from "../services/ong/listAllOngs.service";
 import listOngByIdService from "../services/ong/listOngById.service";
+import listUserInOngByIdService from "../services/ong/listUserInOngById.service";
 import listUsersEventOngService from "../services/ong/listUsersEventOng.service";
 import updateOngService from "../services/ong/updateOng.services";
 import { IOngRequest } from "./../interfaces/ong/index";
@@ -77,6 +78,11 @@ const deleteEventController = async (req: Request, res: Response) => {
   return res.status(204).send();
 };
 
+const listUserInOngByIdController = async (req: Request, res: Response) => {
+  const response = await listUserInOngByIdService(req.user.id, req.params.userId);
+  return res.status(200).json({ data: instanceToPlain(response) });
+};
+
 export {
   createOngController,
   updateOngController,
@@ -86,6 +92,6 @@ export {
   listUsersEventOngController,
   createEventController,
   updateEventController,
-  deleteEventController
+  deleteEventController,
+  listUserInOngByIdController
 };
-
