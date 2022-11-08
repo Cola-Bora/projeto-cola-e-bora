@@ -10,8 +10,7 @@ categoriesRoutes.get(
   '',
   checkAuthUserMiddlewares,
   checkIsActiveUserMiddlewares,
-  checkUserIdMiddlewares,
   listCategoriesController
 );
-categoriesRoutes.get('', checkAuthUserMiddlewares, listCategoriesController);
+//categoriesRoutes.get('', checkAuthUserMiddlewares, listCategoriesController);
 export default categoriesRoutes;
