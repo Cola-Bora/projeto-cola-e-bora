@@ -10,26 +10,27 @@
 
 ## 🔹 **Rotas de Usuário**
 ### ▪️ Criação de Usuário
+
 Para a rota de criação de usuário, não é preciso estar logado na aplicação.
 
 > POST /users - FORMATO DA REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
     "name": "Maria",
     "email": "maria@gmail.com",
     "birthDate": "1990/10/10",
     "password": "123456",
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 201
 
-~~~JSON
+```JSON
 {
-  "data": 
+  "data":
   {
    "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
    "name": "Maria",
@@ -37,60 +38,68 @@ Caso tudo dê certo, a resposta será assim:
    "birthDate": "1990/10/10",
    "createdAt": "2020-11-27T00:01:13.789Z",
    "updatedAt": "2020-12-05T13:59:22.632Z",
-   "isAdm": true,
+   "isAdm": false,
    "isActive": true
   }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 400
 
-Caso você esqueça de enviar algum campo, a resposta de erro será assim: 
+Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
-~~~JSON
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
-
-Email já cadastrado:
+```
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 400
 
-~~~JSON
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid Key"
+}
+```
+
+> POST /users - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o email esteja cadastrado, a resposta de erro será assim:
+
+```JSON
 {
   "message": "This email is already registered"
 }
-~~~
-
-
-
+```
 
 ### ▪️ Editar Usuário
+
 Nesta rota, o usuário precisa estar logado com o token no cabeçalho da requisição. Além disso, o usuário só poderá editar os seus próprios dados.
 
 Nesse endpoint podemos atualizar dados do usuário, porém não deverá permitir que se atualize os campos **id, isAdm e isActive.**
 
 > PATCH /users/:id - FORMATO DA REQUISIÇÃO
 
-~~~JSON 
+```JSON
 {
     "name": "Maria",
     "email": "maria@gmail.com",
     "birthDate": "1990/10/10",
     "password": "123456",
 }
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 200
 
-~~~JSON 
+```JSON
 {
-    "data": 
+    "data":
  {
     "name": "Maria Costa",
     "email": "maria@gmail.com",
@@ -98,68 +107,111 @@ Caso tudo dê certo, a resposta será assim:
     "password": "123456",
  }
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 404
+> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
 
-O usuário não foi encontrado: 
-~~~JSON
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
 {
-  "message": "User not found"
+  "message": "Invalid Key"
 }
-~~~
+```
 
 > PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
-{
-  "message": "User Id must have a valid UUID format"
-}
-~~~
+Caso o token seja inválido, a resposta de erro será assim:
 
+```JSON
+{
+  "message": "Invalid token"
+}
+```
+
+> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o usuário esteja inativo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "User inative"
+}
+```
+
+> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 401
+
+Caso o usuário não seja dono do recurso, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Unauthorized"
+}
+```
 
 ### ▪️ Deletar Usuário (Soft Delete)
+
 Na api Cola&Bora a rota de deleção aplica um soft delete no usuário em questão.Essa rota apenas altera o campo <b>isActive</b> para <b>false</b>.
 
 Nesta rota, o usuário precisa estar logado com o token no cabeçalho da requisição. Além disso, o usuário só poderá deletar a si mesmo.
 
-
 > DELETE /users/:userId - FORMATO DA REQUISIÇÃO
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
 > DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 204
 
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-> DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 404
+> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
 
-O usuário não foi encontrado: 
-~~~JSON
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
 {
-  "message": "User not found"
+  "message": "Invalid Key"
 }
-~~~
+```
 
-> DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 400
+> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
 {
-  "message": "User Id must have a valid UUID format"
+  "message": "Invalid token"
 }
-~~~
+```
+
+> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o usuário esteja inativo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "User inative"
+}
+```
+
+> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 401
+
+Caso o usuário não seja dono do recurso, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Unauthorized"
+}
+```
 
 ### ▪️ Listar usuário com eventos que ele se cadastrou
 
@@ -219,94 +271,212 @@ Usuário não tem permissão para visualizar informações de outro usuário (id
 
 ### ▪️ Cadastro de método de pagamento
 
-> POST /users/payments - FORMATO DE REQUISIÇÃO
+> POST /users/payments/:userId - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
   "number": "5593889718264334"
   "securityCode": "407"
   "dueDate": "2024/08/01"
 }
-~~~
+```
+
 Caso tudo dê certo, a resposta será assim:
 
-> POST /users/payments - FORMATO DE RESPOSTS - STATUS 201
+> POST /users/payments/:userId - FORMATO DE RESPOSTS - STATUS 201
 
-~~~JSON
+```JSON
 {
   "message" : "Credit card successfully created"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
-> POST /users/payments - FORMATO DA RESPOSTA - STATUS 404
-
-O usuário já tem um cartão de crédito cadastrado: 
-~~~JSON
-{
-  "message": "User already has a credit card registered"
-}
-~~~
+> POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
-~~~JSON
+```JSON
 {
   "message": "Required field is missing"
 }
-~~~
+```
 
+> POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid Key"
+}
+```
+
+> POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso você esqueça de enviar algum campo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Required field is missing"
+}
+```
+
+> POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 404
+
+Caso o usuário possua um cartão de crédito cadastrado, a resposta de erro será assim::
+
+```JSON
+{
+  "message": "User already has a credit card registered"
+}
+```
 
 ### ▪️ Editar método de pagamento
 
-> PATCH /users/payments - FORMATO DE REQUISIÇÃO
+> PATCH /users/payments/:userId - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
   "number": "5593889718264334"
   "securityCode": "407"
   "dueDate": "2024/08/01"
 }
-~~~
+```
+
 Caso tudo dê certo, a resposta será assim:
 
-> PATCH /users/payments - FORMATO DE RESPOSTA - STATUS 200
+> PATCH /users/payments/:userId - FORMATO DE RESPOSTA - STATUS 200
 
-~~~JSON
+```JSON
 {
   "message" : "Payment method successfully edited"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
-Usuário tentou enviar um campo vazio: 
 
-> PATCH /users/payments - FORMATO DE RESPOSTA - STATUS 400
+> PATCH /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-~~~JSON
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
 {
-  "message": "Required field is missing"
+  "message": "Invalid Key"
 }
-~~~
+```
+
+> PATCH /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid token"
+}
+```
+
+> PATCH /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o usuário esteja inativo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "User inative"
+}
+```
+
+> PATCH /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 401
+
+Caso o usuário não seja dono do recurso, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Unauthorized"
+}
+```
+
+> PATCH /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 404
+
+Caso não exista um método de pagamento cadastrado, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Payment method does not exist"
+}
+```
 
 ### ▪️ Deletar método de pagamento
 
->DELETE /users/payments - FORMATO DA REQUISIÇÃO`
+> DELETE /users/payments/:userId - FORMATO DA REQUISIÇÃO`
 
-~~~
+```
 Não é necessário um corpo da requisição.
-~~~
+```
 
 Caso tudo dê certo, a resposta será assim:
 
->DELETE /users/payments - FORMATO DA RESPOSTA - STATUS 204
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 204
 
-~~~
+```
 A resposta não conterá nenhuma mensagem.
-~~~
+```
+
+### ⚠️ Possíveis Erros
+
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid Key"
+}
+```
+
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid token"
+}
+```
+
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o usuário esteja inativo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "User inative"
+}
+```
+
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 401
+
+Caso o usuário não seja dono do recurso, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Unauthorized"
+}
+```
+
+> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 404
+
+Caso não exista um método de pagamento cadastrado, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Payment method does not exist"
+}
+```
 
 ## 🔹 **Rota de Doação**
+
 ### ▪️ Realizar uma doação
 
 Nesta rota o Usuário precisa estar logado, e não precisa de autorização de admnistrador.
@@ -315,42 +485,140 @@ Esta rota é capaz de realizar uma doação para uma ong específica.
 
 > POST /donations/:ongId - FORMATO DE REQUISIÇÃO
 
-~~~JSON
+```JSON
 {
  "value" : 200.00
 }
-~~~
+```
 
 > POST /donations/:ongId - FORMATO DE RESPOSTA - 201
 
-~~~JSON
+```JSON
 {
- "message" : "successfully received donation"
+ "message" : "Successfully received donation"
 }
-~~~
+```
 
 ### ⚠️ Possíveis Erros
 
+> POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso você esqueça de enviar o campo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Required field is missing"
+}
+```
+
 > POST /donations/:ongId - FORMATO DE RESPOSTA - STATUS 404
 
-O ONG não foi encontrada: 
-~~~JSON
+Caso a ong não seja encontrada, a resposta de erro será assim::
+
+```JSON
 {
-  "message": "ONG not found"
+  "message": "Ong not found"
 }
-~~~
+```
 
->  POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+> POST /donations/:ongId - FORMATO DE RESPOSTA - STATUS 404
 
-O id fornecido não é um UUID válido: 
-~~~JSON
+Caso o usuário não seja encontrado, a resposta de erro será assim::
+
+```JSON
 {
-  "message": "Id must have a valid UUID format"
+  "message": "User not found"
 }
-~~~
+```
 
+> POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid token"
+}
+```
+
+> POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o usuário esteja inativo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "User inative"
+}
+```
+
+> POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o valor enviado no corpo da requisição não seja do tipo number, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Declared value is not of type number"
+}
+```
 
 ## 🔹 **Rota de Login**
+
+### ▪️ Listar todas as categorias
+
+Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
+Independente de o usuário estar ativo ou não, essa rota automaticamente seta a chave **IsActive** para **true**.
+
+> POST /login - FORMATO DA REQUISIÇÃO
+
+```JSON
+{
+    "email": "maria@gmail.com",
+    "password": "123456"
+}
+```
+
+Caso tudo dê certo, a resposta será assim:
+
+> POST /login - FORMATO DA RESPOSTA - STATUS 200
+
+```JSON
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2NzMyMDI3MiwiaWF0IjoxNjY3MzIwMjcyfQ.0TENJ1RYnO8jZYYMzteFIixIPsJXYGH_02yVbnA4xDw"
+}
+
+```
+
+### ⚠️ Possíveis Erros
+
+> POST /login - FORMATO DA RESPOSTA - STATUS 400
+
+Caso você esqueça de enviar algum campo, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Required field is missing"
+}
+```
+
+> POST /login - FORMATO DA RESPOSTA - STATUS 400
+
+Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid Key"
+}
+```
+
+> POST /login - FORMATO DA RESPOSTA - STATUS 404
+
+Caso o usuário não seja encontrado, a resposta de erro será assim::
+
+```JSON
+{
+  "message": "Invalid user or password"
+}
+```
 
 ### ▪️ Listar todas as categorias
 Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
