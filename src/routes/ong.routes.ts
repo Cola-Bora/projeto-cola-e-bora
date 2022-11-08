@@ -21,11 +21,12 @@ import checkIsOngAdmByBodyMiddleware from "../middlewares/checkIsOngAdmByBody.mi
 
 const ongsRoutes = Router();
 
-ongsRoutes.post("", checkAuthUserMiddlewares, createOngController);
+ongsRoutes.post("", checkAuthUserMiddlewares, checkIsActiveUserMiddlewares, createOngController);
 
 ongsRoutes.patch(
   "/:ongId",
   checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
   checkIfUserIsOngAdmMiddleware,
   updateOngController
 );
@@ -33,6 +34,7 @@ ongsRoutes.patch(
 ongsRoutes.delete(
   "/:ongId",
   checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
   checkIfUserIsOngAdmMiddleware,
   deleteOngController
 );
