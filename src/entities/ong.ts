@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { Exclude } from "class-transformer";
 import {
   Entity,
   Column,
@@ -9,14 +9,23 @@ import {
   JoinColumn,
   OneToOne,
   OneToMany,
-} from 'typeorm';
-import { Events } from './event';
-import { Categories } from './ongCategory';
-import { User } from './user';
+} from "typeorm";
+import { Events } from "./event";
+import { Categories } from "./ongCategory";
+import { User } from "./user";
 
-@Entity('ongs')
+class ColumnNumericTransformer {
+  to(data: number): number {
+    return data;
+  }
+  from(data: string): number {
+    return parseFloat(data);
+  }
+}
+
+@Entity("ongs")
 export class Ongs {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ length: 50 })
@@ -34,7 +43,13 @@ export class Ongs {
   @Column({ length: 14, unique: true })
   cpnj: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Column({
+    type: "numeric",
+    precision: 10,
+    scale: 2,
+    default: 0,
+    transformer: new ColumnNumericTransformer(),
+  })
   @Exclude()
   balance: number;
 
@@ -51,6 +66,6 @@ export class Ongs {
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Events, (events) => events.ong, { cascade: true })
+  @OneToMany(() => Events, events => events.ong, { cascade: true })
   events: Events[];
 }

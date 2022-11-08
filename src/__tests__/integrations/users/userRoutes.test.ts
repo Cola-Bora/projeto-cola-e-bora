@@ -25,7 +25,7 @@ describe("/users", () => {
     await connection.destroy();
   });
 
-  test("POST /users - Não deve criar usuário se o tamanho do corpo da requisição for diferente de 4", async () => {
+  test("POST /users - Must not create user if request body size is different than 4", async () => {
     const res = await request(app)
       .post("/users")
       .send(mockedInvalidRequestBody);
@@ -35,7 +35,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /users - Não deve criar usuário caso contenha alguma chave errada no corpo da requisição", async () => {
+  test("POST /users - Must not create user if there is any wrong key in the request body", async () => {
     const res = await request(app).post("/users").send(mockedInvaliKey);
 
     expect(res.body).toHaveProperty("message");
@@ -43,7 +43,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /users - Deve criar um usuário", async () => {
+  test("POST /users - Must create a user", async () => {
     const res = await request(app).post("/users").send(mockedUser);
 
     expect(res.body.data).toHaveProperty("name");
@@ -60,7 +60,7 @@ describe("/users", () => {
     expect(res.status).toBe(201);
   });
 
-  test("POST /users - Não deve criar usuário com email existente", async () => {
+  test("POST /users - Must not create user with existing email", async () => {
     const res = await request(app).post("/users").send(mockedUser);
 
     expect(res.body).toHaveProperty("message");
@@ -68,7 +68,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /login - Não deve logar usuário que contenha email errado no corpo da requisição", async () => {
+  test("POST /login - You must not log in a user that contains the wrong email in the body of the request", async () => {
     const res = await request(app).post("/login").send(mockedInvalidEmailLogin);
 
     expect(res.body).toHaveProperty("message");
@@ -76,7 +76,7 @@ describe("/users", () => {
     expect(res.status).toBe(403);
   });
 
-  test("POST /login - Não deve logar usuário que contenha senha errada no corpo da requisição", async () => {
+  test("POST /login - You must not log in a user that contains the wrong password in the body of the request", async () => {
     const res = await request(app)
       .post("/login")
       .send(mockedInvalidPasswordLogin);
@@ -86,7 +86,7 @@ describe("/users", () => {
     expect(res.status).toBe(403);
   });
 
-  test("POST /login - Não deve logar usuário que contenha alguma chave errada no corpo da requisição", async () => {
+  test("POST /login - You must not log in a user that contains a wrong key in the body of the request", async () => {
     const res = await request(app).post("/login").send(mockedInvalidKeyLogin);
 
     expect(res.body).toHaveProperty("message");
@@ -94,14 +94,14 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /login - Deve logar o usuário", async () => {
+  test("POST /login - User must log in", async () => {
     const res = await request(app).post("/login").send(mockedUserLogin);
 
     expect(res.body).toHaveProperty("token");
     expect(res.status).toBe(200);
   });
 
-  test("PATCH /user/:id - Não deve alterar dados do usuário com token inválido", async () => {
+  test("PATCH /user/:id - Must not change user data with invalid token", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -118,7 +118,7 @@ describe("/users", () => {
     expect(res.status).toBe(401);
   });
 
-  test("PATCH /user/:id - Não deve alterar dados de outro usuário", async () => {
+  test("PATCH /user/:id - Must not change another user's data", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const res = await request(app)
@@ -131,7 +131,7 @@ describe("/users", () => {
     expect(res.status).toBe(401);
   });
 
-  test("PATCH /user/:id - Não deve alterar usuário caso contenha alguma chave errada no corpo da requisição ", async () => {
+  test("PATCH /user/:id - Should not change user if there is any wrong key in the request body", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -148,7 +148,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("PATCH /user/:id - Deve alterar dado(s) do usuário", async () => {
+  test("PATCH /user/:id - Must change user data", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -178,7 +178,7 @@ describe("/users", () => {
       .set("Authorization", `Bearer ${LoginRes.body.token}`);
   });
 
-  test("DELETE /user/:id - Não deve realizar soft delete em usuário com token inválido", async () => {
+  test("DELETE /user/:id - You should not soft delete a user with an invalid token", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -194,7 +194,7 @@ describe("/users", () => {
     expect(res.status).toBe(401);
   });
 
-  test("DELETE /user/:id - Não deve realizar soft delete em outro usuário", async () => {
+  test("DELETE /user/:id - Must not soft delete another user", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -210,7 +210,7 @@ describe("/users", () => {
     expect(res.status).toBe(401);
   });
 
-  test("DELETE /user/:id - Deve realizar soft delete no usuário", async () => {
+  test("DELETE /user/:id - You must soft delete the user", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -224,7 +224,7 @@ describe("/users", () => {
     expect(res.status).toBe(204);
   });
 
-  test("PATCH /user/:id - Não deve alterar dado(s) do usuário inativo", async () => {
+  test("PATCH /user/:id - Must not change inactive user data", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -249,7 +249,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("DELETE /user/:id - Não deve realizar soft delete em usuário inativo", async () => {
+  test("DELETE /user/:id - Must not soft delete an inactive user", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -273,7 +273,7 @@ describe("/users", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /login - Caso o usuário esteja inativo se deve reativá-lo ao realizar login", async () => {
+  test("POST /login - If the user is inactive, he must be reactivated when logging in.", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)

@@ -22,7 +22,7 @@ describe("/users/payments", () => {
     await connection.destroy();
   });
 
-  test("POST /users/payments/:id - Não deve criar método de pagamento se o tamanho do corpo da requisição for diferente de 3", async () => {
+  test("POST /users/payments/:id - Must not create payment method if request body size is different than 3", async () => {
     await request(app).post("/users").send(mockedUser);
 
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
@@ -41,7 +41,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /users/payments/:id - Não deve criar método de pagamento caso contenha alguma chave errada no corpo da requisição", async () => {
+  test("POST /users/payments/:id - You must not create a payment method if there is a wrong key in the request body", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -58,7 +58,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(400);
   });
 
-  test("POST /users/payments/:id - Não deve criar método de pagamento utilizando id de outro usuário ou inexistente", async () => {
+  test("POST /users/payments/:id - You must not create a payment method using another user's id or non-existent", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const res = await request(app)
@@ -71,7 +71,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("POST /users/payments/:id - Não deve criar método de pagamento caso token seja inválido", async () => {
+  test("POST /users/payments/:id - Must not create payment method if token is invalid", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -88,7 +88,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("POST /users/payments/:id - Deve criar método de pagamento", async () => {
+  test("POST /users/payments/:id - Must create payment method", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -105,7 +105,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(201);
   });
 
-  test("POST /users/payments/:id - Não deve criar método de pagamento caso exista algum registrado", async () => {
+  test("POST /users/payments/:id - You should not create a payment method if there is one registered", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -124,7 +124,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(404);
   });
 
-  test("PATCH /users/payments/:id - Não deve atualizar método de pagamento caso contenha alguma chave errada no corpo da requisição", async () => {
+  test("PATCH /users/payments/:id - Should not update payment method if it contains any wrong key in the request body", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -141,7 +141,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(400);
   });
 
-  test("PATCH /users/payments/:id - Não deve atualizar método de pagamento caso token seja inválido", async () => {
+  test("PATCH /users/payments/:id - Should not update payment method if token is invalid", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -158,7 +158,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("PATCH /users/payments/:id - Não deve atualizar método de pagamento utilizando id de outro usuário ou inexistente", async () => {
+  test("PATCH /users/payments/:id - Must not update payment method using another user's id or non-existent", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const res = await request(app)
@@ -171,7 +171,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("PATCH /users/payments/:id - Deeve atualizar método de pagamento", async () => {
+  test("PATCH /users/payments/:id - Must update payment method", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -188,7 +188,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(200);
   });
 
-  test("DELETE /users/payments/:id - Não deve deletar método de pagamento caso token seja inválido", async () => {
+  test("DELETE /users/payments/:id - Should not delete payment method if token is invalid", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -204,7 +204,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("DELETE /users/payments/:id - Não deve deletar método de pagamento utilizando id de outro usuário ou inexistente", async () => {
+  test("DELETE /users/payments/:id - You must not delete payment method using another user's id or non-existent", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const res = await request(app)
@@ -216,7 +216,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(401);
   });
 
-  test("DELETE /users/payments/:id - Deve deletar método de pagamento", async () => {
+  test("DELETE /users/payments/:id - Must delete payment method", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -230,7 +230,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(204);
   });
 
-  test("PATCH /user/payments/:id - Não deve atualizar método de pagamento do usuário inativo", async () => {
+  test("PATCH /user/payments/:id - Must not update inactive user's payment method", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -255,7 +255,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(400);
   });
 
-  test("DELETE /user/payments/:id - Não deve deletar método de pagamento do usuário inativo", async () => {
+  test("DELETE /user/payments/:id - Must not delete inactive user's payment method", async () => {
     const LoginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -279,7 +279,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(400);
   });
 
-  test("DELETE /users/payments/:id - Não deve deletar método de pagamento inexistente", async () => {
+  test("DELETE /users/payments/:id - Must not delete non-existent payment method", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)
@@ -295,7 +295,7 @@ describe("/users/payments", () => {
     expect(res.status).toBe(404);
   });
 
-  test("PATCH /users/payments/:id - Não deve atualizar método de pagamento inexistente", async () => {
+  test("PATCH /users/payments/:id - Must not update non-existent payment method", async () => {
     const loginRes = await request(app).post("/login").send(mockedUserLogin);
 
     const listUsers = await request(app)

@@ -7,15 +7,15 @@ export class Donations {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "decimal", precision: 10, scale: 2 })
+  @Column({ type: "numeric", precision: 10, scale: 2 })
   value: number;
 
   @Column()
   date: Date;
 
   @ManyToOne(() => User)
-  user: User[];
+  user: User;
 
   @ManyToOne(() => Ongs)
-  ong: Ongs[];
+  ong: Ongs;
 }

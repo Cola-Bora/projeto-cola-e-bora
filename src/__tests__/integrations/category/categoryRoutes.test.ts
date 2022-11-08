@@ -5,14 +5,14 @@ import AppDataSource from "../../../data-source";
 import { mockedUser, mockedUserAdim, mockedUserLogin } from "../../mocks/mock";
 import createBaseCategoriesService from "../../../services/categories/createBaseCategories.service";
 
-describe('/categories', () => {
+describe("/categories", () => {
   let connection: DataSource;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => (connection = res))
       .catch((err) =>
-        console.log("Error during Data Source initialization", err)
+      console.log("Error during Data Source initialization", err)
       );
 
     await request(app).post("/users").send(mockedUser);
