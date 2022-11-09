@@ -19,10 +19,16 @@ import checkIsActiveUserMiddlewares from "../middlewares/checkIsActiveUser.middl
 import checkIsAdmOngRequestMiddleware from "../middlewares/checkIsAdmOngRequest.middleware";
 import checkIsEventAdmMiddleware from "../middlewares/checkIsEventAdm.middleware";
 import checkIsOngAdmByBodyMiddleware from "../middlewares/checkIsOngAdmByBody.middleware";
+import checkListOngByIdMiddleware from "../middlewares/checkListOngById.middleware";
 
 const ongsRoutes = Router();
 
-ongsRoutes.post("", checkAuthUserMiddlewares, checkIsActiveUserMiddlewares, createOngController);
+ongsRoutes.post(
+  "",
+  checkAuthUserMiddlewares,
+  checkIsActiveUserMiddlewares,
+  createOngController
+);
 
 ongsRoutes.patch(
   "/:ongId",
@@ -47,6 +53,7 @@ ongsRoutes.get(
   checkAuthUserMiddlewares,
   checkIsActiveUserMiddlewares,
   checkIsAdmOngRequestMiddleware,
+  checkListOngByIdMiddleware,
   listOngByIdController
 );
 
