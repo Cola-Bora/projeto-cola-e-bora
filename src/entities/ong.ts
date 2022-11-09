@@ -26,7 +26,7 @@ class ColumnNumericTransformer {
 @Entity("ongs")
 export class Ongs {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @Column({ length: 50 })
   name: string;

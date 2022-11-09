@@ -34,7 +34,7 @@ describe("/events", () => {
     await connection.destroy();
   });
 
-  test("POST /events -> should be able to create event", async () => {
+  test("POST /ongs/events -> should be able to create event", async () => {
     const adminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
@@ -58,7 +58,7 @@ describe("/events", () => {
     expect(response.status).toBe(201);
   });
 
-  test("POST /events -> should not be able to create event with past date", async () => {
+  test("POST /ongs/events -> should not be able to create event with past date", async () => {
     const adminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
@@ -74,7 +74,7 @@ describe("/events", () => {
     expect(response.status).toBe(400);
   });
 
-  test("PATCH /events/:eventId -> should be able to update event", async () => {
+  test("PATCH /ongs/events/:eventId -> should be able to update event", async () => {
     const adminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
@@ -87,10 +87,15 @@ describe("/events", () => {
     const updatedEvent = await request(app).get(
       `/events/${events.body.data[0].id}`
     );
-    expect(updatedEvent.body.name).toBe("Event - updated");
+    console.log(updatedEvent.body)
+    expect(updatedEvent.status).toBe(200);
+    expect(updatedEvent.body.data.name).toBe("Event - updated")
+    expect(updatedEvent.body.data).toHaveProperty("id")
+    expect(updatedEvent.body.data).toHaveProperty("address")
+    expect(updatedEvent.body.data).toHaveProperty("ong")
   });
 
-  test("PATCH /events/:eventId -> should not be able to update event when not found event id", async () => {
+  test("PATCH /ongs/events/:eventId -> should not be able to update event when not found event id", async () => {
     const adminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdimLogin);
@@ -109,12 +114,12 @@ describe("/events", () => {
     const response = await request(app).get(`/events/${event.body.data[0].id}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("name");
-    expect(response.body).toHaveProperty("date");
-    expect(response.body).toHaveProperty("description");
-    expect(response.body).toHaveProperty("address");
-    expect(response.body).toHaveProperty("ong");
+    expect(response.body.data).toHaveProperty("id");
+    expect(response.body.data).toHaveProperty("name");
+    expect(response.body.data).toHaveProperty("date");
+    expect(response.body.data).toHaveProperty("description");
+    expect(response.body.data).toHaveProperty("address");
+    expect(response.body.data).toHaveProperty("ong");
   });
 
   test("GET /events/:eventId - Should not be able to list properties of a event with invalid id", async () => {

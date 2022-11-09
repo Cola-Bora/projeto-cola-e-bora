@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { instanceToPlain } from "class-transformer";
-import createUserServices from "../services/user/createUser.services";
-import updateUserServices from "../services/user/updateUser.services";
+import createUserServices from "../services/user/createUser.service";
+import updateUserServices from "../services/user/updateUser.service";
 import { IUserLogin, IUserRequest } from "../interfaces/user";
-import loginServices from "../services/login/login.services";
-import softDeleteUserServices from "../services/user/softDeleteUser.services";
-import listUsersServices from "../services/user/listUsers.services";
-import listOneUserWithEventsServices from "../services/user/listOneUserWithEvents.services";
+import loginServices from "../services/login/login.service";
+import softDeleteUserServices from "../services/user/softDeleteUser.service";
+import listUsersServices from "../services/user/listUsers.service";
+import listOneUserWithEventsServices from "../services/user/listOneUserWithEvents.service";
 
 async function createUserControllers(req: Request, res: Response) {
   const user: IUserRequest = req.body;

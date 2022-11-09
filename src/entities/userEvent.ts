@@ -5,7 +5,7 @@ import { User } from "./user";
 @Entity("users_events")
 export class UsersEvents {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @ManyToOne(() => User)
   user: User;
