@@ -308,12 +308,19 @@ describe("/ongs", () => {
       .post("/login")
       .send(mockedUserNotAdimLogin);
 
+    console.log(userLoginResponse.body);
+
     const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
+
+    console.log(ongToList.body.data);
+    console.log(ongIdToList);
 
     const response = await request(app)
       .get(`/ongs/${ongIdToList}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    console.log(response.body.data);
 
     expect(response.body.data).toHaveProperty("id");
     expect(response.body.data).toHaveProperty("name");
@@ -380,7 +387,7 @@ describe("/ongs", () => {
       .get(`/ongs/${ongIdToList}/0bd5e233-aa03-4e4a-8cfe-390ed15117/users`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
 
-    expect(response.body.message).toBe("Id must have a valid UUID format");
+    expect(response.body.message).toBe("Id must have a valid uuid format");
     expect(response.status).toBe(400);
   });
 

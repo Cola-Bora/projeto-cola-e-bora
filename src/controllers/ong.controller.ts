@@ -41,9 +41,10 @@ async function listOngByIdController(req: Request, res: Response) {
   const ongId = req.params.ongId;
   const isAdm = req.user.isAdm;
   const OngById = await listOngByIdService(ongId);
+  const OngWithoutBalance = instanceToPlain(OngById);
 
   if (isAdm === false) {
-    return res.status(200).json(instanceToPlain({ data: OngById }));
+    return res.status(200).json({ data: OngWithoutBalance });
   }
   return res.status(200).json({ data: OngById });
 }
@@ -79,7 +80,10 @@ const deleteEventController = async (req: Request, res: Response) => {
 };
 
 const listUserInOngByIdController = async (req: Request, res: Response) => {
-  const response = await listUserInOngByIdService(req.user.id, req.params.userId);
+  const response = await listUserInOngByIdService(
+    req.user.id,
+    req.params.userId
+  );
   return res.status(200).json({ data: instanceToPlain(response) });
 };
 
@@ -93,5 +97,5 @@ export {
   createEventController,
   updateEventController,
   deleteEventController,
-  listUserInOngByIdController
+  listUserInOngByIdController,
 };
