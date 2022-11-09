@@ -19,7 +19,7 @@ const deleteUserEventService = async (
 
   if (!event) throw new AppError("Event not found", 404);
 
-  const userInEvent = userEventRepository.findOneBy({ user: { id: id } });
+  const userInEvent = await userEventRepository.findOneBy({ user: { id: id } });
 
   if(!userInEvent) throw new AppError("User does not participate in this event", 404);
 
