@@ -3,9 +3,10 @@ import { Addresses } from "../../entities/adress";
 import { Events } from "../../entities/event";
 import { Ongs } from "../../entities/ong";
 import { AppError } from "../../errors";
-import { IEventRequest, IEventUpdateRequest } from "../../interfaces/event";
+import { IEventRequest, IEventResponse, IEventUpdateRequest } from "../../interfaces/event";
+import formatEventResponseUtil from "../../utils/formatEventResponse.util";
 
-const updateEventService = async (eventId: string, { name, date, description, address }: IEventUpdateRequest) => {
+const updateEventService = async (eventId: string, { name, date, description, address }: IEventUpdateRequest): Promise<IEventResponse> => {
     const eventRepository = AppDataSource.getRepository(Events);
     const addressRepository = AppDataSource.getRepository(Addresses);
 
@@ -33,7 +34,9 @@ const updateEventService = async (eventId: string, { name, date, description, ad
 
     const updatedEvent = await eventRepository.findOneBy({ id: eventId });
 
-    return updatedEvent;
+    const formatedEvent = formatEventResponseUtil(updatedEvent!);
+
+    return formatedEvent;
 }
 
 export default updateEventService;  

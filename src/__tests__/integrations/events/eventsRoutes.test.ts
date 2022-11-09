@@ -51,6 +51,8 @@ describe("/events", () => {
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
       .send(mockedEvent(newOng.body.data.id));
 
+      console.log(response.body);
+
     expect(response.body).toHaveProperty("data");
     expect(response.status).toBe(201);
   });
@@ -88,6 +90,9 @@ describe("/events", () => {
   test("GET /events/:eventId -> should be able to list all the information of an event", async () => {
     const event = await request(app).get("/events/");
     const response = await request(app).get(`/events/${event.body.data[0].id}`);
+
+    console.log(response.body);
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");

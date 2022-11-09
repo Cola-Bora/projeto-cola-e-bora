@@ -82,7 +82,7 @@ export const mockedEvent: (ongId: string) => IEventRequest = (
   return {
     name: "Event",
     description: "Description",
-    date: "2022/11/22",
+    date: "December 24, 2022 14:00:00",
     address: {
       street: "rua",
       number: "880",
@@ -96,7 +96,7 @@ export const mockedEvent: (ongId: string) => IEventRequest = (
 export const mockedUpdateEvent = {
   name: "Event - updated",
   description: "Description - updated",
-  date: "2022/11/25",
+  date: "December 24, 2022 14:00:00",
   address: {
     street: "rua - updated",
     number: "980",
