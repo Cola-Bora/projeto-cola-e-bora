@@ -11,6 +11,20 @@ export default async function createOngService(ong: IOngRequest, userId: string)
         throw new AppError("Required field is missing");
     }
 
+    let checkKeys = Object.keys(ong).map(
+        item =>
+        item.includes("name") ||
+        item.includes("email") ||
+        item.includes("tel") ||
+        item.includes("description") ||
+        item.includes("cnpj") ||
+        item.includes("categoryId")
+    );
+
+    if (checkKeys.includes(false)) {
+        throw new AppError("Invalid key");
+    }
+
     const ongRepository = AppDataSource.getRepository(Ongs)
     const userRepository = AppDataSource.getRepository(User)
     const categoryRepository = AppDataSource.getRepository(Categories)
@@ -23,10 +37,10 @@ export default async function createOngService(ong: IOngRequest, userId: string)
     }
 
     const ongAlreadyExists = await ongRepository.find({
-        where: {
-            cpnj: ong.cnpj,
-            email: ong.email
-        }
+        where: [
+            {cpnj: ong.cnpj},
+            {email: ong.email}
+        ]
     })
 
     if(ongAlreadyExists.length > 0){
