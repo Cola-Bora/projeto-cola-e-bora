@@ -28,7 +28,13 @@ export default async function createPaymentServices(
   const payExists = payment.some(payTest => payTest.number === pay.number);
 
   if (payExists) {
-    throw new AppError("User already has a credit card registered");
+    throw new AppError("This card is already being used");
+  }
+
+  const userCard = payment.some( payment => payment.user.id === id)
+
+  if (userCard) {
+    throw new AppError("User already has a payment method");
   }
 
   const dataUser = AppDataSource.getRepository(User);
