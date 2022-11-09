@@ -58,7 +58,7 @@ Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
 > POST /users - FORMATO DA RESPOSTA - STATUS 400
 
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+Caso alguma chave do corpo da requisição esteja errada, a resposta de erro será assim:
 
 ```JSON
 {
