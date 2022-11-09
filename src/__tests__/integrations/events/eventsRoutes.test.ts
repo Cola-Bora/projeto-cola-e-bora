@@ -63,15 +63,14 @@ describe("/events", () => {
       .post("/login")
       .send(mockedUserAdimLogin);
 
-    const ongs = await request(app)
-      .get("/ongs");
+    const ongs = await request(app).get("/ongs");
 
     const response = await request(app)
       .post("/ongs/events")
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
       .send(invalidMockedEvent(ongs.body.data[0].id));
 
-    expect(response.body.message).toBe('The event date cannot be a past date');
+    expect(response.body.message).toBe("The event date cannot be a past date");
     expect(response.status).toBe(400);
   });
 
@@ -209,6 +208,38 @@ describe("/events", () => {
     expect(response.body).toMatchObject({ message: "Event not found" });
   });
 
+  test("POST /events/:eventId -> The user cannot register for two events at the same time", async () => {
+    const adminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdimLogin);
+    const { token } = adminLoginResponse.body;
+
+    const event = await request(app).get("/events").send();
+    const firstEventId = event.body.data[0].id;
+
+    await request(app)
+      .post(`/events/${firstEventId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    const ongs = await request(app).get("/ongs");
+    const ongId = ongs.body.data[0].id;
+
+    const newEvent = await request(app)
+      .post("/ongs/events")
+      .set("Authorization", `Bearer ${token}`)
+      .send(mockedEvent(ongId));
+    const eventId = newEvent.body.data.id;
+
+    const response = await request(app)
+      .post(`/events/${eventId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toMatchObject({
+      message: "You are already registered for an event at the same time",
+    });
+  });
+
   test("POST /events/:eventId -> ID must have a uuid format", async () => {
     const loginResponse = await request(app)
       .post("/login")
@@ -268,10 +299,10 @@ describe("/events", () => {
   });
 
   test("DELETE /events/:eventId -> Delete user from an event", async () => {
-    const loginResponse = await request(app)
+    const adminLoginResponse = await request(app)
       .post("/login")
-      .send(mockedUserLogin);
-    const { token } = loginResponse.body;
+      .send(mockedUserAdimLogin);
+    const { token } = adminLoginResponse.body;
 
     const event = await request(app).get("/events").send();
     const { id } = event.body.data[0];
@@ -323,12 +354,12 @@ describe("/events", () => {
       .send(mockedUserAdimLogin);
     const events = await request(app).get("/events");
     const response = await request(app)
-      .delete(`/ongs/events/${events.body.data[0].id}`)
+      .delete(`/ongs/events/${events.body.data[1].id}`)
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
       .send(mockedUpdateEvent);
 
     const deletedEvent = await request(app)
-      .get(`/events/${events.body.data[0].id}`)
+      .get(`/events/${events.body.data[1].id}`)
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);
 
     expect(response.status).toBe(204);
