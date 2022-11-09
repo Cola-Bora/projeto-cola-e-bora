@@ -45,7 +45,7 @@ const listEventsbyOngController = async (req: Request, resp: Response) => {
 const listEventByIdController = async (req: Request, resp: Response) => {
   const eventId = req.params.eventId;
   const event = await listEventByIdService(eventId);
-  return resp.status(200).json(event).send();
+  return resp.status(200).json({ data: event }).send();
 };
 
 export {
