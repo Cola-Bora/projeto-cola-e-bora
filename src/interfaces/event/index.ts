@@ -7,3 +7,10 @@ export interface IEventRequest {
     address: IAddressRequest,
     ongId: string,
 }
+
+export interface IEventUpdateRequest {
+    name: string,
+    date: string,
+    description: string,
+    address: IAddressRequest,
+}
