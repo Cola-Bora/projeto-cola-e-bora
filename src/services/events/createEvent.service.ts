@@ -3,9 +3,10 @@ import { Addresses } from "../../entities/adress";
 import { Events } from "../../entities/event";
 import { Ongs } from "../../entities/ong";
 import { AppError } from "../../errors";
-import { IEventRequest } from "../../interfaces/event";
+import { IEventRequest, IEventResponse } from "../../interfaces/event";
+import formatEventResponseUtil from "../../utils/formatEventResponse.util";
 
-const createEventService = async ({ name, date, description, address, ongId }: IEventRequest) => {
+const createEventService = async ({ name, date, description, address, ongId }: IEventRequest): Promise<IEventResponse> => {
     const eventRepository = AppDataSource.getRepository(Events);
     const addressRepository = AppDataSource.getRepository(Addresses);
     const ongRepository = AppDataSource.getRepository(Ongs);
@@ -22,7 +23,13 @@ const createEventService = async ({ name, date, description, address, ongId }: I
         throw new AppError('Ong not found', 404);
     }
 
+    const now = new Date();
     const newDate = new Date(date);
+
+    if(newDate.getTime() < now.getTime()) {
+        throw new AppError('The event date cannot be a past date', 400);
+    }
+
     const event = await eventRepository.save({
         name,
         description,
@@ -31,7 +38,9 @@ const createEventService = async ({ name, date, description, address, ongId }: I
         address: newAddress!
     });
 
-    return event;
+    const formatedEvent = formatEventResponseUtil(event);
+
+    return formatedEvent;
 }
 
 export default createEventService;  

@@ -7,13 +7,13 @@ export default async function listUsersEventOngService(idEvent: string) {
   const userEventsRepository = AppDataSource.getRepository(UsersEvents);
   const eventRepository = AppDataSource.getRepository(Events);
 
+  if (idEvent.length !== 36) {
+    throw new AppError("Id must have a valid uuid format", 400);
+  }
+
   const eventFound = await eventRepository.findOneBy({
     id: idEvent,
   });
-
-  if (idEvent.length !== 36) {
-    throw new AppError("Id must have a valid UUID format");
-  }
 
   if (!eventFound) {
     throw new AppError("Event not found", 404);

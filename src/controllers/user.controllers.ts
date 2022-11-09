@@ -30,8 +30,8 @@ async function updateUserController(req: Request, res: Response) {
 
 async function softDeleteUserController(req: Request, res: Response) {
   const id = req.params.id;
-  const deleteUser = await softDeleteUserServices(id);
-  return res.status(204).json({ message: deleteUser });
+  await softDeleteUserServices(id);
+  return res.status(204).send();
 }
 
 async function listUsersControllers(req: Request, res: Response) {

@@ -1,27 +1,26 @@
 import AppDataSource from '../../data-source';
-import { Events } from '../../entities/event';
 import { Ongs } from '../../entities/ong';
 import { AppError } from '../../errors';
+import { Events } from '../../entities/event';
+import formatEventResponseUtil from '../../utils/formatEventResponse.util';
+import { IEventResponse } from '../../interfaces/event';
 
-const listEventsByOngService = async (ongId: string): Promise<Events[]> => {
+const listEventsByOngService = async (ongId: string): Promise<IEventResponse[]> => {
   if (ongId.length !== 36) {
     throw new AppError('Invalid Id', 400);
   }
-
   const ongRepository = AppDataSource.getRepository(Ongs);
+  const eventsRepository = AppDataSource.getRepository(Events);
 
   const ong = await ongRepository.findOneBy({ id: ongId });
   if (!ong) {
     throw new AppError('Ong not found', 404);
   }
 
-  const eventsRepository = AppDataSource.getRepository(Events);
-
   const events = await eventsRepository.find({
     where: { ong: { id: ongId } },
     relations: {
       address: true,
-      ong: true,
     },
   });
 
@@ -29,7 +28,9 @@ const listEventsByOngService = async (ongId: string): Promise<Events[]> => {
     throw new AppError('There are no registered events', 404);
   }
 
-  return events;
+  const formatedEvents = events.map(event => formatEventResponseUtil(event));
+
+  return formatedEvents;
 };
 
 export default listEventsByOngService;
