@@ -13,7 +13,7 @@ import { UsersEvents } from "./userEvent";
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @Column({ length: 50 })
   name: string;

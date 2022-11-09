@@ -1,7 +1,7 @@
 import AppDataSource from '../../data-source';
 import { Ongs } from '../../entities/ong';
 import { AppError } from '../../errors';
-import { IOngUpdate } from './../../interfaces/ong/index';
+import { IOngUpdate } from '../../interfaces/ong/index';
 
 
 export default async function updateOngService(ongId: string, ongData: IOngUpdate){

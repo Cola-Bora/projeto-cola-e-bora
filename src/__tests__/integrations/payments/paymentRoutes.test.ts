@@ -119,7 +119,7 @@ describe("/users/payments", () => {
 
     expect(res.body).toHaveProperty("message");
     expect(res.body.message).toEqual(
-      "User already has a credit card registered"
+      "This card is already being used"
     );
     expect(res.status).toBe(400);
   });

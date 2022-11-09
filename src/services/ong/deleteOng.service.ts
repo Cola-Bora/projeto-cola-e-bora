@@ -1,4 +1,4 @@
-import { UsersEvents } from './../../entities/userEvent';
+import { UsersEvents } from '../../entities/userEvent';
 import AppDataSource from "../../data-source";
 import { Ongs } from "../../entities/ong";
 import { User } from "../../entities/user";

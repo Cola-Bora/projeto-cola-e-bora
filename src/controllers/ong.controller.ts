@@ -4,13 +4,13 @@ import { AppError } from "../errors";
 import createEventService from "../services/events/createEvent.service";
 import deleteEventService from "../services/events/deleteEvent.service";
 import updateEventService from "../services/events/updateEvent.service";
-import createOngService from "../services/ong/createOng.services";
-import deleteOngService from "../services/ong/deleteOng.services";
+import createOngService from "../services/ong/createOng.service";
+import deleteOngService from "../services/ong/deleteOng.service";
 import listAllOngsService from "../services/ong/listAllOngs.service";
 import listOngByIdService from "../services/ong/listOngById.service";
 import listUserInOngByIdService from "../services/ong/listUserInOngById.service";
 import listUsersEventOngService from "../services/ong/listUsersEventOng.service";
-import updateOngService from "../services/ong/updateOng.services";
+import updateOngService from "../services/ong/updateOng.service";
 import { IOngRequest } from "./../interfaces/ong/index";
 
 async function createOngController(req: Request, res: Response) {

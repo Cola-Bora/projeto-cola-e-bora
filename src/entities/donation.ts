@@ -5,7 +5,7 @@ import { User } from "./user";
 @Entity("donations")
 export class Donations {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @Column({ type: "numeric", precision: 10, scale: 2 })
   value: number;

@@ -4,7 +4,7 @@ import { Events } from "./event";
 @Entity("addresses")
 export class Addresses {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @Column({ length: 100 })
   street: string;
