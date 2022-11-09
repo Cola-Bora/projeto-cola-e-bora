@@ -5,6 +5,10 @@ import { AppError } from "../../errors";
 export default async function listOngByIdService(ongId: string) {
   const ongRepository = AppDataSource.getRepository(Ongs);
 
+  if (ongId.length !== 36) {
+    throw new AppError("Invalid Id", 400);
+  }
+
   const ongFound = await ongRepository.findOne({
     where: {
       id: ongId,
