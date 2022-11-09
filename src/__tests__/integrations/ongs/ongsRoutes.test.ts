@@ -308,19 +308,12 @@ describe("/ongs", () => {
       .post("/login")
       .send(mockedUserNotAdimLogin);
 
-    console.log(userLoginResponse.body);
-
     const ongToList = await request(app).get("/ongs").send();
     const ongIdToList = ongToList.body.data[0].id;
-
-    console.log(ongToList.body.data);
-    console.log(ongIdToList);
 
     const response = await request(app)
       .get(`/ongs/${ongIdToList}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
-
-    console.log(response.body.data);
 
     expect(response.body.data).toHaveProperty("id");
     expect(response.body.data).toHaveProperty("name");

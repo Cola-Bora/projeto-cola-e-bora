@@ -5,6 +5,7 @@ import AppDataSource from "../../../data-source";
 import jwt from "jsonwebtoken";
 import createBaseCategoriesService from "../../../services/categories/createBaseCategories.service";
 import {
+  invalidMockedEvent,
   mockedEvent,
   mockedOng,
   mockedUpdateEvent,
@@ -38,9 +39,11 @@ describe("/events", () => {
       .post("/login")
       .send(mockedUserAdimLogin);
     await createBaseCategoriesService();
+
     const categories = await request(app)
       .get("/categories")
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);
+
     const newOng = await request(app)
       .post("/ongs")
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
@@ -53,6 +56,23 @@ describe("/events", () => {
 
     expect(response.body).toHaveProperty("data");
     expect(response.status).toBe(201);
+  });
+
+  test("POST /events -> should not be able to create event with past date", async () => {
+    const adminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdimLogin);
+
+    const ongs = await request(app)
+      .get("/ongs");
+
+    const response = await request(app)
+      .post("/ongs/events")
+      .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
+      .send(invalidMockedEvent(ongs.body.data[0].id));
+
+    expect(response.body.message).toBe('The event date cannot be a past date');
+    expect(response.status).toBe(400);
   });
 
   test("PATCH /events/:eventId -> should be able to update event", async () => {
@@ -88,6 +108,7 @@ describe("/events", () => {
   test("GET /events/:eventId -> should be able to list all the information of an event", async () => {
     const event = await request(app).get("/events/");
     const response = await request(app).get(`/events/${event.body.data[0].id}`);
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");

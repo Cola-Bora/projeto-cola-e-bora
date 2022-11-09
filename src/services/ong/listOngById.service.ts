@@ -24,6 +24,5 @@ export default async function listOngByIdService(ongId: string) {
     throw new AppError("Ong not found", 404);
   }
 
-  console.log(ongFound);
   return ongFound;
 }

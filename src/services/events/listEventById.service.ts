@@ -1,8 +1,10 @@
 import AppDataSource from '../../data-source';
 import { AppError } from '../../errors';
 import { Events } from '../../entities/event';
+import { IEventResponse } from '../../interfaces/event';
+import formatEventResponseUtil from '../../utils/formatEventResponse.util';
 
-const listEventByIdService = async (eventId: string): Promise<Events> => {
+const listEventByIdService = async (eventId: string): Promise<IEventResponse> => {
   if (eventId.length !== 36) {
     throw new AppError('Invalid Id', 400);
   }
@@ -20,7 +22,10 @@ const listEventByIdService = async (eventId: string): Promise<Events> => {
   if (!event) {
     throw new AppError('Event not found', 404);
   }
-  return event;
+
+  const formatedEvent = formatEventResponseUtil(event);
+
+  return formatedEvent;
 };
 
 export default listEventByIdService;
