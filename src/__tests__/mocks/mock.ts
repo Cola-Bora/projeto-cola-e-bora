@@ -93,6 +93,23 @@ export const mockedEvent: (ongId: string) => IEventRequest = (
   };
 };
 
+export const invalidMockedEvent: (ongId: string) => IEventRequest = (
+  ongId: string
+) => {
+  return {
+    name: "Event",
+    description: "Description",
+    date: "September 10, 2022 14:00:00",
+    address: {
+      street: "rua",
+      number: "880",
+      cep: "69400797",
+      extra: "rua",
+    },
+    ongId,
+  };
+};
+
 export const mockedUpdateEvent = {
   name: "Event - updated",
   description: "Description - updated",

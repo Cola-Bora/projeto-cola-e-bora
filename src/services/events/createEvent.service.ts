@@ -23,7 +23,12 @@ const createEventService = async ({ name, date, description, address, ongId }: I
         throw new AppError('Ong not found', 404);
     }
 
+    const now = new Date();
     const newDate = new Date(date);
+
+    if(newDate.getTime() < now.getTime()) {
+        throw new AppError('The event date cannot be a past date', 400);
+    }
 
     const event = await eventRepository.save({
         name,
