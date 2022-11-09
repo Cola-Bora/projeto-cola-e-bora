@@ -1070,6 +1070,16 @@ Caso tudo dê certo, a resposta será assim:
 }
 ~~~
 
+### ⚠️ Possíveis Erros
+
+A data do evento não pode ser uma data passada: 
+
+>POST ongs/events - FORMATO DA RESPOSTA - STATUS 400
+~~~JSON
+{
+  "message": "The event date cannot be a past date"
+}
+~~~
 
 ### ▪️ Editar um Evento
 
