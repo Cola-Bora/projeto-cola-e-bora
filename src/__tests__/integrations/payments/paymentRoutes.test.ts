@@ -121,7 +121,7 @@ describe("/users/payments", () => {
     expect(res.body.message).toEqual(
       "User already has a credit card registered"
     );
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(400);
   });
 
   test("PATCH /users/payments/:id - Should not update payment method if it contains any wrong key in the request body", async () => {

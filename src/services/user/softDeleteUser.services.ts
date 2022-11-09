@@ -16,6 +16,4 @@ export default async function softDeleteUserServices(id: string) {
   await userExists.update(id, {
     isActive: false,
   });
-
-  return "User successfully deleted";
 }
