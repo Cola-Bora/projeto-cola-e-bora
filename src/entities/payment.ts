@@ -10,7 +10,7 @@ import { User } from "./user";
 @Entity("paymentInfo")
 export class Payment {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  readonly id: string;
 
   @Column({ length: 20 })
   number: string;

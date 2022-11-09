@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IDonation } from "../interfaces/donation";
-import createDonationServices from "../services/donations/createDonation.services";
+import createDonationServices from "../services/donations/createDonation.service";
 
 async function createDonationControllers(req: Request, res: Response) {
   const userId: string = req.user.id;

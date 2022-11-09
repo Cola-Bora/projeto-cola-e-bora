@@ -27,6 +27,7 @@ ongsRoutes.post(
   "",
   checkAuthUserMiddlewares,
   checkIsActiveUserMiddlewares,
+  checkIsAdmOngRequestMiddleware,
   createOngController
 );
 

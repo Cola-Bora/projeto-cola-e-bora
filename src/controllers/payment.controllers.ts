@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { IPaymentRequest } from "../interfaces/payment";
-import createPaymentServices from "../services/payment/createPayment.services";
-import deletePaymentServices from "../services/payment/deletePayment.services";
-import updatePaymentServices from "../services/payment/updatePayment.services";
+import createPaymentServices from "../services/payment/createPayment.service";
+import deletePaymentServices from "../services/payment/deletePayment.service";
+import updatePaymentServices from "../services/payment/updatePayment.service";
 
 async function createPaymentControllers(req: Request, res: Response) {
   const id = req.params.id;

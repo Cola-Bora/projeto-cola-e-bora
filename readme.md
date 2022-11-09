@@ -95,7 +95,7 @@ Nesse endpoint podemos atualizar dados do usuário, porém não deverá permitir
 
 Caso tudo dê certo, a resposta será assim:
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 200
+> PATCH /users/:userId - FORMATO DA RESPOSTA - STATUS 200
 
 ```JSON
 {
@@ -111,9 +111,9 @@ Caso tudo dê certo, a resposta será assim:
 
 ### ⚠️ Possíveis Erros
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
+> PATCH /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+Caso alguma chave do corpo da requisição esteja errada, a resposta de erro será assim:
 
 ```JSON
 {
@@ -121,7 +121,7 @@ Caso alguma chave do corpo da requição esteja errada, a resposta de erro será
 }
 ```
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
+> PATCH /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso o token seja inválido, a resposta de erro será assim:
 
@@ -131,7 +131,7 @@ Caso o token seja inválido, a resposta de erro será assim:
 }
 ```
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 400
+> PATCH /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso o usuário esteja inativo, a resposta de erro será assim:
 
@@ -141,7 +141,7 @@ Caso o usuário esteja inativo, a resposta de erro será assim:
 }
 ```
 
-> PATCH /users/:id - FORMATO DA RESPOSTA - STATUS 401
+> PATCH /users/:userId - FORMATO DA RESPOSTA - STATUS 401
 
 Caso o usuário não seja dono do recurso, a resposta de erro será assim:
 
@@ -173,17 +173,7 @@ A resposta não conterá nenhuma mensagem.
 
 ### ⚠️ Possíveis Erros
 
-> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
-
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
-
-```JSON
-{
-  "message": "Invalid Key"
-}
-```
-
-> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
+> DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso o token seja inválido, a resposta de erro será assim:
 
@@ -193,7 +183,7 @@ Caso o token seja inválido, a resposta de erro será assim:
 }
 ```
 
-> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 400
+> DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso o usuário esteja inativo, a resposta de erro será assim:
 
@@ -203,7 +193,7 @@ Caso o usuário esteja inativo, a resposta de erro será assim:
 }
 ```
 
-> DELETE /users/:id - FORMATO DA RESPOSTA - STATUS 401
+> DELETE /users/:userId - FORMATO DA RESPOSTA - STATUS 401
 
 Caso o usuário não seja dono do recurso, a resposta de erro será assim:
 
@@ -250,14 +240,15 @@ Caso tudo dê certo, a resposta será assim:
 
 ### ⚠️ Possíveis Erros
 
-> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 404
+> GET /users/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-O usuário não foi encontrado: 
-~~~JSON
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
 {
-  "message": "User not found"
+  "message": "Invalid token"
 }
-~~~
+```
 
 > GET /users/:userId - FORMATO DA RESPOSTA - STATUS 401
 
@@ -305,7 +296,7 @@ Caso você esqueça de enviar algum campo, a resposta de erro será assim:
 
 > POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+Caso alguma chave do corpo da requisição esteja errada, a resposta de erro será assim:
 
 ```JSON
 {
@@ -315,17 +306,7 @@ Caso alguma chave do corpo da requição esteja errada, a resposta de erro será
 
 > POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
 
-Caso você esqueça de enviar algum campo, a resposta de erro será assim:
-
-```JSON
-{
-  "message": "Required field is missing"
-}
-```
-
-> POST /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 404
-
-Caso o usuário possua um cartão de crédito cadastrado, a resposta de erro será assim::
+Caso o usuário possua um cartão de crédito cadastrado, a resposta de erro será assim:
 
 ```JSON
 {
@@ -425,15 +406,6 @@ A resposta não conterá nenhuma mensagem.
 
 ### ⚠️ Possíveis Erros
 
-> DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
-
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
-
-```JSON
-{
-  "message": "Invalid Key"
-}
-```
 
 > DELETE /users/payments/:userId - FORMATO DA RESPOSTA - STATUS 400
 
@@ -521,16 +493,6 @@ Caso a ong não seja encontrada, a resposta de erro será assim::
 }
 ```
 
-> POST /donations/:ongId - FORMATO DE RESPOSTA - STATUS 404
-
-Caso o usuário não seja encontrado, a resposta de erro será assim::
-
-```JSON
-{
-  "message": "User not found"
-}
-```
-
 > POST /donations/:ongId - FORMATO DA RESPOSTA - STATUS 400
 
 Caso o token seja inválido, a resposta de erro será assim:
@@ -563,7 +525,7 @@ Caso o valor enviado no corpo da requisição não seja do tipo number, a respos
 
 ## 🔹 **Rota de Login**
 
-### ▪️ Listar todas as categorias
+### ▪️ Realizar login na aplicação
 
 Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
 Independente de o usuário estar ativo ou não, essa rota automaticamente seta a chave **IsActive** para **true**.
@@ -592,17 +554,7 @@ Caso tudo dê certo, a resposta será assim:
 
 > POST /login - FORMATO DA RESPOSTA - STATUS 400
 
-Caso você esqueça de enviar algum campo, a resposta de erro será assim:
-
-```JSON
-{
-  "message": "Required field is missing"
-}
-```
-
-> POST /login - FORMATO DA RESPOSTA - STATUS 400
-
-Caso alguma chave do corpo da requição esteja errada, a resposta de erro será assim:
+Caso alguma chave do corpo da requisição esteja errada, a resposta de erro será assim:
 
 ```JSON
 {
@@ -619,45 +571,6 @@ Caso o usuário não seja encontrado, a resposta de erro será assim::
   "message": "Invalid user or password"
 }
 ```
-
-### ▪️ Listar todas as categorias
-Nesta rota o Usuário precisa não estar logado, e não precisa de autorização de admnistrador.
-Independente de o usuário estar ativo ou não, essa rota automaticamente seta a chave **IsActive** para **true**.
-
-> POST /login - FORMATO DA REQUISIÇÃO
-
-~~~ JSON
-{
-    "email": "maria@gmail.com",
-    "password": "123456"
-}
-~~~
-
-Caso tudo dê certo, a resposta será assim:
-
-
-> POST /login - FORMATO DA RESPOSTA - STATUS 200
-
-~~~ JSON
-{
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2NzMyMDI3MiwiaWF0IjoxNjY3MzIwMjcyfQ.0TENJ1RYnO8jZYYMzteFIixIPsJXYGH_02yVbnA4xDw"
-}
-
-~~~
-
-### ⚠️ Possíveis Erros
-
-> POST /login - FORMATO DA RESPOSTA - STATUS 404
-
-O usuário não foi encontrado: 
-~~~JSON
-{
-  "message": "Invalid Email or password"
-}
-~~~
-
-
-
 ## 🔹 **Rotas de Categorias**
 ### ▪️ Listar todas as categorias 
 
@@ -684,6 +597,16 @@ Caso tudo dê certo, a resposta será assim:
   ]
 }
 ~~~
+
+> GET /categories - FORMATO DA RESPOSTA - STATUS 400
+
+Caso o token seja inválido, a resposta de erro será assim:
+
+```JSON
+{
+  "message": "Invalid token"
+}
+```
 
 ---
 
@@ -864,6 +787,14 @@ Se tudo der certo a resposta deverá ser:
 A resposta não conterá nenhuma mensagem.
 ~~~
 
+>DELETE /ongs/:ongId - FORMATO DA RESPOSTA - STATUS 401
+
+User não possui permissão de Admin para aquela ong: 
+~~~JSON
+{
+  "message": "Unauthorized"
+}
+~~~
 
 
 ### ▪️ Listar todas as ONGS
@@ -884,17 +815,6 @@ Essa rota não precisa de autenticação. A rota retorna todas as ONGs que estã
             "cnpj": "25746767000195"
             "createdAt": "2020-11-27T00:01:13.789Z",
             "updatedAt": "2020-12-05T13:59:22.632Z",
-            "balance": 2090.80,
-            "userAdm": {
-                "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
-                "name": "Maria",
-                "email": "maria@gmail.com",
-                "idade": 23,
-                "createdAt": "2020-11-27T00:01:13.789Z",
-                "updatedAt": "2020-12-05T13:59:22.632Z",
-                "isAdm": true
-                "isActive": true
-            }
             "category" {
                 "id": "f9989bfe-03e0-4d97-b0a1-0637e8615fe6",
                 "name": "Acolhimento Institucional"
@@ -990,6 +910,15 @@ Nesta rota o Usuário precisa estar logado, e é acessada apenas pelo administra
 
 ### ⚠️ Possíveis Erros
 
+O id da ong não for encontrado: 
+
+> GET /ongs/:ongId/:eventId/users - FORMATO DA RESPOSTA - STATUS 404
+~~~JSON
+{
+  "message": "Ong not found"
+}
+~~~
+
 O id do evento não for encontrado: 
 
 > GET /ongs/:ongId/:eventId/users - FORMATO DA RESPOSTA - STATUS 404
@@ -1004,7 +933,7 @@ O id do evento não for encontrado:
 O id fornecido não é um UUID válido: 
 ~~~JSON
 {
-  "message": "Id must have a valid UUID format"
+  "message": "Id must have a valid uuid format"
 }
 ~~~
 
@@ -1078,6 +1007,15 @@ A data do evento não pode ser uma data passada:
 ~~~JSON
 {
   "message": "The event date cannot be a past date"
+}
+~~~
+
+O id da ong não for encontrado: 
+
+>POST ongs/events - FORMATO DA RESPOSTA - STATUS 404
+~~~JSON
+{
+  "message": "Ong not found"
 }
 ~~~
 
@@ -1201,19 +1139,28 @@ Não é necessário um corpo da requisição.
 
 O id do evento não for encontrado: 
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
+>POST /events/:eventId - FORMATO DA RESPOSTA - STATUS 404
 ~~~JSON
 {
   "message": "Event not found"
 }
 ~~~
 
->DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+>POST /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido: 
 ~~~JSON
 {
   "message": "Id must have a valid UUID format"
+}
+~~~
+
+>POST /events/:eventId - FORMATO DA RESPOSTA - STATUS 400
+
+Quando o usuário tenta se cadastrar em um evento com data ou horário conflitante com os seus eventos: 
+~~~JSON
+{
+  "message": "You are already registered for an event at the same time"
 }
 ~~~
 
@@ -1230,10 +1177,8 @@ Não é necessário um corpo da requisição.
 
 >DELETE /events/:eventId - FORMATO DA RESPOSTA - STATUS 204
 
-~~~JSON
-{
- "message": "User successfully deleted from event."
-}
+~~~
+Não há corpo de resposta.
 ~~~
 
 ### ⚠️ Possíveis Erros
@@ -1292,12 +1237,12 @@ Esta rota não precisa de autenticação.
 
 Esta rota não precisa de autenticação.
 
->GET /events/ong/:ongId - FORMATO DA REQUISIÇÃO
+>GET /events/ongs/:ongId - FORMATO DA REQUISIÇÃO
 ~~~
 Não é necessário um corpo da requisição.
 ~~~
 
->GET /events/ong/:ongId - FORMATO DA RESPOSTA - STATUS 200
+>GET /events/ongs/:ongId - FORMATO DA RESPOSTA - STATUS 200
 
 ~~~JSON
     
@@ -1328,19 +1273,19 @@ Não é necessário um corpo da requisição.
 
 O id da ONG não for encontrado: 
 
->GET /events/ong/:ongId  - FORMATO DA RESPOSTA - STATUS 404
+>GET /events/ongs/:ongId  - FORMATO DA RESPOSTA - STATUS 404
 ~~~JSON
 {
-  "message": "ONG not found"
+  "message": "Ong not found"
 }
 ~~~
 
->GET /events/ong/:ongId  - FORMATO DA RESPOSTA - STATUS 400
+>GET /events/ongs/:ongId  - FORMATO DA RESPOSTA - STATUS 400
 
 O id fornecido não é um UUID válido: 
 ~~~JSON
 {
-  "message": "Id must have a valid UUID format"
+  "message": "Invalid Id"
 }
 ~~~
 
@@ -1385,7 +1330,7 @@ O id do evento não for encontrado:
 O id fornecido não é um UUID válido: 
 ~~~JSON
 {
-  "message": "Id must have a valid UUID format"
+  "message": "Invalid Id"
 }
 ~~~
 

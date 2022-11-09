@@ -12,7 +12,7 @@ import { UsersEvents } from './userEvent';
 @Entity('events')
 export class Events {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  readonly id: string;
 
   @Column({ length: 100 })
   name: string;
